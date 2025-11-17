@@ -63,7 +63,8 @@ const tRes = {
     care: "照顾建议",
     cats: "推荐商品类别",
     products: "推荐商品",
-    affiliate: "根据语言/地区可能使用联盟链接。",
+    affiliate:
+      "根据语言/地区可能使用联盟链接。",
   },
 } as const;
 
@@ -82,22 +83,27 @@ export default function DogResultPage({
   const base = dogTypes[type];
   const i18n = (dogTypesI18n as any)?.[type];
 
-  const nickname: string = i18n?.nickname_i18n?.[lang] ?? base.nickname;
-  const summary: string = i18n?.summary_i18n?.[lang] ?? base.summary;
-  const strengths: string[] = i18n?.strengths_i18n?.[lang] ?? base.strengths;
-  const weaknesses: string[] = i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
-  const activities: string[] =
+  const nickname =
+    i18n?.nickname_i18n?.[lang] ?? base.nickname;
+  const summary =
+    i18n?.summary_i18n?.[lang] ?? base.summary;
+  const strengths =
+    i18n?.strengths_i18n?.[lang] ?? base.strengths;
+  const weaknesses =
+    i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
+  const activities =
     i18n?.idealActivities_i18n?.[lang] ?? base.idealActivities;
-  const careTips: string[] = i18n?.careTips_i18n?.[lang] ?? base.careTips;
-  const categories: string[] =
+  const careTips =
+    i18n?.careTips_i18n?.[lang] ?? base.careTips;
+  const categories =
     i18n?.recommendedCategories_i18n?.[lang] ??
     base.recommendedCategories;
 
-  // 🔥 공통 2개 + 타입전용 2개 추천상품 구성
-  const typeProducts = dogProducts[type] ?? [];
+  // 🔥 추천 상품 구성: 공통 2개 + 타입 전용 2개
+  const typeProducts = dogProducts[type] || [];
   const products = [
-    ...dogGlobalProducts.slice(0, 2),
-    ...typeProducts.slice(0, 2),
+    ...dogGlobalProducts.slice(0, 2), // 모든 강아지 공통 추천상품
+    ...typeProducts.slice(0, 2), // 이 유형 전용 상품
   ];
 
   const shareTitle = `${base.code} · ${nickname}`;
@@ -105,10 +111,10 @@ export default function DogResultPage({
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      {/* SNS 카드 */}
+      {/* 공유 카드 */}
       <HybridCard>
-        <div className="rounded-3xl border border-[#E5DDCF] bg-gradient-to-br from-indigo-50 to-blue-50 p-4 sm:p-5 flex flex-col gap-3">
-          <div className="flex items-center justify-between">
+        <div className="rounded-3xl border border-[#E5DDCF] bg-gradient-to-br from-indigo-50 to-emerald-50 p-4 sm:p-5 flex flex-col gap-3">
+          <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-[11px] font-medium text-blue-600 mb-1">
                 🐾 PBTi · 강아지 성향 유형
@@ -121,11 +127,11 @@ export default function DogResultPage({
               🐶
             </div>
           </div>
-          <p className="text-xs sm:text-sm text-neutral-700">
+          <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
             {shareSubtitle}
           </p>
           <p className="text-[10px] text-neutral-500 mt-1">
-            스크린샷해서 어디든 공유해도 괜찮아요.{" "}
+            스크린샷해서 카톡·인스타·블로그 등 어디서든 공유해도 돼요.{" "}
             <span className="font-semibold text-blue-600">
               PBTi (Pet Behavioral Type Indicator)
             </span>
@@ -135,9 +141,7 @@ export default function DogResultPage({
 
       {/* Hero */}
       <HybridCard>
-        <p className="text-xs font-medium text-blue-600 mb-1">
-          {t.badge}
-        </p>
+        <p className="text-xs font-medium text-blue-600 mb-1">{t.badge}</p>
         <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
           <span className="text-blue-600">{base.code}</span>
           <span className="text-sm text-neutral-500">· {nickname}</span>
@@ -150,26 +154,25 @@ export default function DogResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.strengths}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s: string, i: number) => (
+            {strengths.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
         </HybridCard>
-
         <HybridCard title={t.weaknesses}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w: string, i: number) => (
+            {weaknesses.map((w, i) => (
               <li key={i}>{w}</li>
             ))}
           </ul>
         </HybridCard>
       </div>
 
-      {/* 활동 / 케어 */}
+      {/* 활동 / 케어 팁 */}
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.likes}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a: string, i: number) => (
+            {activities.map((a, i) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
@@ -177,7 +180,7 @@ export default function DogResultPage({
 
         <HybridCard title={t.care}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c: string, i: number) => (
+            {careTips.map((c, i) => (
               <li key={i}>{c}</li>
             ))}
           </ul>
@@ -187,7 +190,7 @@ export default function DogResultPage({
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat: string, i: number) => (
+          {categories.map((cat, i) => (
             <span
               key={i}
               className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
@@ -208,11 +211,12 @@ export default function DogResultPage({
           <div className="grid gap-4 sm:grid-cols-2">
             {products.map((p) => {
               const url = resolveAffiliateUrl(lang as any, p as any);
-              const title = (p as any).title_i18n?.[lang] ?? p.title;
+              const title =
+                (p as any).title_i18n?.[lang] ?? p.title;
               const description =
-                (p as any).description_i18n?.[lang] ??
-                p.description;
-              const tag = (p as any).tag_i18n?.[lang] ?? p.tag;
+                (p as any).description_i18n?.[lang] ?? p.description;
+              const tag =
+                (p as any).tag_i18n?.[lang] ?? p.tag;
 
               return (
                 <a
@@ -229,15 +233,12 @@ export default function DogResultPage({
                       className="h-28 w-full object-cover rounded-xl"
                     />
                   )}
-
                   <p className="text-sm font-semibold text-neutral-900">
                     {title}
                   </p>
-
                   <p className="text-[11px] text-neutral-600">
                     {description}
                   </p>
-
                   {tag && (
                     <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full bg-blue-50 border border-blue-100 text-blue-700">
                       #{tag}

@@ -82,27 +82,32 @@ export default function CatResultPage({
   const base = catTypes[type];
   const i18n = (catTypesI18n as any)?.[type];
 
-  const nickname: string =
-    i18n?.nickname_i18n?.[lang] ?? base.nickname;
-  const summary: string =
-    i18n?.summary_i18n?.[lang] ?? base.summary;
-  const strengths: string[] =
-    i18n?.strengths_i18n?.[lang] ?? base.strengths;
-  const weaknesses: string[] =
-    i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
-  const activities: string[] =
+  const nickname =
+    i18n?.nickname_i18n?.[lang] ??
+    base.nickname;
+  const summary =
+    i18n?.summary_i18n?.[lang] ??
+    base.summary;
+  const strengths =
+    i18n?.strengths_i18n?.[lang] ??
+    base.strengths;
+  const weaknesses =
+    i18n?.weaknesses_i18n?.[lang] ??
+    base.weaknesses;
+  const activities =
     i18n?.idealActivities_i18n?.[lang] ??
     base.idealActivities;
-  const careTips: string[] =
-    i18n?.careTips_i18n?.[lang] ?? base.careTips;
-  const categories: string[] =
+  const careTips =
+    i18n?.careTips_i18n?.[lang] ??
+    base.careTips;
+  const categories =
     i18n?.recommendedCategories_i18n?.[lang] ??
     base.recommendedCategories;
 
   // 🔥 추천 상품 구성: 공통 2개 + 타입 전용 2개
   const typeProducts = catProducts[type] || [];
   const products = [
-    ...catGlobalProducts.slice(0, 2), // 모든 고양이 공통 추천
+    ...catGlobalProducts.slice(0, 2), // 모든 고양이에게 공통 추천
     ...typeProducts.slice(0, 2), // 이 타입 맞춤 추천
   ];
 
@@ -141,31 +146,27 @@ export default function CatResultPage({
 
       {/* Hero */}
       <HybridCard>
-        <p className="text-xs font-medium text-orange-600 mb-1">
-          {t.badge}
-        </p>
+        <p className="text-xs font-medium text-orange-600 mb-1">{t.badge}</p>
         <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
           <span className="text-orange-600">{base.code}</span>
           <span className="text-sm text-neutral-500">· {nickname}</span>
         </p>
         <p className="text-sm text-neutral-700">{summary}</p>
-        <p className="mt-3 text-[11px] text-neutral-500">
-          {t.disclaimer}
-        </p>
+        <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
       </HybridCard>
 
       {/* 강점 / 약점 */}
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.strengths}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s: string, i: number) => (
+            {strengths.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.weaknesses}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w: string, i: number) => (
+            {weaknesses.map((w, i) => (
               <li key={i}>{w}</li>
             ))}
           </ul>
@@ -176,14 +177,14 @@ export default function CatResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.likes}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a: string, i: number) => (
+            {activities.map((a, i) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.care}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c: string, i: number) => (
+            {careTips.map((c, i) => (
               <li key={i}>{c}</li>
             ))}
           </ul>
@@ -193,7 +194,7 @@ export default function CatResultPage({
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat: string, i: number) => (
+          {categories.map((cat, i) => (
             <span
               key={i}
               className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
@@ -207,20 +208,16 @@ export default function CatResultPage({
       {/* 추천 상품 */}
       {products.length > 0 && (
         <HybridCard title={t.products}>
-          <p className="text-[11px] text-neutral-500 mb-3">
-            {t.affiliate}
-          </p>
+          <p className="text-[11px] text-neutral-500 mb-3">{t.affiliate}</p>
           <div className="grid gap-4 sm:grid-cols-2">
             {products.map((p) => {
               const url = resolveAffiliateUrl(lang as any, p as any);
               const title =
                 (p as any).title_i18n?.[lang] ?? p.title;
               const description =
-                (p as any).description_i18n?.[lang] ??
-                p.description;
+                (p as any).description_i18n?.[lang] ?? p.description;
               const tag =
                 (p as any).tag_i18n?.[lang] ?? p.tag;
-
               return (
                 <a
                   key={p.id}
