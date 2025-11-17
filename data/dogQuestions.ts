@@ -1,3 +1,5 @@
+export type Dimension = "EI" | "SN" | "TF" | "JP";
+
 // (위쪽에 Dimension 타입이 이미 있을 거라고 가정)
 // type Dimension = "EI" | "SN" | "TF" | "JP";  // 만약 없다면 이런 식으로 정의되어 있어야 함
 

@@ -1,7 +1,7 @@
 // app/pbt/cat/result/page.tsx
 "use client";
 
-import { HybridCard } from "../../../components/HybridCard";
+import { HybridCard } from "../../../../components/HybridCard";
 import { catTypes, CatCode } from "../../../../data/catTypes";
 import { catTypesI18n } from "../../../../data/catTypes.i18n";
 import { catProducts } from "../../../../data/catProducts";
