@@ -154,14 +154,14 @@ export default function DogResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.strengths}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s: any, i: number) => (
+            {strengths.map((s, i) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.weaknesses}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w: any, i: number) => (
+            {weaknesses.map((w, i) => (
               <li key={i}>{w}</li>
             ))}
           </ul>
@@ -172,7 +172,7 @@ export default function DogResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.likes}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a: any, i: number) => (
+            {activities.map((a, i) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
@@ -180,7 +180,7 @@ export default function DogResultPage({
 
         <HybridCard title={t.care}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c: any, i: number) => (
+            {careTips.map((c, i) => (
               <li key={i}>{c}</li>
             ))}
           </ul>
@@ -190,7 +190,7 @@ export default function DogResultPage({
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat: any, i: number) => (
+          {categories.map((cat, i) => (
             <span
               key={i}
               className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
@@ -209,7 +209,7 @@ export default function DogResultPage({
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {products.map((p: any) => {
+            {products.map((p) => {
               const url = resolveAffiliateUrl(lang as any, p as any);
               const title =
                 (p as any).title_i18n?.[lang] ?? p.title;

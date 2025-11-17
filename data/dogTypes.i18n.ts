@@ -27,7 +27,7 @@ const cloneList = (arr: string[]) => ({
 
 // 1) 기본 i18n: 모든 언어에 한국어 원문을 복사해둔다 (폴백용)
 const baseI18n = Object.fromEntries(
-  (Object.keys(dogTypes) as DogCode[]).map((code: any) => {
+  (Object.keys(dogTypes) as DogCode[]).map((code) => {
     const b = dogTypes[code] as any;
     return [
       code,
