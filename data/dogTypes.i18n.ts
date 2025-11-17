@@ -29,12 +29,14 @@ const cloneList = (arr: string[]) => ({
 const baseI18n = Object.fromEntries(
   (Object.keys(dogTypes) as DogCode[]).map((code) => {
     const b = dogTypes[code] as any;
-    return [
-      code,
-      <DogTypeProfile>Object.assign(
-        {},
-        {
-          label_i_n: undefined,
+ return [
+  code,
+  <DogTypeProfileI18n>Object.assign(
+    {},
+    {
+      label_i_n: undefined,
+      ...
+
           label_i18n: {
             ko: b.label,
             en: b.label,
