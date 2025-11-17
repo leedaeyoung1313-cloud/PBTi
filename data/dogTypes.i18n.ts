@@ -1,29 +1,24 @@
-// data/dogTypes.i18n.ts
-// ADD-ONLY overlay to provide i18n for dog type profiles without 수정 of dogTypes.ts
+   Creating an optimized production build ...
+Failed to compile.
+./data/dogTypes.i18n.ts
+Error: 
+  x Expected ',', got ':'
+    ,-[/vercel/path0/data/dogTypes.i18n.ts:37:1]
+ 37 |       label_i_n: undefined,
+ 38 |       ...
+ 39 | 
+ 40 |           label_i18n: {
+    :                     ^
+ 41 |             ko: b.label,
+ 42 |             en: b.label,
+ 43 |             ja: b.label,
+    `----
+Caused by:
+    Syntax Error
+Import trace for requested module:
+./data/dogTypes.i18n.ts
+./app/pbt/dog/result/page.tsx
 
-import { dogTypes, DogCode } from "./dogTypes";
-
-export type Lang = "ko" | "en" | "ja" | "zh";
-
-export interface DogTypeProfileI18n {
-  label_i_n?: never; // internal helper to avoid name clash
-  label_i18n: { ko: string; en: string; ja: string; zh: string };
-  nickname_i18n: { [K in Lang]: string };
-  summary_i18n: { [K in Lang]: string };
-  strengths_i18n: { [K in Lang]: string[] };
-  weaknesses_i18n: { [K in Lang]: string[] };
-  idealActivities_i18n: { [K in Lang]: string[] };
-  careTips_i_n?: never;
-  careTips_i18n: { [K in Lang]: string[] };
-  recommendedCategories_i18n: { [K in Lang]: string[] };
-}
-
-const cloneList = (arr: string[]) => ({
-  ko: arr,
-  en: arr,
-  ja: arr,
-  zh: arr,
-});
 
 // 1) 기본 i18n: 모든 언어에 한국어 원문을 복사해둔다 (폴백용)
 const baseI18n = Object.fromEntries(
