@@ -1,6 +1,3 @@
-// data/dogQuestions.ts
-
-// ✅ 주석이 아니라 실제 타입 정의로 넣기!
 export type Dimension = "EI" | "SN" | "TF" | "JP";
 
 export interface DogQuestion {
@@ -9,7 +6,7 @@ export interface DogQuestion {
   eOrSOrTOrJ: string; // 왼쪽 선택지 (E/S/T/J)
   iOrNOrFOrP: string; // 오른쪽 선택지 (I/N/F/P)
 
-  // ✅ ADD ONLY (옵셔널 I18N 필드)
+  // ✅ ADD ONLY (옵셔널 필드) — 여기만 추가!
   eOrSOrTOrJ_i18n?: { ko: string; en: string; ja: string; zh: string };
   iOrNOrFOrP_i18n?: { ko: string; en: string; ja: string; zh: string };
 }
