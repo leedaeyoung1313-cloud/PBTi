@@ -29,7 +29,7 @@ const cloneList = (arr: string[]) => ({
 
 // 원본 catTypes.ts → ko 원문을 4개 언어에 복제한 베이스 구조
 const baseI18n = Object.fromEntries(
-  (Object.keys(catTypes) as CatCode[]).map((code) => {
+  (Object.keys(catTypes) as CatCode[]).map((code: any) => {
     const b = catTypes[code] as any;
     return [
       code,

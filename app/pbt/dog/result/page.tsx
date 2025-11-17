@@ -1,7 +1,7 @@
 // app/pbt/dog/result/page.tsx
 "use client";
 
-import { HybridCard } from "../../../../components/HybridCard";
+import { HybridCard } from "../../../components/HybridCard";
 import { dogTypes, DogCode } from "../../../../data/dogTypes";
 import { dogTypesI18n } from "../../../../data/dogTypes.i18n";
 import { dogProducts } from "../../../../data/dogProducts";
@@ -154,14 +154,14 @@ export default function DogResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.strengths}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s: string, i: number) => (
+            {strengths.map((s: any, i: number) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.weaknesses}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w: string, i: number) => (
+            {weaknesses.map((w: any, i: number) => (
               <li key={i}>{w}</li>
             ))}
           </ul>
@@ -172,7 +172,7 @@ export default function DogResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.likes}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a: string, i: number) => (
+            {activities.map((a: any, i: number) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
@@ -180,7 +180,7 @@ export default function DogResultPage({
 
         <HybridCard title={t.care}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c: string, i: number) => (
+            {careTips.map((c: any, i: number) => (
               <li key={i}>{c}</li>
             ))}
           </ul>
@@ -190,7 +190,7 @@ export default function DogResultPage({
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat: string, i: number) => (
+          {categories.map((cat: any, i: number) => (
             <span
               key={i}
               className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
@@ -209,7 +209,7 @@ export default function DogResultPage({
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {products.map((p: string) => {
+            {products.map((p: any) => {
               const url = resolveAffiliateUrl(lang as any, p as any);
               const title =
                 (p as any).title_i18n?.[lang] ?? p.title;

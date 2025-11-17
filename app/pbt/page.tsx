@@ -178,7 +178,7 @@ export default function PbtLandingPage() {
           { title: t.card1Title, desc: t.card1Desc },
           { title: t.card2Title, desc: t.card2Desc },
           { title: t.card3Title, desc: t.card3Desc },
-        ].map((card) => (
+        ].map((card: any) => (
           <div
             key={card.title}
             className="rounded-2xl border border-[#E5DDCF] bg-white/80 p-4 shadow-sm"

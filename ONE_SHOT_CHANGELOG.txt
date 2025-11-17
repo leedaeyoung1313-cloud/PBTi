@@ -1,4 +1,15 @@
-One-shot non-destructive fixes (content untouched):
-- Inserted 'use client' into app/pbt/cat/page.tsx
-- Inserted 'use client' into app/pbt/dog/page.tsx
+One-shot changes (content untouched):
+- Patched implicit-any in .map callbacks → app/page.tsx
+- Inserted 'use client' → app/pbt/cat/page.tsx
+- Inserted 'use client' → app/pbt/dog/page.tsx
+- Patched implicit-any in .map callbacks → app/pbt/dog/result/page.tsx
+- Patched implicit-any in .map callbacks → app/pbt/page.tsx
+- Patched implicit-any in .map callbacks → components/site-header.tsx
+- Patched implicit-any in .map callbacks → data/catTypes.i18n.ts
+- Patched implicit-any in .map callbacks → data/dogTypes.i18n.ts
+- Patched implicit-any in .map callbacks → ff/one_shot_fixed/app/page.tsx
+- Patched implicit-any in .map callbacks → ff/one_shot_fixed/app/pbt/page.tsx
+- Patched implicit-any in .map callbacks → ff/one_shot_fixed/components/site-header.tsx
+- Patched implicit-any in .map callbacks → ff/one_shot_fixed/data/catTypes.i18n.ts
+- Patched implicit-any in .map callbacks → ff/one_shot_fixed/data/dogTypes.i18n.ts
 - Updated package.json scripts/engines.

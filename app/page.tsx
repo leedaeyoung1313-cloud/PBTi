@@ -75,7 +75,7 @@ export default function HomePage() {
 
           {/* 언어 선택 */}
           <div className="flex items-center gap-2 text-[11px]">
-            {(["ko", "en", "ja", "zh"] as const).map((code) => (
+            {(["ko", "en", "ja", "zh"] as const).map((code: any) => (
               <button
                 key={code}
                 onClick={() => setLang(code)}
