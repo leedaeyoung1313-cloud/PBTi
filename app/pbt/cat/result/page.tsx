@@ -159,14 +159,14 @@ export default function CatResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.strengths}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s, i) => (
+            {strengths.map((s: string, i: number) => (
               <li key={i}>{s}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.weaknesses}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w, i) => (
+            {weaknesses.map((w: string, i: number) => (
               <li key={i}>{w}</li>
             ))}
           </ul>
@@ -177,14 +177,14 @@ export default function CatResultPage({
       <div className="grid gap-4 md:grid-cols-2">
         <HybridCard title={t.likes}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a, i) => (
+            {activities.map((a: string, i: number) => (
               <li key={i}>{a}</li>
             ))}
           </ul>
         </HybridCard>
         <HybridCard title={t.care}>
           <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c, i) => (
+            {careTips.map((c: string, i: number) => (
               <li key={i}>{c}</li>
             ))}
           </ul>
@@ -194,7 +194,7 @@ export default function CatResultPage({
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat, i) => (
+          {categories.map((cat: string, i: number) => (
             <span
               key={i}
               className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
@@ -210,7 +210,7 @@ export default function CatResultPage({
         <HybridCard title={t.products}>
           <p className="text-[11px] text-neutral-500 mb-3">{t.affiliate}</p>
           <div className="grid gap-4 sm:grid-cols-2">
-            {products.map((p) => {
+            {products.map((p: any) => {
               const url = resolveAffiliateUrl(lang as any, p as any);
               const title =
                 (p as any).title_i18n?.[lang] ?? p.title;

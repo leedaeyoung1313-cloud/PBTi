@@ -1,0 +1,4 @@
+One-shot non-destructive fixes (content untouched):
+- Inserted 'use client' into app/pbt/cat/page.tsx
+- Inserted 'use client' into app/pbt/dog/page.tsx
+- Updated package.json scripts/engines.

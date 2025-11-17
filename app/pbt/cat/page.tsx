@@ -1,3 +1,4 @@
+'use client';
 // app/pbt/cat/page.tsx
 "use client";
 import { useState } from "react";

@@ -31,7 +31,7 @@ const baseI18n = Object.fromEntries(
     const b = dogTypes[code] as any;
     return [
       code,
-      Object.assign({} as DogTypeProfileI18n, 
+      <DogTypeProfile>Object.assign(
         {},
         {
           label_i_n: undefined,
