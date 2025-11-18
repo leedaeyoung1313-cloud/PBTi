@@ -2,6 +2,7 @@
 "use client";
 
 import { HybridCard } from "../../../components/HybridCard";
+import ShareButtons from "../../../components/ShareButtons";
 import { catTypes, CatCode } from "../../../../data/catTypes";
 import { catTypesI18n } from "../../../../data/catTypes.i18n";
 import { catProducts } from "../../../../data/catProducts";
@@ -25,7 +26,7 @@ const tRes = {
     cats: "잘 맞는 상품 카테고리",
     products: "추천 상품",
     affiliate:
-      "아래 상품 링크는 언어/지역에 따라 제휴 링크가 적용될 수 있습니다.",
+      "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   },
   en: {
     badge: "🐱 Cat PBTi Result",
