@@ -2,12 +2,27 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
-// 🔥 여기 경로만 바꿔줌!
 import { LanguageProvider } from "../components/language-provider";
 
 export const metadata: Metadata = {
   title: "PBTi - Pet Behavioral Type Indicator",
   description: "반려동물 성향 분석 웹서비스 PBTi by Soulverse",
+
+  // 🔥 여기가 OG 미리보기 추가된 부분
+  openGraph: {
+    title: "PBTi - Pet Behavioral Type Indicator",
+    description: "반려동물 성향 분석 테스트로 우리 아이 성향을 분석해보세요!",
+    url: "https://petbti.netlify.app",
+    images: [
+      {
+        url: "/og-image.png", // public/og-image.png
+        width: 1200,
+        height: 630,
+        alt: "PBTi 대표 이미지",
+      },
+    ],
+    type: "website",
+  },
 };
 
 export default function RootLayout({
