@@ -7,8 +7,26 @@ import { TestProgress } from "../../components/TestProgress";
 import { HybridCard } from "../../components/HybridCard";
 import { useLanguage } from "../../../components/language-provider";
 
-type Tally = { E:number; I:number; S:number; N:number; T:number; F:number; J:number; P:number };
-const initialTally: Tally = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+type Tally = {
+  E: number;
+  I: number;
+  S: number;
+  N: number;
+  T: number;
+  F: number;
+  J: number;
+  P: number;
+};
+const initialTally: Tally = {
+  E: 0,
+  I: 0,
+  S: 0,
+  N: 0,
+  T: 0,
+  F: 0,
+  J: 0,
+  P: 0,
+};
 
 const tCat = {
   ko: {
@@ -24,6 +42,7 @@ const tCat = {
     prompt: "우리 고양이는 아래 두 가지 중 어느 쪽에 더 가깝나요?",
     choiceA: "선택 A",
     choiceB: "선택 B",
+    prev: "이전 질문으로 돌아가기",
   },
   en: {
     badge: "🐱 Cat PBTi · 50 Questions",
@@ -38,6 +57,7 @@ const tCat = {
     prompt: "Which side is closer to your cat?",
     choiceA: "Choice A",
     choiceB: "Choice B",
+    prev: "Go back to previous question",
   },
   ja: {
     badge: "🐱 ネコちゃん PBTi · 50問",
@@ -52,6 +72,7 @@ const tCat = {
     prompt: "どちらがネコちゃんに近いですか？",
     choiceA: "選択 A",
     choiceB: "選択 B",
+    prev: "前の質問に戻る",
   },
   zh: {
     badge: "🐱 猫咪 PBTi · 50题",
@@ -66,57 +87,129 @@ const tCat = {
     prompt: "哪一边更符合你家猫咪？",
     choiceA: "选项 A",
     choiceB: "选项 B",
+    prev: "返回上一题",
   },
 } as const;
+
+type Choice = "left" | "right" | null;
 
 export default function CatTestPage() {
   const router = useRouter();
   const { lang } = useLanguage();
   const t = tCat[lang];
 
-  const [step, setStep] = useState(0);
-  const [tally, setTally] = useState<Tally>(initialTally);
   const total = catQuestions.length;
 
-  const currentIndex = step - 1;
-  const currentQuestion = step >= 1 && step <= total ? catQuestions[currentIndex] : null;
+  const [step, setStep] = useState(0); // 0: 안내, 1~total: 질문
+  const [tally, setTally] = useState<Tally>(initialTally);
+  const [answers, setAnswers] = useState<Choice[]>(() =>
+    Array(total).fill(null)
+  );
 
-  function handleChoice(choice: "left" | "right") {
-    if (!currentQuestion) return;
-    setTally(prev => {
-      const next = { ...prev };
-      switch (currentQuestion.dimension) {
-        case "EI": choice === "left" ? next.E++ : next.I++; break;
-        case "SN": choice === "left" ? next.S++ : next.N++; break;
-        case "TF": choice === "left" ? next.T++ : next.F++; break;
-        case "JP": choice === "left" ? next.J++ : next.P++; break;
-      }
-      return next;
-    });
-    const nextStep = step + 1;
-    if (nextStep > total) {
-      const code = computeTypeCode(tally, currentQuestion.dimension, choice);
-      router.push(`/pbt/cat/result?type=${code}`);
+  const currentIndex = step - 1;
+  const currentQuestion =
+    step >= 1 && step <= total ? catQuestions[currentIndex] : null;
+
+  function applyDelta(
+    base: Tally,
+    dim: "EI" | "SN" | "TF" | "JP",
+    choice: Exclude<Choice, null>,
+    delta: 1 | -1
+  ): Tally {
+    const next = { ...base };
+    switch (dim) {
+      case "EI":
+        choice === "left" ? (next.E += delta) : (next.I += delta);
+        break;
+      case "SN":
+        choice === "left" ? (next.S += delta) : (next.N += delta);
+        break;
+      case "TF":
+        choice === "left" ? (next.T += delta) : (next.F += delta);
+        break;
+      case "JP":
+        choice === "left" ? (next.J += delta) : (next.P += delta);
+        break;
+    }
+    return next;
+  }
+
+  function handlePrev() {
+    if (step === 0) return;
+    if (step === 1) {
+      // 첫 질문에서 이전 → 안내로
+      setStep(0);
     } else {
-      setStep(nextStep);
+      setStep(step - 1);
     }
   }
 
-  const leftText  = (currentQuestion as any)?.left_i18n?.[lang] ?? currentQuestion?.left ?? "";
-  const rightText = (currentQuestion as any)?.right_i18n?.[lang] ?? currentQuestion?.right ?? "";
+  function handleChoice(choice: Exclude<Choice, null>) {
+    if (!currentQuestion) return;
+
+    const qIndex = currentIndex;
+    const prevChoice = answers[qIndex];
+
+    // 선택 기록 업데이트
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[qIndex] = choice;
+      return next;
+    });
+
+    // tally 업데이트 (이전 선택이 있었다면 빼고, 새 선택 더하기)
+    setTally((prev) => {
+      let next = { ...prev };
+      if (prevChoice) {
+        next = applyDelta(next, currentQuestion.dimension, prevChoice, -1);
+      }
+      next = applyDelta(next, currentQuestion.dimension, choice, +1);
+      return next;
+    });
+
+    const isLast = step === total;
+
+    if (isLast) {
+      // 마지막 질문에서의 최종 타입 계산
+      let temp = { ...tally };
+      if (prevChoice) {
+        temp = applyDelta(temp, currentQuestion.dimension, prevChoice, -1);
+      }
+      temp = applyDelta(temp, currentQuestion.dimension, choice, +1);
+
+      const code = computeTypeCodeFromTally(temp);
+      router.push(`/pbt/cat/result?type=${code}`);
+      return;
+    }
+
+    setStep(step + 1);
+  }
+
+  const leftText =
+    (currentQuestion as any)?.left_i18n?.[lang] ??
+    currentQuestion?.left ??
+    "";
+  const rightText =
+    (currentQuestion as any)?.right_i18n?.[lang] ??
+    currentQuestion?.right ??
+    "";
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <HybridCard>
-        <p className="text-xs font-medium text-orange-600 mb-1">{t.badge}</p>
-        <p className="text-lg font-semibold text-neutral-900 mb-1">{t.title}</p>
+        <p className="text-xs font-medium text-orange-600 mb-1">
+          {t.badge}
+        </p>
+        <p className="text-lg font-semibold text-neutral-900 mb-1">
+          {t.title}
+        </p>
         <p className="text-xs text-neutral-600">{t.desc}</p>
       </HybridCard>
 
       {step === 0 && (
         <div className="space-y-4">
           <HybridCard title={t.guide}>
-            <ul className="list-disc pl-4 space-y-1">
+            <ul className="list-disc pl-4 space-y-1 text-xs sm:text-sm">
               <li>{t.g1}</li>
               <li>{t.g2}</li>
               <li>{t.g3}</li>
@@ -132,11 +225,25 @@ export default function CatTestPage() {
       )}
 
       {step >= 1 && step <= total && currentQuestion && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <TestProgress current={step} total={total} />
+
+          {/* 이전 질문 버튼 - 상단 좌측 */}
+          <div className="flex items-center justify-between text-[11px] text-neutral-500">
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="inline-flex items-center gap-1 rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 hover:bg-neutral-50 transition"
+            >
+              <span>←</span>
+              <span>{t.prev}</span>
+            </button>
+          </div>
+
           <HybridCard title={`${t.qPrefix} ${step}`}>
             <p className="text-sm text-neutral-800">{t.prompt}</p>
           </HybridCard>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <button
               onClick={() => handleChoice("left")}
@@ -167,14 +274,7 @@ export default function CatTestPage() {
   );
 }
 
-function computeTypeCode(tally: Tally, lastDim: "EI" | "SN" | "TF" | "JP", lastChoice: "left" | "right") {
-  const temp: Tally = { ...tally };
-  switch (lastDim) {
-    case "EI": lastChoice === "left" ? temp.E++ : temp.I++; break;
-    case "SN": lastChoice === "left" ? temp.S++ : temp.N++; break;
-    case "TF": lastChoice === "left" ? temp.T++ : temp.F++; break;
-    case "JP": lastChoice === "left" ? temp.J++ : temp.P++; break;
-  }
+function computeTypeCodeFromTally(temp: Tally) {
   const first = temp.E >= temp.I ? "E" : "I";
   const second = temp.S >= temp.N ? "S" : "N";
   const third = temp.T >= temp.F ? "T" : "F";

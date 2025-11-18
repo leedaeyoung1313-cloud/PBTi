@@ -1,51 +1,13 @@
+// app/layout.tsx
+import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
+// 🔥 여기 경로만 바꿔줌!
 import { LanguageProvider } from "../components/language-provider";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "PBTi - Pet Behavioral Type Indicator",
-  description:
-    "반려동물의 행동 패턴 기반으로 16가지 성향 유형을 분석하는 PBTi 서비스. 강아지/고양이 맞춤 성격 분석 및 케어 가이드 제공.",
-  keywords: [
-    "PBTi",
-    "반려동물 성향 테스트",
-    "강아지 성격 유형",
-    "고양이 성격 유형",
-    "펫 MBTI",
-    "반려동물 케어",
-    "펫 심리",
-  ],
-  authors: [{ name: "PBTi" }],
-  creator: "PBTi Team",
-  publisher: "PBTi",
-  metadataBase: new URL("https://yourdomain.com"),
-  openGraph: {
-    title: "PBTi - 반려동물 성향 분석",
-    description:
-      "반려동물 행동 패턴을 기반으로 성향 유형을 분석하는 PBTi 서비스",
-    type: "website",
-    url: "https://yourdomain.com",
-    siteName: "PBTi",
-    images: [
-      {
-        url: "/og-pbti.png",
-        width: 1200,
-        height: 630,
-        alt: "PBTi - Pet Behavioral Type Indicator",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "PBTi - 반려동물 성향 분석",
-    description:
-      "반려동물 행동 기반 성향 분석. 16가지 강아지/고양이 유형 제공.",
-    images: ["/og-pbti.png"],
-  },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
-  manifest: "/manifest.json",
+  description: "반려동물 성향 분석 웹서비스 PBTi by Soulverse",
 };
 
 export default function RootLayout({
@@ -55,9 +17,31 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="bg-[#F9F5EC] text-neutral-900">
-        {/* 전체 앱을 전역 Provider로 감쌈 */}
-        <LanguageProvider>{children}</LanguageProvider>
+      <body className="min-h-screen bg-neutral-50 text-neutral-900">
+        <LanguageProvider>
+          <div className="min-h-screen flex flex-col">
+            {/* 페이지 내용 */}
+            <main className="flex-1">{children}</main>
+
+            {/* 공통 푸터 */}
+            <footer className="border-t border-[#E5DDCF] bg-[#F9F5EC]/80">
+              <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-6 py-4 text-[11px] text-neutral-600 sm:flex-row">
+                <div className="flex items-center gap-3">
+                  <Link href="/legal/terms" className="hover:underline">
+                    이용약관
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link href="/legal/privacy" className="hover:underline">
+                    개인정보처리방침
+                  </Link>
+                </div>
+                <div className="text-neutral-400">
+                  © {new Date().getFullYear()} Soulverse · PBTi
+                </div>
+              </div>
+            </footer>
+          </div>
+        </LanguageProvider>
       </body>
     </html>
   );

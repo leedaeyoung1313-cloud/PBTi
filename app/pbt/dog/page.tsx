@@ -20,12 +20,13 @@ const tDog = {
     guide: "테스트 안내",
     g1: "총 50문항, 약 3~5분 정도 소요됩니다.",
     g2: "정답은 없으며, 평소에 더 자주 보이는 모습을 기준으로 선택해 주세요.",
-    g3: "중간에 뒤로 가기보다는 직관적으로 골라 주시면 더 정확합니다.",
+    g3: "직관적으로 골라 주시면 더 정확합니다.",
     start: "테스트 시작하기",
     qPrefix: "문항",
     prompt: "우리 강아지는 아래 두 가지 중 어느 쪽에 더 가깝나요?",
     choiceA: "선택 A",
     choiceB: "선택 B",
+    prev: "이전 질문으로 돌아가기",
   },
   en: {
     badge: "🐶 Dog PBTi · 50 Questions",
@@ -40,6 +41,7 @@ const tDog = {
     prompt: "Which side describes your dog better?",
     choiceA: "Choice A",
     choiceB: "Choice B",
+    prev: "Go back to previous question",
   },
   ja: {
     badge: "🐶 ワンちゃん PBTi · 50問",
@@ -48,12 +50,13 @@ const tDog = {
     guide: "テスト案内",
     g1: "全50問、約3〜5分。",
     g2: "正解はありません。普段よく見られる様子を基準にしてください。",
-    g3: "戻るより直感的に選ぶ方が正確です。",
+    g3: "直感的に選ぶほど正確です。",
     start: "テストを始める",
     qPrefix: "問",
     prompt: "どちらがワンちゃんに近いですか？",
     choiceA: "選択 A",
     choiceB: "選択 B",
+    prev: "前の質問に戻る",
   },
   zh: {
     badge: "🐶 狗狗 PBTi · 50题",
@@ -62,65 +65,137 @@ const tDog = {
     guide: "测试说明",
     g1: "共50题，约3–5分钟。",
     g2: "没有标准答案，请按平时更常见的样子选择。",
-    g3: "建议凭直觉选择，准确度更高。",
+    g3: "凭直觉选择通常更准确。",
     start: "开始测试",
     qPrefix: "题",
     prompt: "哪一边更符合你家狗狗？",
     choiceA: "选项 A",
     choiceB: "选项 B",
+    prev: "返回上一题",
   },
 } as const;
+
+type Choice = "left" | "right" | null;
 
 export default function DogTestPage() {
   const router = useRouter();
   const { lang } = useLanguage();
   const t = tDog[lang];
 
-  const [step, setStep] = useState(0);
-  const [tally, setTally] = useState<Tally>(initialTally);
   const total = dogQuestions.length;
 
+  const [step, setStep] = useState(0); // 0: 안내, 1~total: 질문
+  const [tally, setTally] = useState<Tally>(initialTally);
+  const [answers, setAnswers] = useState<Choice[]>(() =>
+    Array(total).fill(null)
+  );
+
   const currentIndex = step - 1;
-  const currentQuestion = step >= 1 && step <= total ? dogQuestions[currentIndex] : null;
+  const currentQuestion =
+    step >= 1 && step <= total ? dogQuestions[currentIndex] : null;
 
-  function handleChoice(choice: "left" | "right") {
-    if (!currentQuestion) return;
+  function applyDelta(
+    base: Tally,
+    dim: "EI" | "SN" | "TF" | "JP",
+    choice: Exclude<Choice, null>,
+    delta: 1 | -1
+  ): Tally {
+    const next = { ...base };
+    switch (dim) {
+      case "EI":
+        choice === "left" ? (next.E += delta) : (next.I += delta);
+        break;
+      case "SN":
+        choice === "left" ? (next.S += delta) : (next.N += delta);
+        break;
+      case "TF":
+        choice === "left" ? (next.T += delta) : (next.F += delta);
+        break;
+      case "JP":
+        choice === "left" ? (next.J += delta) : (next.P += delta);
+        break;
+    }
+    return next;
+  }
 
-    setTally((prev) => {
-      const next = { ...prev };
-      switch (currentQuestion.dimension) {
-        case "EI": choice === "left" ? next.E++ : next.I++; break;
-        case "SN": choice === "left" ? next.S++ : next.N++; break;
-        case "TF": choice === "left" ? next.T++ : next.F++; break;
-        case "JP": choice === "left" ? next.J++ : next.P++; break;
-      }
-      return next;
-    });
-
-    const nextStep = step + 1;
-    if (nextStep > total) {
-      const code = computeTypeCode(tally, currentQuestion.dimension, choice);
-      router.push(`/pbt/dog/result?type=${code}`);
+  function handlePrev() {
+    if (step === 0) return;
+    if (step === 1) {
+      // 첫 번째 문항에서 이전 → 안내 화면으로
+      setStep(0);
     } else {
-      setStep(nextStep);
+      setStep(step - 1);
     }
   }
 
-  const leftText  = (currentQuestion as any)?.eOrSOrTOrJ_i18n?.[lang] ?? currentQuestion?.eOrSOrTOrJ ?? "";
-  const rightText = (currentQuestion as any)?.iOrNOrFOrP_i18n?.[lang] ?? currentQuestion?.iOrNOrFOrP ?? "";
+  function handleChoice(choice: Exclude<Choice, null>) {
+    if (!currentQuestion) return;
+
+    const qIndex = currentIndex;
+    const prevChoice = answers[qIndex];
+
+    // 선택 기록 업데이트
+    setAnswers((prev) => {
+      const next = [...prev];
+      next[qIndex] = choice;
+      return next;
+    });
+
+    // tally 계산 (이전 선택이 있으면 먼저 빼고, 새 선택 더함)
+    setTally((prev) => {
+      let next = { ...prev };
+      if (prevChoice) {
+        next = applyDelta(next, currentQuestion.dimension, prevChoice, -1);
+      }
+      next = applyDelta(next, currentQuestion.dimension, choice, +1);
+      return next;
+    });
+
+    const isLast = step === total;
+
+    if (isLast) {
+      // 마지막 문항에서의 최종 타입 계산은
+      // 현재 tally(이전 state) + (이전 선택 제거, 새 선택 추가)를 반영해서 계산
+      let temp = { ...tally };
+      if (prevChoice) {
+        temp = applyDelta(temp, currentQuestion.dimension, prevChoice, -1);
+      }
+      temp = applyDelta(temp, currentQuestion.dimension, choice, +1);
+
+      const code = computeTypeCodeFromTally(temp);
+      router.push(`/pbt/dog/result?type=${code}`);
+      return;
+    }
+
+    // 마지막 문항이 아니면 다음 문항으로
+    setStep(step + 1);
+  }
+
+  const leftText =
+    (currentQuestion as any)?.eOrSOrTOrJ_i18n?.[lang] ??
+    currentQuestion?.eOrSOrTOrJ ??
+    "";
+  const rightText =
+    (currentQuestion as any)?.iOrNOrFOrP_i18n?.[lang] ??
+    currentQuestion?.iOrNOrFOrP ??
+    "";
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       <HybridCard>
-        <p className="text-xs font-medium text-orange-600 mb-1">{t.badge}</p>
-        <p className="text-lg font-semibold text-neutral-900 mb-1">{t.title}</p>
+        <p className="text-xs font-medium text-orange-600 mb-1">
+          {t.badge}
+        </p>
+        <p className="text-lg font-semibold text-neutral-900 mb-1">
+          {t.title}
+        </p>
         <p className="text-xs text-neutral-600">{t.desc}</p>
       </HybridCard>
 
       {step === 0 && (
         <div className="space-y-4">
           <HybridCard title={t.guide}>
-            <ul className="list-disc pl-4 space-y-1">
+            <ul className="list-disc pl-4 space-y-1 text-xs sm:text-sm">
               <li>{t.g1}</li>
               <li>{t.g2}</li>
               <li>{t.g3}</li>
@@ -136,11 +211,25 @@ export default function DogTestPage() {
       )}
 
       {step >= 1 && step <= total && currentQuestion && (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <TestProgress current={step} total={total} />
+
+          {/* 이전 질문 버튼 (상단 좌측에 작게 배치) */}
+          <div className="flex items-center justify-between text-[11px] text-neutral-500">
+            <button
+              type="button"
+              onClick={handlePrev}
+              className="inline-flex items-center gap-1 rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 hover:bg-neutral-50 transition"
+            >
+              <span>←</span>
+              <span>{t.prev}</span>
+            </button>
+          </div>
+
           <HybridCard title={`${t.qPrefix} ${step}`}>
             <p className="text-sm text-neutral-800">{t.prompt}</p>
           </HybridCard>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <button
               onClick={() => handleChoice("left")}
@@ -171,14 +260,7 @@ export default function DogTestPage() {
   );
 }
 
-function computeTypeCode(tally: Tally, lastDim: "EI" | "SN" | "TF" | "JP", lastChoice: "left" | "right") {
-  const temp: Tally = { ...tally };
-  switch (lastDim) {
-    case "EI": lastChoice === "left" ? temp.E++ : temp.I++; break;
-    case "SN": lastChoice === "left" ? temp.S++ : temp.N++; break;
-    case "TF": lastChoice === "left" ? temp.T++ : temp.F++; break;
-    case "JP": lastChoice === "left" ? temp.J++ : temp.P++; break;
-  }
+function computeTypeCodeFromTally(temp: Tally) {
   const first = temp.E >= temp.I ? "E" : "I";
   const second = temp.S >= temp.N ? "S" : "N";
   const third = temp.T >= temp.F ? "T" : "F";

@@ -9,6 +9,7 @@ import { catProducts } from "../../../../data/catProducts";
 import { catGlobalProducts } from "../../../../data/catGlobalProducts";
 import { useLanguage } from "../../../../components/language-provider";
 import { resolveAffiliateUrl } from "../../../../data/affiliate";
+import { CAT_DESC_PROFESSIONAL_KO } from "../../../../data/catExplain.ko";
 
 interface SearchParams {
   type?: string;
@@ -84,32 +85,33 @@ export default function CatResultPage({
   const i18n = (catTypesI18n as any)?.[type];
 
   const nickname =
-    i18n?.nickname_i18n?.[lang] ??
-    base.nickname;
+    i18n?.nickname_i18n?.[lang] ?? base.nickname;
   const summary =
-    i18n?.summary_i18n?.[lang] ??
-    base.summary;
+    i18n?.summary_i18n?.[lang] ?? base.summary;
   const strengths =
-    i18n?.strengths_i18n?.[lang] ??
-    base.strengths;
+    i18n?.strengths_i18n?.[lang] ?? base.strengths;
   const weaknesses =
-    i18n?.weaknesses_i18n?.[lang] ??
-    base.weaknesses;
+    i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
   const activities =
-    i18n?.idealActivities_i18n?.[lang] ??
-    base.idealActivities;
+    i18n?.idealActivities_i18n?.[lang] ?? base.idealActivities;
   const careTips =
-    i18n?.careTips_i18n?.[lang] ??
-    base.careTips;
+    i18n?.careTips_i18n?.[lang] ?? base.careTips;
   const categories =
-    i18n?.recommendedCategories_i18n?.[lang] ??
-    base.recommendedCategories;
+    i18n?.recommendedCategories_i18n?.[lang] ?? base.recommendedCategories;
+
+  // ✅ 여기: Hero에 쓸 설명
+  // - 한국어면: catExplain.ko.ts에 저장해둔 전문 설명
+  // - 다른 언어면: 기존 summary 그대로
+  const explain =
+    lang === "ko"
+      ? CAT_DESC_PROFESSIONAL_KO[type]
+      : summary;
 
   // 🔥 추천 상품 구성: 공통 2개 + 타입 전용 2개
   const typeProducts = catProducts[type] || [];
   const products = [
-    ...catGlobalProducts.slice(0, 2), // 모든 고양이에게 공통 추천
-    ...typeProducts.slice(0, 2), // 이 타입 맞춤 추천
+    ...catGlobalProducts.slice(0, 2),
+    ...typeProducts.slice(0, 2),
   ];
 
   const shareTitle = `${base.code} · ${nickname}`;
@@ -142,17 +144,26 @@ export default function CatResultPage({
               PBTi (Pet Behavioral Type Indicator)
             </span>
           </p>
+
+          <div className="mt-3">
+            <ShareButtons title={shareTitle} />
+          </div>
         </div>
       </HybridCard>
 
       {/* Hero */}
       <HybridCard>
-        <p className="text-xs font-medium text-orange-600 mb-1">{t.badge}</p>
+        <p className="text-xs font-medium text-blue-600 mb-1">{t.badge}</p>
         <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
-          <span className="text-orange-600">{base.code}</span>
+          <span className="text-blue-600">{base.code}</span>
           <span className="text-sm text-neutral-500">· {nickname}</span>
         </p>
-        <p className="text-sm text-neutral-700">{summary}</p>
+
+        {/* ✅ 여기에서 네가 저장해 둔 전문 설명 사용 */}
+        <p className="text-sm text-neutral-700 whitespace-pre-line">
+          {explain}
+        </p>
+
         <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
       </HybridCard>
 
