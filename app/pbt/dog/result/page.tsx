@@ -10,6 +10,8 @@ import { dogGlobalProducts } from "../../../../data/dogGlobalProducts";
 import { useLanguage } from "../../../../components/language-provider";
 import { resolveAffiliateUrl } from "../../../../data/affiliate";
 import { DOG_DESC_PROFESSIONAL_KO } from "../../../../data/dogExplain.ko";
+import { CoupangProductSection } from "../../../components/CoupangProductSection";
+import type { CoupangProduct } from "../../../components/CoupangProductCard";
 
 interface SearchParams {
   type?: string;
@@ -85,35 +87,41 @@ export default function DogResultPage({
   const base = dogTypes[type];
   const i18n = (dogTypesI18n as any)?.[type];
 
-  const nickname =
-    i18n?.nickname_i18n?.[lang] ?? base.nickname;
-  const summary =
-    i18n?.summary_i18n?.[lang] ?? base.summary;
-  const strengths =
-    i18n?.strengths_i18n?.[lang] ?? base.strengths;
-  const weaknesses =
-    i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
+  const nickname = i18n?.nickname_i18n?.[lang] ?? base.nickname;
+  const summary = i18n?.summary_i18n?.[lang] ?? base.summary;
+  const strengths = i18n?.strengths_i18n?.[lang] ?? base.strengths;
+  const weaknesses = i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
   const activities =
     i18n?.idealActivities_i18n?.[lang] ?? base.idealActivities;
-  const careTips =
-    i18n?.careTips_i18n?.[lang] ?? base.careTips;
+  const careTips = i18n?.careTips_i18n?.[lang] ?? base.careTips;
   const categories =
-    i18n?.recommendedCategories_i18n?.[lang] ?? base.recommendedCategories;
+    i18n?.recommendedCategories_i18n?.[lang] ??
+    base.recommendedCategories;
 
   // ✅ Hero에 쓸 상세 설명:
-  // - 한국어면: dogExplain.ko.ts에 저장해둔 전문 설명
-  // - 다른 언어면: 기존 summary
-  const explain =
-    lang === "ko"
-      ? DOG_DESC_PROFESSIONAL_KO[type]
-      : summary;
+  const explain = lang === "ko" ? DOG_DESC_PROFESSIONAL_KO[type] : summary;
 
   // 🔥 추천 상품: 공통 2 + 타입 전용 2
   const typeProducts = dogProducts[type] || [];
-  const products = [
+  const productItems = [
     ...dogGlobalProducts.slice(0, 2),
     ...typeProducts.slice(0, 2),
   ];
+
+  // CoupangProductSection에 넘길 형태로 변환
+  const coupangProducts: CoupangProduct[] = productItems.map((p: any) => {
+    const url = resolveAffiliateUrl(lang as any, p as any);
+    const title = (p as any).title_i18n?.[lang] ?? p.title;
+    const brand = (p as any).brand ?? undefined;
+    const image = (p as any).imageUrl ?? undefined;
+
+    return {
+      title,
+      brand,
+      url,
+      image,
+    };
+  });
 
   const shareTitle = `${base.code} · ${nickname}`;
   const shareSubtitle = summary;
@@ -160,7 +168,6 @@ export default function DogResultPage({
           <span className="text-sm text-neutral-500">· {nickname}</span>
         </p>
 
-        {/* ✅ 여기서 전문 설명 사용 */}
         <p className="text-sm text-neutral-700 whitespace-pre-line">
           {explain}
         </p>
@@ -218,50 +225,12 @@ export default function DogResultPage({
         </div>
       </HybridCard>
 
-      {/* 추천 상품 */}
-      {products.length > 0 && (
-        <HybridCard title={t.products}>
-          <p className="text-[11px] text-neutral-500 mb-3">{t.affiliate}</p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {products.map((p: any) => {
-              const url = resolveAffiliateUrl(lang as any, p as any);
-              const title =
-                (p as any).title_i18n?.[lang] ?? p.title;
-              const description =
-                (p as any).description_i18n?.[lang] ?? p.description;
-              const tag =
-                (p as any).tag_i18n?.[lang] ?? p.tag;
-              return (
-                <a
-                  key={p.id}
-                  href={url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group rounded-2xl border border-[#E5DDCF] bg-white/90 p-3 flex flex-col gap-2 hover:shadow-md hover:-translate-y-0.5 transition"
-                >
-                  {p.imageUrl && (
-                    <img
-                      src={p.imageUrl}
-                      alt={title}
-                      className="h-28 w-full object-cover rounded-xl"
-                    />
-                  )}
-                  <p className="text-sm font-semibold text-neutral-900">
-                    {title}
-                  </p>
-                  <p className="text-[11px] text-neutral-600">
-                    {description}
-                  </p>
-                  {tag && (
-                    <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded-full bg-[#FFF5F5] border border-pink-100 text-pink-700">
-                      #{tag}
-                    </span>
-                  )}
-                </a>
-              );
-            })}
-          </div>
-        </HybridCard>
+      {/* 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
+      {coupangProducts.length > 0 && (
+        <CoupangProductSection
+          title={t.products}
+          products={coupangProducts}
+        />
       )}
     </div>
   );
