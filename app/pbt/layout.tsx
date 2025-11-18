@@ -1,4 +1,3 @@
-
 "use client";
 import type { ReactNode } from "react";
 import { useLanguage } from "../../components/language-provider";
@@ -8,8 +7,10 @@ const tNav = {
     intro: "소개",
     dog: "강아지 테스트",
     cat: "고양이 테스트",
+    types: "유형 전체보기",
     f1: "PBTi는 Myers-Briggs Type Indicator®(MBTI®)와 관련 없는 독립적인 반려동물 성향 콘텐츠이며, 본 서비스의 결과는 과학적 진단이나 치료 목적이 아닌 일반 정보 제공용입니다.",
-    f2: "본 페이지에는 쿠팡 파트너스 링크가 포함될 수 있으며, 이를 통해 일정 수수료를 제공받을 수 있습니다.",
+    // 🔽 여기 f2만 공식 문장으로 교체
+    f2: "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
     terms: "이용약관",
     privacy: "개인정보 처리방침",
   },
@@ -17,8 +18,9 @@ const tNav = {
     intro: "Introduction",
     dog: "Dog Test",
     cat: "Cat Test",
-    f1: "PBTi is an independent pet personality content and is not related to MBTI®. Results are for information only, not medical diagnosis or treatment.",
-    f2: "This page may include Coupang Partners affiliate links through which a commission may be earned.",
+    types: "All Types",
+    f1: "PBTi is independent pet personality content and is not related to MBTI®. Results are for general information only, not for medical diagnosis or treatment.",
+    f2: "This posting is part of Coupang Partners activity, and we may earn a certain amount of commission from qualifying purchases.",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
   },
@@ -26,8 +28,9 @@ const tNav = {
     intro: "紹介",
     dog: "ワンちゃんテスト",
     cat: "ネコちゃんテスト",
+    types: "タイプ一覧",
     f1: "PBTiはMBTI®とは無関係の独立したペット性格コンテンツであり、結果は診断や治療を目的としたものではなく情報提供のみを目的としています。",
-    f2: "本ページにはクーパンパートナーズのアフィリエイトリンクが含まれる場合があります。",
+    f2: "本投稿はCoupang Partners活動の一環であり、これにより一定の手数料を受け取る場合があります。",
     terms: "利用規約",
     privacy: "プライバシーポリシー",
   },
@@ -35,8 +38,9 @@ const tNav = {
     intro: "介绍",
     dog: "狗狗测试",
     cat: "猫咪测试",
+    types: "全部类型",
     f1: "PBTi 是独立的宠物性格内容，与 MBTI® 无关，结果仅供参考，不作为医疗诊断或治疗依据。",
-    f2: "本页面可能包含 Coupang Partners 的联盟链接，并可能因此获得佣金。",
+    f2: "本帖为 Coupang Partners 活动的一部分，通过链接购买商品时，我们可能会获得一定金额的佣金。",
     terms: "服务条款",
     privacy: "隐私政策",
   },
@@ -65,6 +69,7 @@ export default function PbtLayout({ children }: { children: ReactNode }) {
               <a href="/pbt" className="hover:text-neutral-900">{t.intro}</a>
               <a href="/pbt/dog" className="hover:text-neutral-900">{t.dog}</a>
               <a href="/pbt/cat" className="hover:text-neutral-900">{t.cat}</a>
+              <a href="/pbt/types" className="hover:text-neutral-900">{t.types}</a>
             </nav>
             <div className="flex items-center gap-1 text-[11px]">
               {(["ko","en","ja","zh"] as const).map(code => (
@@ -72,7 +77,9 @@ export default function PbtLayout({ children }: { children: ReactNode }) {
                   key={code}
                   onClick={() => setLang(code)}
                   className={`rounded-full px-2 py-1 ${
-                    lang === code ? "bg-orange-500 text-white" : "bg-white/80 text-neutral-700 border border-[#E5DDCF]"
+                    lang === code
+                      ? "bg-orange-500 text-white"
+                      : "bg-white/80 text-neutral-700 border border-[#E5DDCF]"
                   } transition`}
                 >
                   {code.toUpperCase()}
@@ -90,7 +97,7 @@ export default function PbtLayout({ children }: { children: ReactNode }) {
           <p>{t.f1}</p>
           <p>{t.f2}</p>
           <div className="flex flex-wrap justify-between gap-2 pt-2 border-t border-dashed border-[#E5DDCF]/80">
-            <span>© 2025 PBTi. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} PBTi. All rights reserved.</span>
             <div className="flex gap-3">
               <a href="/legal/terms" className="hover:text-neutral-700">{t.terms}</a>
               <a href="/legal/privacy" className="hover:text-neutral-700">{t.privacy}</a>
