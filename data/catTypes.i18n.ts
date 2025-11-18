@@ -34,7 +34,6 @@ const baseI18n = Object.fromEntries(
     return [
       code,
       {
-        label_i_n: undefined,
         label_i18n: {
           ko: b.label,
           en: b.label,
