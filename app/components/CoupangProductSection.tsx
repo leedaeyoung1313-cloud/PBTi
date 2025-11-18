@@ -1,29 +1,21 @@
 // app/components/CoupangProductSection.tsx
 "use client";
 
-import { CoupangProductCard, CoupangProduct } from "./CoupangProductCard";
 import { HybridCard } from "./HybridCard";
-import { CoupangWidget } from "./CoupangWidget";
+import { DOG_WIDGETS } from "../../data/coupangDogWidgets";
+import { CAT_WIDGETS } from "../../data/coupangCatWidgets";
 
 interface CoupangProductSectionProps {
-  title?: string;              // 섹션 제목 (예: "추천 상품")
-  products: CoupangProduct[];  // 추천 상품 배열
+  title?: string;
+  variant: "dog" | "cat"; // 강아지 / 고양이 구분
 }
 
-/**
- * 쿠팡 파트너스 섹션
- * - HybridCard 안에
- *   1) 제목
- *   2) 고지 문구
- *   3) 검색 위젯
- *   4) 상품 카드 리스트
- *   를 한 박스로 묶어서 보여줌
- */
 export function CoupangProductSection({
   title,
-  products,
+  variant,
 }: CoupangProductSectionProps) {
-  if (!products || products.length === 0) return null;
+  // 강아지 / 고양이 위젯 선택
+  const widgets = variant === "dog" ? DOG_WIDGETS : CAT_WIDGETS;
 
   return (
     <HybridCard>
@@ -34,25 +26,36 @@ export function CoupangProductSection({
         </h2>
       )}
 
-      {/* 쿠팡 파트너스 고지 문구 */}
-      <div className="space-y-1 mb-3">
+      {/* 고지 문구 */}
+      <div className="space-y-1 mb-4">
         <p className="text-[11px] text-neutral-500">
           ※ 이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.
         </p>
         <p className="text-[11px] text-neutral-500">
-          추천 상품에 대한 더 자세한 정보는 아래 링크 및 검색 위젯을 통해 확인하실 수 있습니다.
+          더 많은 정보를 원하시면 아래 쿠팡 위젯을 이용해 주세요.
         </p>
       </div>
 
-      {/* 쿠팡 검색 위젯 */}
-      <div className="mb-4">
-        <CoupangWidget />
+      {/* 🔍 검색 배너 (공통) */}
+      <div className="mb-6 w-full">
+        <iframe
+          src="https://coupa.ng/ckIzmq"
+          width="100%"
+          height="75"
+          frameBorder={0}
+          scrolling="no"
+          referrerPolicy="unsafe-url"
+        />
       </div>
 
-      {/* 상품 카드 리스트 */}
-      <div className="space-y-3">
-        {products.map((product) => (
-          <CoupangProductCard key={product.url} product={product} />
+      {/* 🧩 강아지/고양이 배너 - 가로 2개 배치 */}
+      <div className="grid sm:grid-cols-2 gap-1 place-items-center justify-center">
+
+        {widgets.map((w) => (
+          <div
+            key={w.id}
+            dangerouslySetInnerHTML={{ __html: w.iframe }}
+          />
         ))}
       </div>
     </HybridCard>

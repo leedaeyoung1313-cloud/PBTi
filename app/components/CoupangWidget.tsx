@@ -1,17 +1,11 @@
 // app/components/CoupangWidget.tsx
 "use client";
 
-export function CoupangWidget() {
+export function CoupangWidget({ iframe }: { iframe: string }) {
   return (
-    <div className="mt-6">
-      <iframe
-        src="https://coupa.ng/ckIy43"
-        width="100%"
-        height="75"
-        frameBorder={0}
-        scrolling="no"
-        referrerPolicy="unsafe-url"
-      />
-    </div>
+    <div
+      className="flex justify-center"
+      dangerouslySetInnerHTML={{ __html: iframe }}
+    />
   );
 }
