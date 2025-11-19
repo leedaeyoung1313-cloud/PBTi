@@ -7,15 +7,15 @@ import { CAT_WIDGETS } from "../../data/coupangCatWidgets";
 
 interface CoupangProductSectionProps {
   title?: string;
-  variant: "dog" | "cat"; // 강아지 / 고양이 구분
+  variant?: "dog" | "cat"; // 이제 optional 로 처리
 }
 
 export function CoupangProductSection({
   title,
   variant,
 }: CoupangProductSectionProps) {
-  // 강아지 / 고양이 위젯 선택
-  const widgets = variant === "dog" ? DOG_WIDGETS : CAT_WIDGETS;
+  // 🔥 여기만 수정됨: 기본은 강아지, cat일 때만 고양이
+  const widgets = variant === "cat" ? CAT_WIDGETS : DOG_WIDGETS;
 
   return (
     <HybridCard>
@@ -50,7 +50,6 @@ export function CoupangProductSection({
 
       {/* 🧩 강아지/고양이 배너 - 가로 2개 배치 */}
       <div className="grid sm:grid-cols-2 gap-1 place-items-center justify-center">
-
         {widgets.map((w) => (
           <div
             key={w.id}
