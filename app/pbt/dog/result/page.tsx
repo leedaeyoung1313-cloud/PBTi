@@ -126,7 +126,7 @@ export default function DogResultPage({
   const shareTitle = `${base.code} · ${nickname}`;
   const shareSubtitle = summary;
 
-  return (
+    return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* SNS 공유용 카드 */}
       <HybridCard>
@@ -211,6 +211,14 @@ export default function DogResultPage({
         </HybridCard>
       </div>
 
+      {/* 🔥 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
+      {coupangProducts.length > 0 && (
+        <CoupangProductSection
+          title={t.products}
+          products={coupangProducts}
+        />
+      )}
+
       {/* 추천 카테고리 */}
       <HybridCard title={t.cats}>
         <div className="flex flex-wrap gap-2 mt-1">
@@ -224,14 +232,6 @@ export default function DogResultPage({
           ))}
         </div>
       </HybridCard>
-
-      {/* 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
-      {coupangProducts.length > 0 && (
-        <CoupangProductSection
-          title={t.products}
-          products={coupangProducts}
-        />
-      )}
     </div>
   );
 }
