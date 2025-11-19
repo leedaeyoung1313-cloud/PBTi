@@ -1,4 +1,3 @@
-
 "use client";
 import Link from "next/link";
 import { useLanguage } from "../../components/language-provider";
@@ -8,77 +7,133 @@ const tPage = {
     badge: "반려동물 성격 유형 지표 · PBTi",
     title1: "우리 집 강아지·고양이도",
     title2: "16가지 PBTi 유형이 있어요.",
-    desc1: "20문항으로 알아보는 반려동물 성격 유형 지표. 에너지, 정보 처리, 결정 방식, 생활 패턴을 바탕으로",
-    desc2: "강점·주의점·잘 맞는 놀이와 맞춤 케어·상품까지 한 번에 추천해 드립니다.",
+    desc1:
+      "30문항으로 알아보는 반려동물 성격 유형 지표. 에너지, 정보 처리, 결정 방식, 생활 패턴을 바탕으로",
+    desc2:
+      "강점·주의점·잘 맞는 놀이와 맞춤 케어·상품까지 한 번에 추천해 드립니다.",
     dog: "🐶 강아지 PBTi 시작하기",
     cat: "🐱 고양이 PBTi 시작하기",
+
+    // 예전 ENTJ 샘플 카드용 텍스트(지금은 사용 안 함)
     today: "오늘의 결과",
     strength: "강점",
     caution: "주의할 점",
     likeTitle: "ENTJ 유형이 좋아하는 활동",
-    card1Title: "20문항 심리 테스트",
-    card1Desc: "에너지, 정보, 결정, 생활 패턴을 4가지 축으로 나누어 16가지 유형을 도출합니다.",
+
+    // 하단 3컬럼 카드
+    card1Title: "30문항 심리 테스트",
+    card1Desc:
+      "에너지, 정보, 결정, 생활 패턴을 4가지 축으로 나누어 16가지 유형을 도출합니다.",
     card2Title: "반려동물 맞춤 프로파일",
-    card2Desc: "강점과 약점, 잘 맞는 놀이, 스트레스 신호까지 유형별로 정리해 드립니다.",
+    card2Desc:
+      "강점과 약점, 잘 맞는 놀이, 스트레스 신호까지 유형별로 정리해 드립니다.",
     card3Title: "케어 & 쇼핑 가이드",
-    card3Desc: "유형별로 추천되는 장난감, 간식, 하우스 등을 쿠팡 파트너스 링크와 함께 제안합니다.",
+    card3Desc:
+      "유형별로 추천되는 장난감, 간식, 하우스 등을 쿠팡 파트너스 링크와 함께 제안합니다.",
+
+    // 🔸 새로 추가: “이 사이트를 만든 이유” 카드
+    storyBadge: "이 사이트를 만든 이유",
+    storyTitle: "동물을 사랑하는 마음에서 시작된 프로젝트예요.",
+    storyBody1:
+      "반려동물과 함께 지내다 보면 ‘왜 이런 행동을 하지?’, ‘오늘은 왜 이렇게 예민할까?’ 같은 궁금함이 생기죠.",
+    storyBody2:
+      "PBTi는 그런 궁금함과 사랑에서 출발했습니다. 강아지·고양이의 에너지, 사회성, 정보 처리 방식, 생활 패턴을 30문항으로 정리해, 보호자가 우리 아이의 심리와 성향을 조금 더 깊게 이해할 수 있도록 돕는 작은 도구입니다.",
   },
   en: {
     badge: "Pet Personality Indicator · PBTi",
     title1: "Your dog or cat also has",
     title2: "one of 16 PBTi types.",
-    desc1: "A 20-question indicator based on energy, info processing, decision style and lifestyle patterns.",
-    desc2: "We recommend strengths, cautions, ideal play, custom care and products in one place.",
+    desc1:
+      "A 30-question indicator based on energy, info processing, decision style and lifestyle patterns.",
+    desc2:
+      "We recommend strengths, cautions, ideal play, custom care and products in one place.",
     dog: "🐶 Start Dog PBTi",
     cat: "🐱 Start Cat PBTi",
+
     today: "Today’s example result",
     strength: "Strengths",
     caution: "Things to watch out for",
     likeTitle: "Activities ENTJ dogs enjoy",
-    card1Title: "20-question assessment",
-    card1Desc: "We analyze four axes to determine 16 personality types.",
+
+    card1Title: "30-question assessment",
+    card1Desc:
+      "We analyze four axes to determine 16 personality types.",
     card2Title: "Personalized pet profile",
-    card2Desc: "We summarize strengths, weaknesses, play preference and stress signals by type.",
+    card2Desc:
+      "We summarize strengths, weaknesses, play preference and stress signals by type.",
     card3Title: "Care & shopping guide",
-    card3Desc: "Recommended toys, treats and houses with affiliate links.",
+    card3Desc:
+      "Recommended toys, treats and houses with affiliate links.",
+
+    storyBadge: "Why we created PBTi",
+    storyTitle: "It began with wanting to understand our pets better.",
+    storyBody1:
+      "Living with a dog or cat, we often wonder, “Why are they acting like this today?” and “What might they be feeling right now?”",
+    storyBody2:
+      "PBTi was born from that curiosity and love. With just 30 questions, it reads your pet’s energy, social style and daily patterns so you can understand their mind a little deeper and care for them more gently.",
   },
   ja: {
     badge: "ペット性格タイプ指標 · PBTi",
     title1: "あなたのワンちゃん・ネコちゃんにも",
     title2: "16タイプのPBTi性格があります。",
-    desc1: "エネルギー・情報処理・意思決定・生活パターンに基づく20問の指標です。",
-    desc2: "強み・注意点・遊びの好み・ケア・アイテム提案をまとめてご案内します。",
+    desc1:
+      "エネルギー・情報処理・意思決定・生活パターンに基づく30問の指標です。",
+    desc2:
+      "強み・注意点・遊びの好み・ケア・アイテム提案をまとめてご案内します。",
     dog: "🐶 ワンちゃん PBTiを始める",
     cat: "🐱 ネコちゃん PBTiを始める",
+
     today: "本日のサンプル結果",
     strength: "強み",
     caution: "注意ポイント",
     likeTitle: "ENTJタイプが好きな遊び",
-    card1Title: "20問の心理テスト",
-    card1Desc: "4つの軸から16タイプの性格傾向を導き出します。",
+
+    card1Title: "30問の心理テスト",
+    card1Desc:
+      "4つの軸から16タイプの性格傾向を導き出します。",
     card2Title: "ペット専用プロファイル",
-    card2Desc: "タイプごとの強み・弱み・遊び・ストレスサインを整理します。",
+    card2Desc:
+      "タイプごとの強み・弱み・遊び・ストレスサインを整理します。",
     card3Title: "ケア & ショッピングガイド",
-    card3Desc: "おすすめのおもちゃ・おやつ・ハウスをアフィリエイトリンク付きで紹介します。",
+    card3Desc:
+      "おすすめのおもちゃ・おやつ・ハウスをアフィリエイトリンク付きで紹介します。",
+
+    storyBadge: "PBTiを作った理由",
+    storyTitle: "もっとペットの気持ちを理解したい、という想いから始まりました。",
+    storyBody1:
+      "一緒に暮らしていると「今日はどうしてこんな行動をするんだろう？」「今どんな気持ちなんだろう？」と気になることがたくさんあります。",
+    storyBody2:
+      "PBTiは、そんな好奇心とペットへの愛情から生まれました。30問でエネルギーや社交性、情報の受け取り方、生活パターンを読み解き、飼い主さんが愛犬・愛猫の心と性格を少し深く理解できるようお手伝いするツールです。",
   },
   zh: {
     badge: "宠物性格类型指标 · PBTi",
     title1: "你家的狗狗或猫咪也有",
     title2: "属于自己的 16 种 PBTi 类型。",
-    desc1: "基于能量、信息处理、决策方式、生活模式的 20 题性格指标。",
-    desc2: "一次性提供优点、注意事项、喜好玩法、照顾建议和商品推荐。",
+    desc1:
+      "基于能量、信息处理、决策方式、生活模式的 30 题性格指标。",
+    desc2:
+      "一次性提供优点、注意事项、喜好玩法、照顾建议和商品推荐。",
     dog: "🐶 开始狗狗 PBTi",
     cat: "🐱 开始猫咪 PBTi",
+
     today: "今天的示例结果",
     strength: "优势",
     caution: "需要注意",
     likeTitle: "ENTJ 类型喜欢的活动",
-    card1Title: "20 题心理测试",
+
+    card1Title: "30 题心理测试",
     card1Desc: "从四个维度分析并归类到 16 种类型。",
     card2Title: "个性化档案",
     card2Desc: "按类型总结优点、弱点、玩法偏好和压力信号。",
     card3Title: "照顾 & 购物指南",
     card3Desc: "按类型推荐玩具、零食和窝，并附带联盟链接。",
+
+    storyBadge: "我们为什么做 PBTi",
+    storyTitle: "一切都源于想更懂自己的毛孩子。",
+    storyBody1:
+      "和狗狗、猫咪一起生活时，我们常常会想：「它今天为什么这样？」「现在到底是什么心情呢？」",
+    storyBody2:
+      "PBTi 就是从这种好奇和爱出发：通过 30 道问题，阅读它的能量、社交方式和生活习惯，帮助饲主更了解毛孩子的心理和性格，从而给出更温柔、合适的照顾。",
   },
 } as const;
 
@@ -121,53 +176,28 @@ export default function PbtLandingPage() {
             </Link>
           </div>
           <p className="text-[11px] text-neutral-500">
-            {/* 원문 유지 */}
-            테스트 결과에는 반려동물 유형에 기반한 맞춤 케어 & 쿠팡 파트너스 상품 추천이 포함될 수 있습니다.
+            테스트 결과에는 반려동물 유형에 기반한 맞춤 케어 & 쿠팡 파트너스
+            상품 추천이 포함될 수 있습니다.
           </p>
         </div>
 
-        {/* 오른쪽: 미니 타입 카드 mockup */}
+        {/* 오른쪽: “이 사이트를 만든 이유” 단일 카드 */}
         <div className="relative">
           <div className="absolute -top-4 -right-2 h-10 w-10 rounded-3xl bg-gradient-to-br from-blue-400 to-purple-500 blur-2 opacity-70" />
           <div className="absolute bottom-0 -left-4 h-16 w-16 rounded-3xl bg-gradient-to-br from-emerald-400 to-amber-400 blur-[3px] opacity-70" />
-          <div className="relative rounded-3xl bg-white/80 border border-[#E5DDCF] shadow-xl p-5 space-y-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs text-neutral-500">{t.today}</p>
-                <p className="text-lg font-semibold text-neutral-900">
-                  ENTJ · 카리스마 댕대장
-                </p>
-                <p className="text-[11px] text-neutral-500">
-                  규칙을 스스로 만드는 리더 타입의 댕댕이
-                </p>
-              </div>
-              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-2xl">
-                🐶
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 text-[11px]">
-              <div className="rounded-2xl bg-[#F9F5EC] p-3 border border-[#E5DDCF]">
-                <p className="font-semibold text-neutral-700 mb-1">{t.strength}</p>
-                <p className="text-neutral-600">
-                  훈련 습득력이 뛰어나고, 목표가 주어지면 끝까지 밀어붙여요.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-[#FDF9F3] p-3 border border-[#E5DDCF]">
-                <p className="font-semibold text-neutral-700 mb-1">{t.caution}</p>
-                <p className="text-neutral-600">
-                  융통성이 부족할 수 있어, 규칙을 너무 자주 바꾸면 스트레스를 받을 수 있어요.
-                </p>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-dashed border-[#E5DDCF] bg-[#FFFBF5] p-3 text-[11px]">
-              <p className="font-medium text-neutral-700 mb-1">{t.likeTitle}</p>
-              <p className="text-neutral-600">
-                규칙이 분명한 어질리티, 전략적으로 간식을 찾는 노즈워크,
-                보호자와 함께하는 미션형 놀이를 특히 좋아해요.
-              </p>
-            </div>
+          <div className="relative rounded-3xl bg-white/80 border border-[#E5DDCF] shadow-xl p-5 space-y-3">
+            <p className="inline-flex items-center rounded-full bg-[#FFF7EC] px-3 py-1 text-[11px] font-medium text-orange-600 border border-[#F3E0BE]">
+              {t.storyBadge}
+            </p>
+            <p className="text-sm sm:text-base font-semibold text-neutral-900">
+              {t.storyTitle}
+            </p>
+            <p className="text-[13px] text-neutral-600 leading-relaxed">
+              {t.storyBody1}
+            </p>
+            <p className="text-[13px] text-neutral-600 leading-relaxed">
+              {t.storyBody2}
+            </p>
           </div>
         </div>
       </section>

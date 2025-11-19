@@ -1,5 +1,7 @@
+// data/dogQuestions.ts
+
 // (위쪽에 Dimension 타입이 이미 있을 거라고 가정)
-// type Dimension = "EI" | "SN" | "TF" | "JP";  // 만약 없다면 이런 식으로 정의되어 있어야 함
+// type Dimension = "EI" | "SN" | "TF" | "JP";
 
 export interface DogQuestion {
   id: number;
@@ -7,910 +9,618 @@ export interface DogQuestion {
   eOrSOrTOrJ: string; // 왼쪽 선택지 (E/S/T/J)
   iOrNOrFOrP: string; // 오른쪽 선택지 (I/N/F/P)
 
-  // ✅ ADD ONLY (옵셔널 필드) — 여기만 추가!
+  // i18n (옵셔널)
   eOrSOrTOrJ_i18n?: { ko: string; en: string; ja: string; zh: string };
   iOrNOrFOrP_i18n?: { ko: string; en: string; ja: string; zh: string };
 }
 
 export const dogQuestions: DogQuestion[] = [
-{
-  id: 1,
-  dimension: "EI",
-  eOrSOrTOrJ: "낯선 사람을 보면 먼저 다가가 냄새를 맡는다.",
-  iOrNOrFOrP: "보호자 뒤에 숨거나 멀찍이 관찰한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "낯선 사람을 보면 먼저 다가가 냄새를 맡는다.",
-    en: "Approaches strangers first and sniffs them.",
-    ja: "見知らぬ人を見ると先に近づいて匂いを嗅ぐ。",
-    zh: "看到陌生人时会先主动靠近并嗅闻。",
+  // --- E vs I (에너지 방향: 8문항) ---
+  {
+    id: 1,
+    dimension: "EI",
+    eOrSOrTOrJ: "낯선 강아지를 만나면 먼저 다가가 인사를 건넨다.",
+    iOrNOrFOrP: "상대방이 다가올 때까지 기다리거나 보호자 곁에 머문다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "낯선 강아지를 만나면 먼저 다가가 인사를 건넨다.",
+      en: "When meeting an unfamiliar dog, they walk up first to say hello.",
+      ja: "見知らぬ犬に会うと、自分から近づいてあいさつしに行く。",
+      zh: "遇到陌生的狗时，会先主动走过去打招呼。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "상대방이 다가올 때까지 기다리거나 보호자 곁에 머문다.",
+      en: "They wait until the other dog comes closer or stay by their guardian.",
+      ja: "相手の犬が近づいてくるまで待つか、飼い主のそばに留まる。",
+      zh: "会等对方狗狗先靠近，或者待在饲主身边。",
+    },
+  },
+  {
+    id: 2,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "산책 시, 앞장서서 걷며 주변의 모든 자극을 확인하려 한다.",
+    iOrNOrFOrP:
+      "보호자의 보폭에 맞추거나 한곳에서 진득하게 냄새 맡기를 즐긴다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "산책 시, 앞장서서 걷며 주변의 모든 자극을 확인하려 한다.",
+      en: "On walks, they lead the way and try to check every little stimulus.",
+      ja: "散歩のときは先頭に立って歩き、周りの刺激を全部確認しようとする。",
+      zh: "散步时喜欢走在前面，对周围的一切刺激都要确认一遍。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "보호자의 보폭에 맞추거나 한곳에서 진득하게 냄새 맡기를 즐긴다.",
+      en: "They match their guardian’s pace or enjoy sniffing one spot for a long time.",
+      ja: "飼い主の歩幅に合わせて歩いたり、一か所でじっくり匂いを嗅ぐのを好む。",
+      zh: "会配合主人的步伐，或者在同一个地方慢慢闻个够。",
+    },
+  },
+  {
+    id: 3,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "집에 손님이 오면 흥분을 가라앉히기 힘들 정도로 반긴다.",
+    iOrNOrFOrP:
+      "손님이 오면 냄새를 맡으며 조심스럽게 탐색전부터 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "집에 손님이 오면 흥분을 가라앉히기 힘들 정도로 반긴다.",
+      en: "When guests visit, they get so excited that it’s hard to calm them down.",
+      ja: "家に来客があると、落ち着かせるのが大変なほど大喜びする。",
+      zh: "家里来客人时会兴奋得很难冷静下来。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "손님이 오면 냄새를 맡으며 조심스럽게 탐색전부터 한다.",
+      en: "When guests come, they carefully sniff and observe them first.",
+      ja: "来客があると、まず匂いを嗅ぎながら慎重に様子を見る。",
+      zh: "有客人来时，会先小心地闻一闻、观察一阵。",
+    },
+  },
+  {
+    id: 4,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "다른 강아지가 짖으면 같이 짖거나 그쪽으로 달려가려 한다.",
+    iOrNOrFOrP:
+      "다른 강아지의 소음에도 크게 동요하지 않고 제 갈 길을 간다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "다른 강아지가 짖으면 같이 짖거나 그쪽으로 달려가려 한다.",
+      en: "When another dog barks, they bark along or try to run toward it.",
+      ja: "ほかの犬が吠えると、一緒に吠えたりその犬のほうへ走り寄ろうとする。",
+      zh: "听到别的狗叫时，会跟着叫或者想冲过去。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "다른 강아지의 소음에도 크게 동요하지 않고 제 갈 길을 간다.",
+      en: "Even with other dogs barking, they stay calm and continue on their way.",
+      ja: "ほかの犬の鳴き声がしても、あまり動じず自分のペースで歩き続ける。",
+      zh: "即使周围有狗吠声，也不太受影响，照样走自己的路。",
+    },
+  },
+  {
+    id: 5,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "새로운 장소를 방문하는 것을 두려움보다 모험으로 즐긴다.",
+    iOrNOrFOrP:
+      "익숙한 동네를 산책할 때 훨씬 편안하고 안정적인 모습을 보인다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "새로운 장소를 방문하는 것을 두려움보다 모험으로 즐긴다.",
+      en: "They enjoy visiting new places more as an adventure than something to fear.",
+      ja: "新しい場所に行くのを怖がるより、冒険のように楽しむタイプだ。",
+      zh: "去新的地方时，比起害怕，更像是在享受冒险。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "익숙한 동네를 산책할 때 훨씬 편안하고 안정적인 모습을 보인다.",
+      en: "They look much more relaxed and stable when walking in familiar areas.",
+      ja: "よく知っている近所を散歩しているときのほうが、ずっと落ち着いて安定している。",
+      zh: "在熟悉的小区散步时，显得更加放松、安定。",
+    },
+  },
+  {
+    id: 6,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "놀이 시간이 끝나도 계속 장난감을 물고 와서 조른다.",
+    iOrNOrFOrP:
+      "놀이 시간이 끝나면 금방 차분해져서 휴식을 취한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "놀이 시간이 끝나도 계속 장난감을 물고 와서 조른다.",
+      en: "Even after playtime ends, they keep bringing toys asking for more.",
+      ja: "遊びの時間が終わっても、おもちゃをくわえてもっと遊ぼうとねだる。",
+      zh: "玩耍时间结束了也会叼着玩具继续央求玩。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "놀이 시간이 끝나면 금방 차분해져서 휴식을 취한다.",
+      en: "Once playtime is over, they soon calm down and take a rest.",
+      ja: "遊びが終わると、すぐに落ち着いて休憩モードに入る。",
+      zh: "玩耍结束后，很快就会安静下来休息。",
+    },
+  },
+  {
+    id: 7,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "자신의 감정(좋음, 싫음)을 온몸으로 즉각 표현한다.",
+    iOrNOrFOrP:
+      "표정이나 행동의 변화가 크지 않아 기분을 파악하려면 자세히 봐야 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "자신의 감정(좋음, 싫음)을 온몸으로 즉각 표현한다.",
+      en: "They instantly express their feelings (like or dislike) with their whole body.",
+      ja: "好き・嫌いなどの感情を、全身を使ってすぐに表現する。",
+      zh: "喜欢或不喜欢都会立刻用全身动作表现出来。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "표정이나 행동의 변화가 크지 않아 기분을 파악하려면 자세히 봐야 한다.",
+      en: "Their facial and body changes are subtle, so you need to look closely to read their mood.",
+      ja: "表情や動きの変化が小さく、気持ちを読み取るにはよく観察する必要がある。",
+      zh: "表情和动作变化不大，需要仔细观察才能看出心情。",
+    },
+  },
+  {
+    id: 8,
+    dimension: "EI",
+    eOrSOrTOrJ:
+      "여러 강아지가 모인 애견 운동장에서 노는 것을 선호한다.",
+    iOrNOrFOrP:
+      "조용한 공원에서 보호자와 단둘이 오붓하게 걷는 것을 선호한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "여러 강아지가 모인 애견 운동장에서 노는 것을 선호한다.",
+      en: "They prefer playing at a dog park full of other dogs.",
+      ja: "たくさんの犬が集まるドッグランで遊ぶほうが好きだ。",
+      zh: "更喜欢在有很多狗的运动场里玩耍。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "조용한 공원에서 보호자와 단둘이 오붓하게 걷는 것을 선호한다.",
+      en: "They prefer quiet walks alone with their guardian in a calm park.",
+      ja: "静かな公園で、飼い主と二人きりでゆっくり散歩するのを好む。",
+      zh: "更喜欢在安静的公园里，只和主人两个人慢慢散步。",
+    },
+  },
+
+  // --- S vs N (정보 처리: 7문항) ---
+  {
+    id: 9,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "간식을 찾을 때 코를 바닥에 대고 냄새(감각)에 의존해 찾는다.",
+    iOrNOrFOrP:
+      "간식을 찾을 때 숨기는 보호자의 손동작이나 눈치(패턴)를 살핀다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "간식을 찾을 때 코를 바닥에 대고 냄새(감각)에 의존해 찾는다.",
+      en: "When searching for treats, they rely mainly on nose-to-the-ground sniffing.",
+      ja: "おやつを探すときは、床に鼻をつけて匂い（感覚）を頼りに探す。",
+      zh: "找零食时，会把鼻子贴着地面，主要靠嗅觉寻找。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "간식을 찾을 때 숨기는 보호자의 손동작이나 눈치(패턴)를 살핀다.",
+      en: "When searching for treats, they watch the guardian’s hands and subtle cues.",
+      ja: "おやつを探すときは、飼い主の手の動きや気配（パターン）をよく観察する。",
+      zh: "找零食时，会看主人藏在哪里、注意手部动作和眼神。",
+    },
+  },
+  {
+    id: 10,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "장난감의 삑삑 소리나 물고 뜯는 촉감 자체에 몰입한다.",
+    iOrNOrFOrP:
+      "장난감을 던져줄 듯 말 듯 하는 보호자와의 심리전 놀이를 더 즐긴다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "장난감의 삑삑 소리나 물고 뜯는 촉감 자체에 몰입한다.",
+      en: "They get absorbed in the squeak and chewing feel of the toy itself.",
+      ja: "おもちゃのピーピー音や、噛んだときの感触そのものに夢中になる。",
+      zh: "会沉迷于玩具本身的吱吱声和咬咬的触感。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "장난감을 던져줄 듯 말 듯 하는 보호자와의 심리전 놀이를 더 즐긴다.",
+      en: "They enjoy the mind game with their guardian who feints throwing the toy.",
+      ja: "投げるふりをする飼い主との駆け引きのような遊びをより楽しむ。",
+      zh: "更享受主人“要丢不丢”的心理战游戏。",
+    },
+  },
+  {
+    id: 11,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "훈련 시, 눈앞의 간식이나 장난감 같은 뚜렷한 보상이 있을 때 집중이 잘 된다.",
+    iOrNOrFOrP:
+      "훈련 시, 보호자의 표정과 목소리 톤 등 분위기를 보고 스스로 행동을 맞춰가는 편이다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "훈련 시, 눈앞의 간식이나 장난감 같은 뚜렷한 보상이 있을 때 집중이 잘 된다.",
+      en: "During training, they focus best when there is a clear reward like a treat or toy.",
+      ja: "トレーニングのときは、目の前におやつやおもちゃなどのはっきりしたご褒美があると集中しやすい。",
+      zh: "训练时，如果眼前有零食或玩具等明确奖励，会更容易集中。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "훈련 시, 보호자의 표정과 목소리 톤 등 분위기를 보고 스스로 행동을 맞춰가는 편이다.",
+      en: "During training, they read the guardian’s tone and expression to adjust their behavior.",
+      ja: "トレーニングのときは、飼い主の表情や声のトーンなど雰囲気を読み取りながら行動を合わせていく。",
+      zh: "训练时，会看主人的表情和声音氛围，自行调整行为。",
+    },
+  },
+  {
+    id: 12,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "산책 중 만나는 고양이나 새의 움직임(시각적 자극)에 즉각 반응한다.",
+    iOrNOrFOrP:
+      "산책 경로의 변화나 보호자의 미세한 기분 변화(분위기)를 먼저 감지한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "산책 중 만나는 고양이나 새의 움직임(시각적 자극)에 즉각 반응한다.",
+      en: "They react instantly to moving cats or birds they see on walks.",
+      ja: "散歩中に出会う猫や鳥など、目に入る動きにすぐ反応する。",
+      zh: "散步时，对猫、鸟等肉眼看到的移动会立刻做出反应。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "산책 경로의 변화나 보호자의 미세한 기분 변화(분위기)를 먼저 감지한다.",
+      en: "They notice changes in the route or their guardian’s mood before anything else.",
+      ja: "散歩コースの変化や、飼い主のちょっとした気分の変化（雰囲気）を真っ先に感じ取る。",
+      zh: "更容易先察觉到散步路线的变化或主人的情绪氛围变化。",
+    },
+  },
+  {
+    id: 13,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "새로운 장난감을 주면 바로 입으로 가져가 탐색한다.",
+    iOrNOrFOrP:
+      "새로운 장난감을 주면 어떻게 가지고 노는 물건인지 관찰부터 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "새로운 장난감을 주면 바로 입으로 가져가 탐색한다.",
+      en: "Given a new toy, they immediately grab it with their mouth to explore.",
+      ja: "新しいおもちゃをもらうと、すぐに口にくわえて確かめようとする。",
+      zh: "给到新玩具时，会立刻叼在嘴里探索一番。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "새로운 장난감을 주면 어떻게 가지고 노는 물건인지 관찰부터 한다.",
+      en: "Given a new toy, they first watch and study how it should be played with.",
+      ja: "新しいおもちゃをもらうと、まずどんなふうに遊ぶものかじっくり観察する。",
+      zh: "拿到新玩具时，会先观察这是怎么玩的东西。",
+    },
+  },
+  {
+    id: 14,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "눈앞의 상황에 솔직하게 반응하는 편이다 (단순하고 직관적이다).",
+    iOrNOrFOrP:
+      "가끔 '사람 같다'고 느낄 정도로 눈치가 빠르고 상황 파악을 잘한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "눈앞의 상황에 솔직하게 반응하는 편이다 (단순하고 직관적이다).",
+      en: "They react honestly to what’s right in front of them (simple and intuitive).",
+      ja: "目の前の状況に素直に反応するタイプで、シンプルかつ直感的だ。",
+      zh: "对眼前发生的事情反应很直接（简单又直觉）。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "가끔 '사람 같다'고 느낄 정도로 눈치가 빠르고 상황 파악을 잘한다.",
+      en: "They read the room so well that people sometimes say they’re almost human.",
+      ja: "ときどき「人間みたい」と感じるほど空気を読むのが上手い。",
+      zh: "有时会被觉得“像人一样”地察言观色、判断情况。",
+    },
+  },
+  {
+    id: 15,
+    dimension: "SN",
+    eOrSOrTOrJ:
+      "반복적인 터그 놀이나 공 던지기를 지치지 않고 계속한다.",
+    iOrNOrFOrP:
+      "단순 반복 놀이보다는 노즈워크나 지능 개발 장난감에 더 오래 집중한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "반복적인 터그 놀이나 공 던지기를 지치지 않고 계속한다.",
+      en: "They can keep playing tug or fetch over and over without getting tired.",
+      ja: "引っ張りっこやボール投げなど、同じ遊びを飽きずに何度でも続ける。",
+      zh: "可以不停地玩拔河或丢球这类重复游戏而不厌烦。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "단순 반복 놀이보다는 노즈워크나 지능 개발 장난감에 더 오래 집중한다.",
+      en: "They focus longer on nose work or puzzle toys than on simple repetitive games.",
+      ja: "単純な繰り返し遊びより、ノーズワークや知育おもちゃのほうに長く集中する。",
+      zh: "比起单纯重复的游戏，更能长时间专注在嗅闻游戏或益智玩具上。",
+    },
+  },
+
+  // --- T vs F (판단 기준: 8문항) ---
+  {
+    id: 16,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "자신의 밥그릇이나 장난감에 대한 애착이 강해, 누가 다가오면 먼저 지키려는 반응을 보인다.",
+    iOrNOrFOrP:
+      "자신의 물건이라도 보호자나 친한 강아지가 만지는 것을 크게 개의치 않는다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "자신의 밥그릇이나 장난감에 대한 애착이 강해, 누가 다가오면 먼저 지키려는 반응을 보인다.",
+      en: "They are very attached to their bowl or toys and try to guard them when others approach.",
+      ja: "自分のごはん皿やおもちゃへの愛着が強く、誰かが近づくとまず守ろうとする。",
+      zh: "对自己的饭碗和玩具很有占有欲，有人靠近时会先表现出守护的反应。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "자신의 물건이라도 보호자나 친한 강아지가 만지는 것을 크게 개의치 않는다.",
+      en: "They don’t mind much if their guardian or familiar dogs touch their things.",
+      ja: "自分の物でも、飼い主や仲良しの犬が触ってもあまり気にしない。",
+      zh: "即使是自己的东西，被主人或熟悉的狗狗碰一碰也无所谓。",
+    },
+  },
+  {
+    id: 17,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "혼났을 때, 억울해하거나 구석으로 가서 토라진다.",
+    iOrNOrFOrP:
+      "혼났을 때, 보호자의 눈치를 보며 바로 애교를 부려 풀려고 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "혼났을 때, 억울해하거나 구석으로 가서 토라진다.",
+      en: "When scolded, they sulk or retreat to a corner looking upset.",
+      ja: "叱られると、すねた様子で隅っこに行ったり、不満そうな顔をする。",
+      zh: "被骂时会一脸委屈地躲到角落里闹小脾气。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "혼났을 때, 보호자의 눈치를 보며 바로 애교를 부려 풀려고 한다.",
+      en: "When scolded, they quickly check their guardian’s mood and act cute to make up.",
+      ja: "叱られると、すぐに飼い主の顔色を伺い、甘えたりしてその場をなごませようとする。",
+      zh: "被骂之后会立刻看主人的脸色，用撒娇的方式来哄好对方。",
+    },
+  },
+  {
+    id: 18,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "독립심이 강해 혼자만의 시간이나 공간을 즐길 줄 안다.",
+    iOrNOrFOrP:
+      "보호자와 잠시도 떨어지기 싫어하며 항상 붙어 있으려 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "독립심이 강해 혼자만의 시간이나 공간을 즐길 줄 안다.",
+      en: "They are quite independent and enjoy their own time and space.",
+      ja: "自立心が強く、一人の時間や自分だけの空間を楽しめるタイプだ。",
+      zh: "独立性比较强，懂得享受自己的时间和空间。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "보호자와 잠시도 떨어지기 싫어하며 항상 붙어 있으려 한다.",
+      en: "They dislike being apart from their guardian and want to stay close all the time.",
+      ja: "飼い主と少しも離れたくなく、いつもくっついていたがる。",
+      zh: "不太愿意和主人分开，总是想黏在一起。",
+    },
+  },
+  {
+    id: 19,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "싫어하는 목욕이나 발톱 깎기를 할 때 단호하게 거부 의사를 밝힌다.",
+    iOrNOrFOrP:
+      "싫어하는 행동도 보호자가 달래주면 참고 견뎌주는 편이다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "싫어하는 목욕이나 발톱 깎기를 할 때 단호하게 거부 의사를 밝힌다.",
+      en: "During things they dislike, like baths or nail trims, they clearly resist.",
+      ja: "苦手なシャンプーや爪切りのときは、はっきり嫌だと抵抗する。",
+      zh: "遇到不喜欢的洗澡或剪指甲时，会很明确地表达抗拒。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "싫어하는 행동도 보호자가 달래주면 참고 견뎌주는 편이다.",
+      en: "Even for things they dislike, they endure if their guardian gently reassures them.",
+      ja: "苦手なことでも、飼い主に優しくなだめられると我慢してくれるほうだ。",
+      zh: "即使是不喜欢的事情，只要主人安抚得好，也愿意忍耐配合。",
+    },
+  },
+  {
+    id: 20,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "다른 강아지와의 기 싸움에서 밀리지 않으려는 편이다.",
+    iOrNOrFOrP:
+      "싸움이 날 것 같으면 먼저 배를 보이거나 자리를 피하는 평화주의자다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "다른 강아지와의 기 싸움에서 밀리지 않으려는 편이다.",
+      en: "They tend not to back down easily in a standoff with other dogs.",
+      ja: "ほかの犬との駆け引きでも、簡単には引かないほうだ。",
+      zh: "在和别的狗的气势较量中，不太愿意轻易认输。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "싸움이 날 것 같으면 먼저 배를 보이거나 자리를 피하는 평화주의자다.",
+      en: "If a fight seems likely, they show their belly or walk away, preferring peace.",
+      ja: "ケンカになりそうだと感じると、先にお腹を見せたりその場を離れる平和主義タイプだ。",
+      zh: "一旦感觉要打起来，会先翻肚或离开现场，是偏向和平主义的类型。",
+    },
+  },
+  {
+    id: 21,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "이름을 불렀을 때, 귀찮으면 귀만 쫑긋하고 반응하지 않을 때가 있다.",
+    iOrNOrFOrP:
+      "이름을 부르면 자다가도 꼬리를 치며 반응한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "이름을 불렀을 때, 귀찮으면 귀만 쫑긋하고 반응하지 않을 때가 있다.",
+      en: "When called by name, they sometimes just twitch their ears and ignore it if they’re not in the mood.",
+      ja: "名前を呼ばれても、気分が乗らないと耳だけピクッとさせて反応しないことがある。",
+      zh: "叫名字时，如果不太想理，会只是耳朵动一动不怎么回应。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "이름을 부르면 자다가도 꼬리를 치며 반응한다.",
+      en: "Even when asleep, they wag their tail and respond when their name is called.",
+      ja: "寝ていても、名前を呼ばれると尻尾を振って反応する。",
+      zh: "哪怕在睡觉，只要听到名字也会摇尾巴回应。",
+    },
+  },
+  {
+    id: 22,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "원하는 것이 있으면 짖거나 긁어서 명확하게 요구한다.",
+    iOrNOrFOrP:
+      "원하는 것이 있으면 그윽하게 쳐다보거나 턱을 괴며 호소한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "원하는 것이 있으면 짖거나 긁어서 명확하게 요구한다.",
+      en: "When they want something, they bark or scratch to make it very clear.",
+      ja: "欲しいものがあると、吠えたり引っかいたりしてはっきり要求する。",
+      zh: "有想要的东西时，会通过叫或抓挠来明确表达。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "원하는 것이 있으면 그윽하게 쳐다보거나 턱을 괴며 호소한다.",
+      en: "When they want something, they gaze softly or rest their chin to appeal.",
+      ja: "欲しいものがあるときは、じっと見つめたりアゴを乗せて静かにアピールする。",
+      zh: "想要什么的时候，会深情地看着你或者轻轻把下巴靠在你身上示意。",
+    },
+  },
+  {
+    id: 23,
+    dimension: "TF",
+    eOrSOrTOrJ:
+      "보호자의 감정 변화보다 자신의 현재 욕구(배고픔, 산책)가 더 우선이다.",
+    iOrNOrFOrP:
+      "보호자가 슬퍼 보이거나 아프면 곁을 지키며 위로하려 한다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "보호자의 감정 변화보다 자신의 현재 욕구(배고픔, 산책)가 더 우선이다.",
+      en: "Their own needs (hunger, walk time) come before their guardian’s mood.",
+      ja: "飼い主の気持ちよりも、自分の今の欲求（お腹すいた、散歩したい）が優先になりやすい。",
+      zh: "比起主人的情绪，更优先考虑自己当下的需求（肚子饿、想散步）。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "보호자가 슬퍼 보이거나 아프면 곁을 지키며 위로하려 한다.",
+      en: "If their guardian looks sad or unwell, they stay close to comfort them.",
+      ja: "飼い主が落ち込んでいたり体調が悪そうだと、そばに寄り添ってなぐさめようとする。",
+      zh: "当主人看起来难过或不舒服时，会守在旁边安慰对方。",
+    },
+  },
+
+  // --- J vs P (생활 양식: 7문항) ---
+  {
+    id: 24,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "정해진 산책 시간이나 식사 시간이 늦어지면 안절부절못한다.",
+    iOrNOrFOrP:
+      "시간이 늦어져도 보호자가 챙겨줄 때까지 느긋하게 기다린다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "정해진 산책 시간이나 식사 시간이 늦어지면 안절부절못한다.",
+      en: "They get restless when walk or meal times are delayed.",
+      ja: "決まった散歩やごはんの時間が遅れると、そわそわ落ち着かなくなる。",
+      zh: "散步或吃饭时间一拖延，就会变得坐立不安。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "시간이 늦어져도 보호자가 챙겨줄 때까지 느긋하게 기다린다.",
+      en: "Even if it’s delayed, they calmly wait until their guardian takes care of it.",
+      ja: "時間が多少遅れても、飼い主が用意してくれるまでのんびり待てる。",
+      zh: "就算时间晚了，也会悠哉地等到主人来照顾自己。",
+    },
+  },
+  {
+    id: 25,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "배변은 주로 집 안 패드나 늘 가던 지정된 장소(실외)에서 해결하는 편이다.",
+    iOrNOrFOrP:
+      "상황과 분위기에 따라 새로운 장소에서도 배변을 시도하는 편이다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "배변은 주로 집 안 패드나 늘 가던 지정된 장소(실외)에서 해결하는 편이다.",
+      en: "They mainly relieve themselves on indoor pads or the usual outdoor spot.",
+      ja: "排泄は、室内のトイレシートやいつもの決まった場所（屋外）ですることが多い。",
+      zh: "大多会在家里的尿垫或固定的户外位置排泄。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "상황과 분위기에 따라 새로운 장소에서도 배변을 시도하는 편이다.",
+      en: "Depending on the situation, they may also try using new spots to go potty.",
+      ja: "状況や雰囲気によっては、新しい場所でも排泄を試すことがある。",
+      zh: "也会根据当时的情况，在新的位置尝试排泄。",
+    },
+  },
+  {
+    id: 26,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "항상 자던 자리, 자신의 방석에서 자는 것을 고집한다.",
+    iOrNOrFOrP:
+      "그날그날 기분과 온대에 따라 현관, 소파, 침대 등 자는 곳이 바뀐다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "항상 자던 자리, 자신의 방석에서 자는 것을 고집한다.",
+      en: "They insist on sleeping in their usual spot or on their own bed.",
+      ja: "いつも決まった場所や自分のベッドで寝ることにこだわる。",
+      zh: "坚持睡在自己固定的位置或专属垫子上。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "그날그날 기분과 온도에 따라 현관, 소파, 침대 등 자는 곳이 바뀐다.",
+      en: "Where they sleep changes with their mood and the temperature—hallway, sofa, bed, etc.",
+      ja: "その日の気分や温度によって、玄関・ソファ・ベッドなど寝る場所が変わる。",
+      zh: "会根据当天的心情和温度，玄关、沙发、床到处换着地方睡。",
+    },
+  },
+  {
+    id: 27,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "산책 시 늘 다니던 익숙한 코스로 가는 것을 편안해한다.",
+    iOrNOrFOrP:
+      "가보지 않은 새로운 길로 빠지는 것을 좋아하고 호기심을 보인다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "산책 시 늘 다니던 익숙한 코스로 가는 것을 편안해한다.",
+      en: "They feel most comfortable walking their usual familiar routes.",
+      ja: "散歩では、いつもの慣れたコースを歩くのが一番落ち着く。",
+      zh: "散步时走熟悉的路线会让它最安心。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "가보지 않은 새로운 길로 빠지는 것을 좋아하고 호기심을 보인다.",
+      en: "They like exploring new paths they’ve never taken before and show curiosity.",
+      ja: "まだ行ったことのない道にそれて探検するのが好きで、好奇心を見せる。",
+      zh: "很喜欢走没去过的新路，对新地方充满好奇。",
+    },
+  },
+  {
+    id: 28,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "한번 학습된 규칙(앉아, 기다려 등)은 웬만해선 어기지 않는다.",
+    iOrNOrFOrP:
+      "기분에 따라 잘하던 훈련도 안 하거나 꾀를 부릴 때가 있다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "한번 학습된 규칙(앉아, 기다려 등)은 웬만해선 어기지 않는다.",
+      en: "Once they learn a rule (sit, stay, etc.), they rarely break it.",
+      ja: "一度覚えたルール（おすわり・待て など）は、めったに破らない。",
+      zh: "一旦学会了规则（坐下、等待等），几乎不会轻易违背。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "기분에 따라 잘하던 훈련도 안 하거나 꾀를 부릴 때가 있다.",
+      en: "Depending on their mood, they sometimes skip or play around with commands they usually do well.",
+      ja: "気分によっては、普段できるはずのトレーニングもやらなかったり、ちゃかしたりすることがある。",
+      zh: "有时看心情，即使平时做得很好的口令也会装作听不见或偷懒。",
+    },
+  },
+  {
+   id: 29,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "보호자의 외출 준비 루틴(옷 입기 등)을 보면 미리 자기 자리로 간다.",
+    iOrNOrFOrP:
+      "보호자가 외출 준비를 하면 같이 나가자고 보채거나 현관을 막는다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "보호자의 외출 준비 루틴(옷 입기 등)을 보면 미리 자기 자리로 간다.",
+      en: "When sensing the guardian’s outing routine, they quietly go to their usual spot.",
+      ja: "飼い主の外出準備（服を着るなど）を見ると、先に自分の場所へ戻る。",
+      zh: "看到主人准备出门（穿外套等）时，会提前回到自己的位置。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "보호자가 외출 준비를 하면 같이 나가자고 보채거나 현관을 막는다.",
+      en: "When the guardian prepares to go out, they beg to go along or block the doorway.",
+      ja: "飼い主が外出準備をすると、一緒に行こうとせがんだり玄関をふさぐ。",
+      zh: "当主人准备出门时，会央求一起出门或干脆挡在玄关口。",
+    },
+  },
+  {
+    id: 30,
+    dimension: "JP",
+    eOrSOrTOrJ:
+      "깔끔한 성격이라 몸에 무언가 묻거나 젖는 것을 싫어한다.",
+    iOrNOrFOrP:
+      "진흙탕이나 물웅덩이에도 거침없이 들어가 놀 만큼 털털하다.",
+    eOrSOrTOrJ_i18n: {
+      ko: "깔끔한 성격이라 몸에 무언가 묻거나 젖는 것을 싫어한다.",
+      en: "They dislike getting dirty or wet because they prefer staying neat.",
+      ja: "きれい好きで、体が汚れたり濡れたりするのを嫌がる。",
+      zh: "性格爱干净，不喜欢弄脏或弄湿自己。",
+    },
+    iOrNOrFOrP_i18n: {
+      ko: "진흙탕이나 물웅덩이에도 거침없이 들어가 놀 만큼 털털하다.",
+      en: "They don’t mind getting muddy and jump into puddles without hesitation.",
+      ja: "泥んこになったり水たまりに飛び込んだりしても平気なタイプだ。",
+      zh: "完全不介意变脏，甚至会毫不犹豫跳进泥巴或水坑里玩。",
+    },
   },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자 뒤에 숨거나 멀찍이 관찰한다.",
-    en: "Hides behind the owner or observes from a distance.",
-    ja: "飼い主の後ろに隠れたり、少し離れて観察する。",
-    zh: "躲在主人后面或在远处观察。",
-  },
-},
-{
-  id: 2,
-  dimension: "EI",
-  eOrSOrTOrJ: "산책 후에도 금세 다른 놀이를 요청한다.",
-  iOrNOrFOrP: "산책 후 바로 휴식을 취하려 한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "산책 후에도 금세 다른 놀이를 요청한다.",
-    en: "Even after a walk, quickly asks for more play.",
-    ja: "散歩の後でもすぐに別の遊びをねだる。",
-    zh: "散步后也很快要求继续玩。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "산책 후 바로 휴식을 취하려 한다.",
-    en: "Prefers to rest immediately after a walk.",
-    ja: "散歩の後すぐに休もうとする。",
-    zh: "散步后会马上想休息。",
-  },
-},
-{
-  id: 3,
-  dimension: "EI",
-  eOrSOrTOrJ: "집 안을 끊임없이 돌아다니거나 무언가를 물고 다닌다.",
-  iOrNOrFOrP: "대부분 한 자리에 머물며 휴식한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "집 안을 끊임없이 돌아다니거나 무언가를 물고 다닌다.",
-    en: "Constantly moves around the house or carries things in its mouth.",
-    ja: "家の中を絶えず歩き回ったり、物を口にくわえて歩く。",
-    zh: "在家里不断走动，或叼着东西四处走。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "대부분 한 자리에 머물며 휴식한다.",
-    en: "Usually stays in one place and rests.",
-    ja: "ほとんど一箇所に留まって休む。",
-    zh: "大部分时间待在一个地方休息。",
-  },
-},
-{
-  id: 4,
-  dimension: "EI",
-  eOrSOrTOrJ: "손님이 오면 점프하거나 꼬리를 크게 흔든다.",
-  iOrNOrFOrP: "손님이 오면 조용히 관찰하거나 숨어 있다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "손님이 오면 점프하거나 꼬리를 크게 흔든다.",
-    en: "Jumps or wags its tail excitedly when guests arrive.",
-    ja: "来客があるとジャンプしたり尻尾を大きく振る。",
-    zh: "有客人来时会跳起来或大幅度摇尾巴。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "손님이 오면 조용히 관찰하거나 숨어 있다.",
-    en: "Quietly observes or hides when guests arrive.",
-    ja: "来客があると静かに観察したり隠れたりする。",
-    zh: "有客人来时会安静地观察或躲起来。",
-  },
-},
-{
-  id: 5,
-  dimension: "EI",
-  eOrSOrTOrJ: "새 장난감을 즉시 입으로 물고 흔들어 본다.",
-  iOrNOrFOrP: "새 장난감을 신중히 냄새 맡고 천천히 탐색한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "새 장난감을 즉시 입으로 물고 흔들어 본다.",
-    en: "Immediately grabs new toys and shakes them.",
-    ja: "新しいおもちゃをすぐに口でくわえて振ってみる。",
-    zh: "会立即叼起新玩具并摇一摇。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "새 장난감을 신중히 냄새 맡고 천천히 탐색한다.",
-    en: "Carefully sniffs new toys and explores slowly.",
-    ja: "新しいおもちゃを慎重に匂い、ゆっくり探索する。",
-    zh: "会小心地嗅闻新玩具并慢慢探索。",
-  },
-},
-{
-  id: 6,
-  dimension: "EI",
-  eOrSOrTOrJ: "놀이를 먼저 제안하며 주도하려 한다.",
-  iOrNOrFOrP: "보호자가 먼저 놀자고 해야 반응한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "놀이를 먼저 제안하며 주도하려 한다.",
-    en: "Initiates play and tries to lead.",
-    ja: "遊びを自分から提案し主導しようとする。",
-    zh: "会主动发起游戏并想带头。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자가 먼저 놀자고 해야 반응한다.",
-    en: "Responds only when the owner initiates play.",
-    ja: "飼い主が遊びに誘って初めて反応する。",
-    zh: "只有主人先发起游戏才会回应。",
-  },
-},
-{
-  id: 7,
-  dimension: "EI",
-  eOrSOrTOrJ: "다른 강아지를 보면 흥분해서 다가가고 싶어 한다.",
-  iOrNOrFOrP: "다른 강아지와 거리를 유지하며 지나간다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "다른 강아지를 보면 흥분해서 다가가고 싶어 한다.",
-    en: "Gets excited and wants to approach other dogs.",
-    ja: "他の犬を見ると興奮して近づきたがる。",
-    zh: "看到其他狗狗会兴奋并想靠近。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "다른 강아지와 거리를 유지하며 지나간다.",
-    en: "Keeps a distance and walks past other dogs.",
-    ja: "他の犬とは距離を保って通り過ぎる。",
-    zh: "与其他狗保持距离并走过去。",
-  },
-},
-{
-  id: 8,
-  dimension: "EI",
-  eOrSOrTOrJ: "잠에서 깨자마자 활발하게 움직인다.",
-  iOrNOrFOrP: "잠에서 깨도 한동안 그대로 누워 있다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "잠에서 깨자마자 활발하게 움직인다.",
-    en: "Becomes active right after waking up.",
-    ja: "起きてすぐに活発に動き始める。",
-    zh: "刚醒来就马上变得活跃。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "잠에서 깨도 한동안 그대로 누워 있다.",
-    en: "Lies still for a while even after waking up.",
-    ja: "起きてもそのまましばらく横になっている。",
-    zh: "醒来后仍躺着一段时间。",
-  },
-},
-{
-  id: 9,
-  dimension: "EI",
-  eOrSOrTOrJ: "보호자가 휴식 중이라도 자주 몸을 비비며 관심을 요구한다.",
-  iOrNOrFOrP: "보호자가 쉬면 조용히 옆에서 눕는다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "보호자가 휴식 중이라도 자주 몸을 비비며 관심을 요구한다.",
-    en: "Seeks attention frequently even when the owner is resting.",
-    ja: "飼い主が休んでいてもよく身体をこすりつけて構ってほしがる。",
-    zh: "即使主人在休息也常常贴过来求关注。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자가 쉬면 조용히 옆에서 눕는다.",
-    en: "Lies quietly beside the owner when they rest.",
-    ja: "飼い主が休むと静かにそばで横になる。",
-    zh: "主人休息时，会安静地躺在旁边。",
-  },
-},
-{
-  id: 10,
-  dimension: "EI",
-  eOrSOrTOrJ: "혼자 있을 때도 장난감을 가지고 놀거나 돌아다닌다.",
-  iOrNOrFOrP: "혼자 있을 때는 거의 잠을 자거나 엎드려 있다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "혼자 있을 때도 장난감을 가지고 놀거나 돌아다닌다.",
-    en: "Plays with toys or walks around even when alone.",
-    ja: "一人のときでもおもちゃで遊んだり歩き回ったりする。",
-    zh: "独处时也会玩玩具或四处走动。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "혼자 있을 때는 거의 잠을 자거나 엎드려 있다.",
-    en: "Mostly sleeps or lies down when alone.",
-    ja: "一人のときはほとんど寝ているか伏せている。",
-    zh: "独处时通常在睡觉或趴着。",
-  },
-},
-{
-  id: 11,
-  dimension: "EI",
-  eOrSOrTOrJ: "짖을 때 목소리가 크고 단호한 편이다.",
-  iOrNOrFOrP: "짖을 때 낑낑거리거나 작게 울음소리를 낸다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "짖을 때 목소리가 크고 단호한 편이다.",
-    en: "Barks loudly and firmly.",
-    ja: "吠えるときの声が大きく、力強いタイプ。",
-    zh: "吠叫声音大而有力。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "짖을 때 낑낑거리거나 작게 울음소리를 낸다.",
-    en: "Whines or makes softer sounds when barking.",
-    ja: "吠えるとき、クンクンと小さな声で鳴くタイプ。",
-    zh: "吠叫时会呜呜叫或发出较小的声音。",
-  },
-},
-{
-  id: 12,
-  dimension: "EI",
-  eOrSOrTOrJ: "잠자는 자세가 대자로 뻗거나 특이한 포즈다.",
-  iOrNOrFOrP: "웅크리거나 보호자에게 밀착해 잔다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "잠자는 자세가 대자로 뻗거나 특이한 포즈다.",
-    en: "Sleeps sprawled out or in unique positions.",
-    ja: "寝る姿勢が大の字や独特なポーズになる。",
-    zh: "睡觉时常四脚伸直或摆出奇特姿势。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "웅크리거나 보호자에게 밀착해 잔다.",
-    en: "Curls up or sleeps closely attached to the owner.",
-    ja: "丸くなって寝たり、飼い主にピッタリ寄り添って寝る。",
-    zh: "蜷缩着睡，或贴着主人睡觉。",
-  },
-},
-{
-  id: 13,
-  dimension: "EI",
-  eOrSOrTOrJ: "산책에서 빠르게 이동하며 전진을 선호한다.",
-  iOrNOrFOrP: "천천히 냄새 맡으며 여유 있게 걷는다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "산책에서 빠르게 이동하며 전진을 선호한다.",
-    en: "Prefers to move quickly and walk forward during walks.",
-    ja: "散歩では早歩きで前進するのを好む。",
-    zh: "散步时喜欢快速往前走。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "천천히 냄새 맡으며 여유 있게 걷는다.",
-    en: "Walks slowly, sniffing around at a relaxed pace.",
-    ja: "ゆっくり匂いを嗅ぎながらマイペースで歩く。",
-    zh: "散步时慢慢地嗅闻周围，悠闲地走着。",
-  },
-},
-{
-  id: 14,
-  dimension: "SN",
-  eOrSOrTOrJ: "눈앞의 간식이나 장난감에만 집중한다.",
-  iOrNOrFOrP: "다음 행동이나 규칙을 예측하며 움직인다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "눈앞의 간식이나 장난감에만 집중한다.",
-    en: "Focuses only on the treat or toy directly in front.",
-    ja: "目の前のおやつやおもちゃに集中する。",
-    zh: "只专注眼前的零食或玩具。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "다음 행동이나 규칙을 예측하며 움직인다.",
-    en: "Moves while predicting the next action or rule.",
-    ja: "次の行動やルールを予測しながら動く。",
-    zh: "会预测下一步或规则来行动。",
-  },
-},
-{
-  id: 15,
-  dimension: "SN",
-  eOrSOrTOrJ: "산책 중 냄새 맡기에 많은 시간을 쓴다.",
-  iOrNOrFOrP: "주변 환경의 작은 변화를 살피며 이동한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "산책 중 냄새 맡기에 많은 시간을 쓴다.",
-    en: "Spends a lot of time sniffing during walks.",
-    ja: "散歩中、匂い嗅ぎに多くの時間を使う。",
-    zh: "散步时花很多时间嗅闻。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "주변 환경의 작은 변화를 살피며 이동한다.",
-    en: "Walks while observing small changes in the environment.",
-    ja: "周囲の小さな変化を観察しながら進む。",
-    zh: "一边走路一边观察周围细微变化。",
-  },
-},
-{
-  id: 16,
-  dimension: "SN",
-  eOrSOrTOrJ: "보상이 보이지 않으면 훈련에 흥미를 잃는다.",
-  iOrNOrFOrP: "보상이 없어도 훈련 과정을 즐기며 규칙을 기억한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "보상이 보이지 않으면 훈련에 흥미를 잃는다.",
-    en: "Loses interest in training if rewards are not visible.",
-    ja: "ご褒美が見えないと訓練への興味を失う。",
-    zh: "看不到奖励时会对训练失去兴趣。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보상이 없어도 훈련 과정을 즐기며 규칙을 기억한다.",
-    en: "Enjoys training and remembers rules even without rewards.",
-    ja: "ご褒美がなくても訓練過程を楽しみ、ルールを覚える。",
-    zh: "即使没有奖励也能享受训练并记住规则。",
-  },
-},
-{
-  id: 17,
-  dimension: "SN",
-  eOrSOrTOrJ: "특정 냄새나 촉감에 집착하는 편이다.",
-  iOrNOrFOrP: "장난감의 원리나 숨겨진 구조를 탐구한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "특정 냄새나 촉감에 집착하는 편이다.",
-    en: "Tends to fixate on certain smells or textures.",
-    ja: "特定の匂いや感触にこだわる傾向がある。",
-    zh: "容易执着于某些气味或触感。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "장난감의 원리나 숨겨진 구조를 탐구한다.",
-    en: "Explores the mechanism or hidden structure of toys.",
-    ja: "おもちゃの仕組みや隠れた構造を探る。",
-    zh: "会探索玩具的原理或隐藏结构。",
-  },
-},
-{
-  id: 18,
-  dimension: "SN",
-  eOrSOrTOrJ: "명령어를 들으면 바로 반응한다.",
-  iOrNOrFOrP: "보호자의 표정과 기분 변화를 먼저 감지한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "명령어를 들으면 바로 반응한다.",
-    en: "Responds immediately to verbal commands.",
-    ja: "指示を聞くとすぐに反応する。",
-    zh: "听到指令后会立即反应。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자의 표정과 기분 변화를 먼저 감지한다.",
-    en: "Senses the owner's facial expressions and mood first.",
-    ja: "飼い主の表情や気分の変化を先に察知する。",
-    zh: "会先察觉主人的表情和情绪变化。",
-  },
-},
-{
-  id: 19,
-  dimension: "SN",
-  eOrSOrTOrJ: "가구 위치가 바뀌면 불편해한다.",
-  iOrNOrFOrP: "바뀐 구조를 탐험하며 놀이처럼 받아들인다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "가구 위치가 바뀌면 불편해한다.",
-    en: "Feels uncomfortable when furniture is moved.",
-    ja: "家具の配置が変わると落ち着かない。",
-    zh: "家具位置改变时会感到不安。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "바뀐 구조를 탐험하며 놀이처럼 받아들인다.",
-    en: "Explores the new layout and treats it like play.",
-    ja: "変わった配置を探索し、遊びのように楽しむ。",
-    zh: "会探索变化后的结构，并把它当成一种游戏。",
-  },
-},
-{
-  id: 20,
-  dimension: "SN",
-  eOrSOrTOrJ: "화장실 패드의 질감에 민감하게 반응한다.",
-  iOrNOrFOrP: "화장실 패드의 위치 변화에 더 예민하다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "화장실 패드의 질감에 민감하게 반응한다.",
-    en: "React sensitively to the texture of pee pads.",
-    ja: "トイレシートの質感に敏感に反応する。",
-    zh: "对厕所垫的质感非常敏感。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "화장실 패드의 위치 변화에 더 예민하다.",
-    en: "More sensitive to changes in the pad’s placement.",
-    ja: "トイレシートの位置の変化により敏感。",
-    zh: "对厕所垫位置的变化更为敏感。",
-  },
-},
-{
-  id: 21,
-  dimension: "SN",
-  eOrSOrTOrJ: "노즈워크에서 냄새 맡는 행위 자체를 즐긴다.",
-  iOrNOrFOrP: "숨겨진 간식의 위치와 패턴을 추리하려 한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "노즈워크에서 냄새 맡는 행위 자체를 즐긴다.",
-    en: "Enjoys the act of sniffing itself during nosework.",
-    ja: "ノーズワークでは匂いを嗅ぐ行為そのものを楽しむ。",
-    zh: "在嗅闻游戏中享受嗅闻本身。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "숨겨진 간식의 위치와 패턴을 추리하려 한다.",
-    en: "Tries to deduce the location and pattern of hidden treats.",
-    ja: "隠されたおやつの位置やパターンを推理しようとする。",
-    zh: "尝试推理隐藏零食的位置和规律。",
-  },
-},
-{
-  id: 22,
-  dimension: "SN",
-  eOrSOrTOrJ: "낯선 장소에서는 바닥 냄새부터 확인한다.",
-  iOrNOrFOrP: "낯선 장소에서는 공간 구조와 출입구를 먼저 파악한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "낯선 장소에서는 바닥 냄새부터 확인한다.",
-    en: "In unfamiliar places, checks the ground scent first.",
-    ja: "見知らぬ場所ではまず床の匂いを確認する。",
-    zh: "在陌生的地方首先检查地面的气味。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "낯선 장소에서는 공간 구조와 출입구를 먼저 파악한다.",
-    en: "Identifies the layout and exits first in new locations.",
-    ja: "見知らぬ場所では空間構造や出口を先に把握する。",
-    zh: "在陌生地点，会优先确认空间结构和出口。",
-  },
-},
-{
-  id: 23,
-  dimension: "SN",
-  eOrSOrTOrJ: "새로운 훈련은 직접적인 행동 모방으로 배운다.",
-  iOrNOrFOrP: "훈련의 의도와 패턴을 빠르게 파악하며 배운다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "새로운 훈련은 직접적인 행동 모방으로 배운다.",
-    en: "Learns new training by directly imitating actions.",
-    ja: "新しい訓練は直接行動を真似して学ぶ。",
-    zh: "通过直接模仿动作来学习新训练。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "훈련의 의도와 패턴을 빠르게 파악하며 배운다.",
-    en: "Quickly grasps the purpose and pattern of the training.",
-    ja: "訓練の意図やパターンを素早く理解して学ぶ。",
-    zh: "能快速理解训练的目的和模式。",
-  },
-},
-{
-  id: 24,
-  dimension: "SN",
-  eOrSOrTOrJ: "간식을 받으면 바로 먹어버린다.",
-  iOrNOrFOrP: "간식을 먹기 전에 잠시 주변을 살피거나 고민한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "간식을 받으면 바로 먹어버린다.",
-    en: "Eats treats immediately after receiving them.",
-    ja: "おやつをもらうとすぐに食べてしまう。",
-    zh: "拿到零食后立刻吃掉。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "간식을 먹기 전에 잠시 주변을 살피거나 고민한다.",
-    en: "Looks around or thinks for a moment before eating.",
-    ja: "おやつを食べる前に周りを見たり少し考えたりする。",
-    zh: "吃零食前会先观察周围或思考片刻。",
-  },
-},
-{
-  id: 25,
-  dimension: "SN",
-  eOrSOrTOrJ: "쓰다듬을 때 촉감에만 집중한다.",
-  iOrNOrFOrP: "쓰다듬는 행동의 의미를 해석하려 한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "쓰다듬을 때 촉감에만 집중한다.",
-    en: "Focuses solely on the tactile sensation when being petted.",
-    ja: "撫でられるとき感触だけに集中する。",
-    zh: "被抚摸时只专注于触感。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "쓰다듬는 행동의 의미를 해석하려 한다.",
-    en: "Tries to interpret the meaning behind the petting.",
-    ja: "撫でる行為の意味を解釈しようとする。",
-    zh: "试图理解抚摸行为的意义。",
-  },
-},
-{
-  id: 26,
-  dimension: "SN",
-  eOrSOrTOrJ: "큰 소리가 나면 즉각적으로 놀라며 몸을 떤다.",
-  iOrNOrFOrP: "큰 소리가 나기 전 기류나 분위기 변화를 먼저 감지한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "큰 소리가 나면 즉각적으로 놀라며 몸을 떤다.",
-    en: "Startles immediately and shakes when there's a loud noise.",
-    ja: "大きな音がすると即座に驚いて身体を震わせる。",
-    zh: "听到大声响时会立刻受惊并抖动身体。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "큰 소리가 나기 전 기류나 분위기 변화를 먼저 감지한다.",
-    en: "Senses airflow or mood changes before loud noises occur.",
-    ja: "大きな音がする前に空気の流れや雰囲気の変化を察知する。",
-    zh: "在大声响出现前就能察觉气流或氛围变化。",
-  },
-},
-{
-  id: 27,
-  dimension: "TF",
-  eOrSOrTOrJ: "칭찬보다 간식·장난감 보상이 더 큰 동기부여가 된다.",
-  iOrNOrFOrP: "칭찬과 교감이 최고의 보상이다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "칭찬보다 간식·장난감 보상이 더 큰 동기부여가 된다.",
-    en: "Treats and toys motivate more than praise.",
-    ja: "褒め言葉よりおやつやおもちゃの方が動機付けになる。",
-    zh: "比起称赞，零食和玩具更能激励它。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "칭찬과 교감이 최고의 보상이다.",
-    en: "Praise and emotional connection are the best rewards.",
-    ja: "褒め言葉とスキンシップが最高のご褒美。",
-    zh: "称赞和感情交流是最好的奖励。",
-  },
-},
-{
-  id: 28,
-  dimension: "TF",
-  eOrSOrTOrJ: "규칙을 어겼을 때 상황을 보고 스스로 판단한다.",
-  iOrNOrFOrP: "규칙보다 보호자가 화났는지 먼저 살핀다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "규칙을 어겼을 때 상황을 보고 스스로 판단한다.",
-    en: "Judges the situation independently when breaking rules.",
-    ja: "ルールを破ったとき状況を見て自分で判断する。",
-    zh: "违反规则时，会根据情况自行判断。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "규칙보다 보호자가 화났는지 먼저 살핀다.",
-    en: "Checks whether the owner is upset before the rule itself.",
-    ja: "ルールより飼い主が怒っているかを先に気にする。",
-    zh: "比起规则，更会先观察主人是否生气。",
-  },
-},
-{
-  id: 29,
-  dimension: "TF",
-  eOrSOrTOrJ: "장난감 놀이는 규칙이 있을 때 더 즐겁다.",
-  iOrNOrFOrP: "장난감 놀이는 보호자와의 교감이 가장 중요하다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "장난감 놀이는 규칙이 있을 때 더 즐겁다.",
-    en: "Enjoys toy play more when there are rules.",
-    ja: "おもちゃ遊びはルールがある方が楽しい。",
-    zh: "有规则的玩具游戏更觉得有趣。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "장난감 놀이는 보호자와의 교감이 가장 중요하다.",
-    en: "Values emotional bonding over rules during play.",
-    ja: "おもちゃ遊びではルールより飼い主との絆が重要。",
-    zh: "玩玩具时，比起规则，更重视与主人的互动。",
-  },
-},
-{
-  id: 30,
-  dimension: "TF",
-  eOrSOrTOrJ: "식사 시간에는 정해진 시간에 밥을 받길 원한다.",
-  iOrNOrFOrP: "보호자가 주는 시기에 맞춰 감사하게 식사한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "식사 시간에는 정해진 시간에 밥을 받길 원한다.",
-    en: "Prefers to receive meals at a fixed schedule.",
-    ja: "食事時間は決まった時間にご飯をもらいたい。",
-    zh: "希望按固定时间吃饭。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자가 주는 시기에 맞춰 감사하게 식사한다.",
-    en: "Eats gratefully whenever the owner provides food.",
-    ja: "飼い主が与えるタイミングに合わせて感謝して食べる。",
-    zh: "会按照主人给的时间感激地进食。",
-  },
-},
-{
-  id: 31,
-  dimension: "TF",
-  eOrSOrTOrJ: "보호자가 아파도 자신의 루틴을 크게 바꾸지 않는다.",
-  iOrNOrFOrP: "보호자가 아프면 루틴을 포기하고 옆에서 지켜준다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "보호자가 아파도 자신의 루틴을 크게 바꾸지 않는다.",
-    en: "Does not significantly change its routine even if the owner is sick.",
-    ja: "飼い主が具合悪くても自分のルーティンを大きく変えない。",
-    zh: "即使主人生病了，也不会大幅改变自己的日常模式。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자가 아프면 루틴을 포기하고 옆에서 지켜준다.",
-    en: "Abandons its routine to stay close to the sick owner.",
-    ja: "飼い主が具合悪いと、ルーティンを捨ててそばに寄り添う。",
-    zh: "如果主人生病，会放弃规律陪在旁边。",
-  },
-},
-{
-  id: 32,
-  dimension: "TF",
-  eOrSOrTOrJ: "잘못했을 때 규칙 위반 사실을 걱정한다.",
-  iOrNOrFOrP: "잘못해서 보호자가 속상해할까 걱정한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "잘못했을 때 규칙 위반 사실을 걱정한다.",
-    en: "Worries about breaking the rule when doing something wrong.",
-    ja: "悪いことをしたとき、ルールを破ったことを気にする。",
-    zh: "做错事时，会担心违反规则本身。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "잘못해서 보호자가 속상해할까 걱정한다.",
-    en: "Worries that the owner might be upset because of the mistake.",
-    ja: "悪いことをして飼い主が悲しむかを気にする。",
-    zh: "会担心自己做错事让主人难过。",
-  },
-},
-{
-  id: 33,
-  dimension: "TF",
-  eOrSOrTOrJ: "다른 강아지와 놀 때 서열이나 승패를 신경 쓴다.",
-  iOrNOrFOrP: "모두가 화목하게 노는 분위기를 원한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "다른 강아지와 놀 때 서열이나 승패를 신경 쓴다.",
-    en: "Cares about ranking or winning when playing with other dogs.",
-    ja: "他の犬と遊ぶとき、序列や勝敗を気にする。",
-    zh: "与其他狗狗玩耍时在意等级或输赢。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "모두가 화목하게 노는 분위기를 원한다.",
-    en: "Prefers a harmonious play environment for everyone.",
-    ja: "みんなが仲良く遊ぶ雰囲気を望む。",
-    zh: "希望大家都能和谐地玩耍。",
-  },
-},
-{
-  id: 34,
-  dimension: "TF",
-  eOrSOrTOrJ: "명령을 수행할 때 보상을 받을 수 있는지 계산한다.",
-  iOrNOrFOrP: "명령을 수행할 때 보호자를 기쁘게 해주고 싶어 한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "명령을 수행할 때 보상을 받을 수 있는지 계산한다.",
-    en: "Calculates whether a reward will be given before obeying.",
-    ja: "指示を聞くとき、ご褒美がもらえるかを計算する。",
-    zh: "执行指令时会衡量能否获得奖励。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "명령을 수행할 때 보호자를 기쁘게 해주고 싶어 한다.",
-    en: "Wants to make the owner happy when following commands.",
-    ja: "指示を聞くとき、飼い主を喜ばせたいと思う。",
-    zh: "执行指令时更想让主人开心。",
-  },
-},
-{
-  id: 35,
-  dimension: "TF",
-  eOrSOrTOrJ: "싫은 행동(발톱 깎기 등)은 단호하게 거부한다.",
-  iOrNOrFOrP: "싫더라도 보호자의 감정을 보고 참고 견딘다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "싫은 행동(발톱 깎기 등)은 단호하게 거부한다.",
-    en: "Firmly rejects disliked actions (like nail clipping).",
-    ja: "嫌いな行為（爪切りなど）ははっきり拒否する。",
-    zh: "对讨厌的行为（剪指甲等）会明确拒绝。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "싫더라도 보호자의 감정을 보고 참고 견딘다.",
-    en: "Endures it by considering the owner's feelings.",
-    ja: "嫌でも飼い主の気持ちを考えて我慢する。",
-    zh: "即使不喜欢，也会看主人的情绪然后忍耐。",
-  },
-},
-{
-  id: 36,
-  dimension: "TF",
-  eOrSOrTOrJ: "놀이 규칙이 깨지면 흥미를 잃고 중단한다.",
-  iOrNOrFOrP: "규칙이 깨져도 보호자와 계속 놀기 위해 적응한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "놀이 규칙이 깨지면 흥미를 잃고 중단한다.",
-    en: "Loses interest and stops when play rules break.",
-    ja: "遊びのルールが崩れると興味を失ってやめてしまう。",
-    zh: "游戏规则被打破时会失去兴趣并停止玩耍。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "규칙이 깨져도 보호자와 계속 놀기 위해 적응한다.",
-    en: "Adapts to keep playing with the owner even if rules break.",
-    ja: "ルールが崩れても飼い主と遊び続けるために適応する。",
-    zh: "即使规则被破坏，也会适应以继续和主人玩耍。",
-  },
-},
-{
-  id: 37,
-  dimension: "TF",
-  eOrSOrTOrJ: "휴식 공간을 효율적인 위치에 마련하려 한다.",
-  iOrNOrFOrP: "휴식 공간은 보호자와 가장 가까운 곳이 좋다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "휴식 공간을 효율적인 위치에 마련하려 한다.",
-    en: "Prefers to arrange resting spots efficiently.",
-    ja: "休憩場所を効率的な位置に整えようとする。",
-    zh: "倾向于将休息地点安排在最有效率的位置。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "휴식 공간은 보호자와 가장 가까운 곳이 좋다.",
-    en: "Wants the resting spot to be as close to the owner as possible.",
-    ja: "休憩場所は飼い主の近くが一番いい。",
-    zh: "休息地点越靠近主人越好。",
-  },
-},
-{
-  id: 38,
-  dimension: "TF",
-  eOrSOrTOrJ: "집안 물건이 제자리에 있어야 안정감을 느낀다.",
-  iOrNOrFOrP: "물건보다 사람의 온기나 체취가 더 중요하다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "집안 물건이 제자리에 있어야 안정감을 느낀다.",
-    en: "Feels secure when household items are in their place.",
-    ja: "家の物が所定の位置にあると安心する。",
-    zh: "家中的物品在原位时会感到安心。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "물건보다 사람의 온기나 체취가 더 중요하다.",
-    en: "Values human warmth or scent more than item order.",
-    ja: "物の位置より、人の温もりや匂いの方が大事。",
-    zh: "比起物品摆放，更看重人的温度或气味。",
-  },
-},
-{
-  id: 39,
-  dimension: "JP",
-  eOrSOrTOrJ: "식사·산책 루틴이 조금만 늦어져도 예민해진다.",
-  iOrNOrFOrP: "루틴이 바뀌어도 크게 스트레스를 받지 않는다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "식사·산책 루틴이 조금만 늦어져도 예민해진다.",
-    en: "Becomes sensitive when meal/walk routines are delayed.",
-    ja: "食事や散歩のルーティンが少し遅れるだけで敏感になる。",
-    zh: "进食或散步的日程稍有延迟就会变得敏感。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "루틴이 바뀌어도 크게 스트레스를 받지 않는다.",
-    en: "Doesn't get stressed even if routines change.",
-    ja: "ルーティンが変わっても大きくストレスを感じない。",
-    zh: "即使作息改变也不会太紧张。",
-  },
-},
-{
-  id: 40,
-  dimension: "JP",
-  eOrSOrTOrJ: "산책은 항상 다니던 익숙한 경로가 편하다.",
-  iOrNOrFOrP: "새로운 길과 환경을 탐험하는 것을 즐긴다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "산책은 항상 다니던 익숙한 경로가 편하다.",
-    en: "Feels comfortable walking only familiar routes.",
-    ja: "散歩はいつもの慣れた道が安心する。",
-    zh: "散步时走熟悉的路线更安心。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "새로운 길과 환경을 탐험하는 것을 즐긴다.",
-    en: "Enjoys exploring new paths and environments.",
-    ja: "新しい道や環境を探検するのを楽しむ。",
-    zh: "喜欢探索新的路线和环境。",
-  },
-},
-{
-  id: 41,
-  dimension: "JP",
-  eOrSOrTOrJ: "화장실은 정해진 장소에만 사용하려 한다.",
-  iOrNOrFOrP: "상황에 따라 다른 곳에서도 실수하거나 적응한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "화장실은 정해진 장소에만 사용하려 한다.",
-    en: "Prefers to use the bathroom only in fixed spots.",
-    ja: "トイレは決まった場所でしかしたくない。",
-    zh: "倾向于只在指定地点上厕所。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "상황에 따라 다른 곳에서도 실수하거나 적응한다.",
-    en: "May adapt or make mistakes in different locations depending on the situation.",
-    ja: "状況によっては別の場所でも失敗したり適応する。",
-    zh: "会根据情况在不同地点适应或偶尔出错。",
-  },
-},
-{
-  id: 42,
-  dimension: "JP",
-  eOrSOrTOrJ: "익숙한 장난감을 더 선호한다.",
-  iOrNOrFOrP: "새로운 자극을 주는 장난감을 더 좋아한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "익숙한 장난감을 더 선호한다.",
-    en: "Prefers familiar toys.",
-    ja: "慣れ親しんだおもちゃを好む。",
-    zh: "更喜欢熟悉的玩具。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "새로운 자극을 주는 장난감을 더 좋아한다.",
-    en: "Enjoys toys that offer new stimulation.",
-    ja: "新しい刺激を与えてくれるおもちゃの方が好き。",
-    zh: "更喜欢有新鲜刺激的玩具。",
-  },
-},
-{
-  id: 43,
-  dimension: "JP",
-  eOrSOrTOrJ: "휴식 시간과 활동 시간이 명확하게 나뉘어 있다.",
-  iOrNOrFOrP: "피곤하면 아무 때나 즉흥적으로 잠들거나 일어난다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "휴식 시간과 활동 시간이 명확하게 나뉘어 있다.",
-    en: "Has a clear separation between rest time and activity time.",
-    ja: "休む時間と活動する時間が明確に分かれている。",
-    zh: "休息时间和活动时间分得很明确。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "피곤하면 아무 때나 즉흥적으로 잠들거나 일어난다.",
-    en: "Sleeps or wakes spontaneously whenever tired.",
-    ja: "疲れたらいつでも即興的に寝たり起きたりする。",
-    zh: "累了就随时会突然睡或醒。",
-  },
-},
-{
-  id: 44,
-  dimension: "JP",
-  eOrSOrTOrJ: "보호자 외출 시 정해진 자리에서 얌전히 기다린다.",
-  iOrNOrFOrP: "보호자 외출 시 집안을 돌아다니며 자유롭게 활동한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "보호자 외출 시 정해진 자리에서 얌전히 기다린다.",
-    en: "Waits quietly in a designated spot when the owner leaves.",
-    ja: "飼い主が外出するときは決まった場所で大人しく待つ。",
-    zh: "主人外出时会安静地待在固定的位置等候。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "보호자 외출 시 집안을 돌아다니며 자유롭게 활동한다.",
-    en: "Moves freely around the house when the owner is out.",
-    ja: "飼い主が外出すると家中を自由に歩き回る。",
-    zh: "主人不在时会在家里自由活动。",
-  },
-},
-{
-  id: 45,
-  dimension: "JP",
-  eOrSOrTOrJ: "간식을 줄 때 보호자의 규칙적인 손동작을 기억한다.",
-  iOrNOrFOrP: "간식을 줄 때 즉흥적인 놀이와 변화를 더 즐거워한다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "간식을 줄 때 보호자의 규칙적인 손동작을 기억한다.",
-    en: "Remembers the owner’s consistent hand movements during treat time.",
-    ja: "おやつをあげるときの飼い主の一定の手の動きを覚えている。",
-    zh: "记得主人给零食时有规律的手部动作。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "간식을 줄 때 즉흥적인 놀이와 변화를 더 즐거워한다.",
-    en: "Enjoys spontaneous play and variation during treat time.",
-    ja: "おやつをあげるときに即興の遊びや変化を楽しむ。",
-    zh: "给零食时更喜欢即兴的玩乐和变化。",
-  },
-},
-{
-  id: 46,
-  dimension: "JP",
-  eOrSOrTOrJ: "훈련은 정해진 순서를 따라야 집중이 잘 된다.",
-  iOrNOrFOrP: "훈련 순서보다 그때그때의 흥미가 더 중요하다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "훈련은 정해진 순서를 따라야 집중이 잘 된다.",
-    en: "Focuses better when training follows a fixed order.",
-    ja: "訓練は決まった順番で進む方が集中しやすい。",
-    zh: "训练按固定顺序进行时更容易集中。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "훈련 순서보다 그때그때의 흥미가 더 중요하다.",
-    en: "Spontaneous interest is more important than order during training.",
-    ja: "訓練の順番よりその時の興味の方が大切。",
-    zh: "训练时兴趣比顺序更重要。",
-  },
-},
-{
-  id: 47,
-  dimension: "JP",
-  eOrSOrTOrJ: "낮잠 시간도 매일 비슷한 시간대에 몰려 있다.",
-  iOrNOrFOrP: "졸리면 언제든 바로 눕고 잘 수 있다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "낮잠 시간도 매일 비슷한 시간대에 몰려 있다.",
-    en: "Nap times occur around the same time each day.",
-    ja: "昼寝の時間が毎日ほぼ同じ時間帯に集まる。",
-    zh: "午睡时间每天大致相同。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "졸리면 언제든 바로 눕고 잘 수 있다.",
-    en: "Lies down and sleeps anytime when sleepy.",
-    ja: "眠くなったらいつでもすぐ横になって寝られる。",
-    zh: "困了就随时能躺下睡觉。",
-  },
-},
-{
-  id: 48,
-  dimension: "JP",
-  eOrSOrTOrJ: "숨겨진 물건은 원래 위치를 집요하게 찾는다.",
-  iOrNOrFOrP: "원래 위치보다 새로운 물건이나 놀이에 더 관심을 가진다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "숨겨진 물건은 원래 위치를 집요하게 찾는다.",
-    en: "Persistently looks for hidden items in their original locations.",
-    ja: "隠された物を元の場所でしつこく探す。",
-    zh: "会执着地在原本位置寻找被藏起来的东西。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "원래 위치보다 새로운 물건이나 놀이에 더 관심을 가진다.",
-    en: "More interested in new items or new types of play than original spots.",
-    ja: "元の場所より新しい物や遊びに興味を示す。",
-    zh: "比起原来的位置，更关注新的物品或新的玩法。",
-  },
-},
-{
-  id: 49,
-  dimension: "JP",
-  eOrSOrTOrJ: "외부 환경 변화(공사 소음 등)에 쉽게 불안해진다.",
-  iOrNOrFOrP: "환경이 변해도 빠르게 적응하거나 크게 신경 쓰지 않는다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "외부 환경 변화(공사 소음 등)에 쉽게 불안해진다.",
-    en: "Gets easily anxious with external changes (like construction noise).",
-    ja: "外部環境の変化（工事の騒音など）に敏感に不安を感じる。",
-    zh: "对外界变化（如施工噪音）容易感到不安。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "환경이 변해도 빠르게 적응하거나 크게 신경 쓰지 않는다.",
-    en: "Adapts quickly or does not mind environmental changes.",
-    ja: "環境が変わってもすぐ適応したりあまり気にしない。",
-    zh: "环境改变也能很快适应或完全不在意。",
-  },
-},
-{
-  id: 50,
-  dimension: "JP",
-  eOrSOrTOrJ: "장난감은 정해진 장소에 가지런히 두려 한다.",
-  iOrNOrFOrP: "장난감을 가지고 놀다 아무 곳에나 두고 다닌다.",
-  eOrSOrTOrJ_i18n: {
-    ko: "장난감은 정해진 장소에 가지런히 두려 한다.",
-    en: "Likes to place toys neatly in designated spots.",
-    ja: "おもちゃを決まった場所にきちんと並べたがる。",
-    zh: "喜欢把玩具整齐地放在固定的位置。",
-  },
-  iOrNOrFOrP_i18n: {
-    ko: "장난감을 가지고 놀다 아무 곳에나 두고 다닌다.",
-    en: "Leaves toys anywhere while playing.",
-    ja: "遊んだおもちゃをどこにでも置きっぱなしにする。",
-    zh: "玩玩具时会随手放在任何地方。",
-  },
-},
 ];
+// 위 코드에서 id:29, id:30의 i18n이 잘려 있으면 알려줘.  
+// 메시지 길이 제한 때문에 마지막 2문항이 혹시 잘렸다면,  
+// "29,30번도 마저 보내줘"라고 하면 이어서 완전본을 보내줄게.
