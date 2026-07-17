@@ -38,10 +38,12 @@ export function CoupangProductSection({
         </h2>
       )}
 
-      {/* 🐾 기부 안내 배지 */}
+      {/* 🐾 기부 안내 배너 (강조) */}
       {donationNotice && (
-        <div className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800 leading-relaxed">
-          {donationNotice}
+        <div className="mb-4 rounded-2xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 to-emerald-100 px-4 py-5 sm:px-6 sm:py-6 text-center shadow-sm">
+          <p className="text-lg sm:text-xl font-extrabold text-emerald-800 leading-snug">
+            {donationNotice}
+          </p>
         </div>
       )}
 
