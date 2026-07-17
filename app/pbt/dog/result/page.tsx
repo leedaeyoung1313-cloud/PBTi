@@ -29,6 +29,8 @@ const tRes = {
     care: "케어 팁",
     cats: "잘 맞는 상품 카테고리",
     products: "추천 상품",
+    productsTitle: (nickname: string) => `${nickname}에게 딱 맞는 추천 아이템`,
+    ctaLabel: "쿠팡에서 보기",
     affiliate:
       "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   },
@@ -42,6 +44,8 @@ const tRes = {
     care: "Care tips",
     cats: "Recommended product categories",
     products: "Recommended products",
+    productsTitle: (nickname: string) => `Picks perfect for ${nickname}`,
+    ctaLabel: "Check on Coupang",
     affiliate:
       "Links may use affiliate programs depending on your language/region.",
   },
@@ -55,6 +59,8 @@ const tRes = {
     care: "ケアのヒント",
     cats: "おすすめ商品カテゴリー",
     products: "おすすめ商品",
+    productsTitle: (nickname: string) => `${nickname}にぴったりのおすすめアイテム`,
+    ctaLabel: "Coupangで見る",
     affiliate:
       "言語/地域によりアフィリエイトリンクが適用される場合があります。",
   },
@@ -68,6 +74,8 @@ const tRes = {
     care: "照顾建议",
     cats: "推荐商品类别",
     products: "推荐商品",
+    productsTitle: (nickname: string) => `为${nickname}精选的推荐好物`,
+    ctaLabel: "去Coupang查看",
     affiliate: "根据语言/地区可能使用联盟链接。",
   },
 } as const;
@@ -103,23 +111,27 @@ export default function DogResultPage({
   // ✅ Hero에 쓸 상세 설명:
   const explain = lang === "ko" ? DOG_DESC_PROFESSIONAL_KO[type] : summary;
 
-  // 🔥 추천 상품: 공통 2 + 타입 전용 2
+  // 🔥 이 유형(type)과 매치되는 추천 상품 2~3개를 자동으로 구성
+  // - 타입 전용 상품이 2개 이상이면 타입 전용 상품만 최대 3개
+  // - 타입 전용 상품이 부족하면 공통 상품으로 채워서 최소 2개는 보장
   const typeProducts = dogProducts[type] || [];
-  const productItems = [
-    ...dogGlobalProducts.slice(0, 2),
-    ...typeProducts.slice(0, 2),
-  ];
+  const productItems =
+    typeProducts.length >= 2
+      ? typeProducts.slice(0, 3)
+      : [...typeProducts, ...dogGlobalProducts].slice(0, 3);
 
   // CoupangProductSection에 넘길 형태로 변환
   const coupangProducts: CoupangProduct[] = productItems.map((p: any) => {
     const url = resolveAffiliateUrl(lang as any, p as any);
     const title = (p as any).title_i18n?.[lang] ?? p.title;
-    const brand = (p as any).brand ?? undefined;
+    const brand = (p as any).tag_i18n?.[lang] ?? (p as any).tag ?? undefined;
+    const reason = (p as any).description_i18n?.[lang] ?? (p as any).description;
     const image = (p as any).imageUrl ?? undefined;
 
     return {
       title,
       brand,
+      reason,
       url,
       image,
     };
@@ -215,11 +227,14 @@ export default function DogResultPage({
         </HybridCard>
       </div>
 
-      {/* 🔥 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
+      {/* 🔥 유형별 자동 큐레이션 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
       {coupangProducts.length > 0 && (
         <CoupangProductSection
-          title={t.products}
+          title={t.productsTitle(nickname)}
           products={coupangProducts}
+          ctaLabel={t.ctaLabel}
+          disclaimer={t.affiliate}
+          variant="dog"
         />
       )}
 
