@@ -12,6 +12,7 @@ import { resolveAffiliateUrl } from "../../../../data/affiliate";
 import { CAT_DESC_PROFESSIONAL_KO } from "../../../../data/catExplain.ko";
 import { CoupangProductSection } from "../../../components/CoupangProductSection";
 import type { CoupangProduct } from "../../../components/CoupangProductCard";
+import { getPbtiGroupStyle } from "../../../../data/pbtiGroup";
 
 interface SearchParams {
   type?: string;
@@ -23,7 +24,7 @@ const tRes = {
     disclaimer:
       "본 결과는 반려묘의 평소 행동 경향을 기반으로 한 참고 정보이며, 의학적 진단이나 치료를 대체하지 않습니다.",
     strengths: "강점 (Strength)",
-    weaknesses: "주의할 점 (Weakness)",
+    weaknesses: "이렇게 함께해보세요",
     likes: "이 유형이 좋아하는 활동",
     care: "케어 팁",
     cats: "잘 맞는 상품 카테고리",
@@ -36,7 +37,7 @@ const tRes = {
     disclaimer:
       "This result is for informational purposes based on everyday behavior; it is not a medical diagnosis or treatment.",
     strengths: "Strengths",
-    weaknesses: "Things to watch out for",
+    weaknesses: "Ways to support them",
     likes: "Activities this type enjoys",
     care: "Care tips",
     cats: "Recommended product categories",
@@ -49,7 +50,7 @@ const tRes = {
     disclaimer:
       "本結果は日常の行動傾向に基づく参考情報であり、医療的な診断や治療に代わるものではありません。",
     strengths: "強み",
-    weaknesses: "注意ポイント",
+    weaknesses: "こうやって寄り添ってみましょう",
     likes: "このタイプが好きな活動",
     care: "ケアのヒント",
     cats: "おすすめ商品カテゴリー",
@@ -62,7 +63,7 @@ const tRes = {
     disclaimer:
       "本结果仅基于日常行为供参考，不构成医疗诊断或治疗建议。",
     strengths: "优势",
-    weaknesses: "需要注意",
+    weaknesses: "试着这样陪伴它",
     likes: "该类型喜欢的活动",
     care: "照顾建议",
     cats: "推荐商品类别",
@@ -81,6 +82,7 @@ export default function CatResultPage({
 
   const raw = (searchParams?.type || "INFJ").toUpperCase();
   const type = ((catTypes as any)[raw] ? raw : "INFJ") as CatCode;
+  const groupStyle = getPbtiGroupStyle(type);
 
   // Base + i18n overlay
   const base = catTypes[type];
@@ -129,11 +131,13 @@ export default function CatResultPage({
     return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* SNS 공유용 카드 */}
-      <HybridCard>
-        <div className="rounded-3xl border border-[#E5DDCF] bg-gradient-to-br from-amber-50 to-emerald-50 p-4 sm:p-5 flex flex-col gap-3">
+      <HybridCard accentBorderClassName={groupStyle.border}>
+        <div
+          className={`rounded-3xl border ${groupStyle.border} bg-gradient-to-br ${groupStyle.gradientFrom} ${groupStyle.gradientTo} p-4 sm:p-5 flex flex-col gap-3`}
+        >
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-[11px] font-medium text-orange-600 mb-1">
+              <p className={`text-[11px] font-medium ${groupStyle.text} mb-1`}>
                 🐾 PBTi · 고양이 성향 유형
               </p>
               <p className="text-xl sm:text-2xl font-bold text-neutral-900">
@@ -149,7 +153,7 @@ export default function CatResultPage({
           </p>
           <p className="text-[10px] text-neutral-500 mt-1">
             이 카드는 스크린샷해서 카톡·인스타·블로그 등에 공유해도 좋아요.{" "}
-            <span className="font-semibold text-orange-600">
+            <span className={`font-semibold ${groupStyle.text}`}>
               PBTi (Pet Behavioral Type Indicator)
             </span>
           </p>
@@ -161,10 +165,10 @@ export default function CatResultPage({
       </HybridCard>
 
       {/* Hero */}
-      <HybridCard>
-        <p className="text-xs font-medium text-blue-600 mb-1">{t.badge}</p>
+      <HybridCard accentBorderClassName={groupStyle.border}>
+        <p className={`text-xs font-medium ${groupStyle.text} mb-1`}>{t.badge}</p>
         <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
-          <span className="text-blue-600">{base.code}</span>
+          <span className={groupStyle.text}>{base.code}</span>
           <span className="text-sm text-neutral-500">· {nickname}</span>
         </p>
 
