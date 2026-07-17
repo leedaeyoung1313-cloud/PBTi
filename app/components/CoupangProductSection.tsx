@@ -14,6 +14,8 @@ interface CoupangProductSectionProps {
   ctaLabel?: string;
   /** 파트너스 고지 문구 (언어별) */
   disclaimer?: string;
+  /** 기부 안내 문구 (언어별, 있을 때만 노출) */
+  donationNotice?: string;
   variant?: "dog" | "cat"; // 위젯을 강아지/고양이 중 어떤 걸 보여줄지
 }
 
@@ -22,6 +24,7 @@ export function CoupangProductSection({
   products = [],
   ctaLabel,
   disclaimer,
+  donationNotice,
   variant,
 }: CoupangProductSectionProps) {
   const widgets = variant === "cat" ? CAT_WIDGETS : DOG_WIDGETS;
@@ -33,6 +36,13 @@ export function CoupangProductSection({
         <h2 className="text-sm font-semibold text-neutral-900 mb-2">
           {title}
         </h2>
+      )}
+
+      {/* 🐾 기부 안내 배지 */}
+      {donationNotice && (
+        <div className="mb-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-[11px] text-emerald-800 leading-relaxed">
+          {donationNotice}
+        </div>
       )}
 
       {/* 🔥 유형별 자동 큐레이션 상품 카드 */}

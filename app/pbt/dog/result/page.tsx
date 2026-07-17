@@ -31,6 +31,8 @@ const tRes = {
     products: "추천 상품",
     productsTitle: (nickname: string) => `${nickname}에게 딱 맞는 추천 아이템`,
     ctaLabel: "쿠팡에서 보기",
+    donationNotice:
+      "🐾 이 상품을 통해 발생한 수익은 매출 정산 후 국내 지자체 동물보호센터에 후원됩니다.",
     affiliate:
       "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   },
@@ -46,6 +48,8 @@ const tRes = {
     products: "Recommended products",
     productsTitle: (nickname: string) => `Picks perfect for ${nickname}`,
     ctaLabel: "Check on Coupang",
+    donationNotice:
+      "🐾 A portion of the proceeds from these picks is donated to local government-run animal shelters after revenue settlement.",
     affiliate:
       "Links may use affiliate programs depending on your language/region.",
   },
@@ -61,6 +65,8 @@ const tRes = {
     products: "おすすめ商品",
     productsTitle: (nickname: string) => `${nickname}にぴったりのおすすめアイテム`,
     ctaLabel: "Coupangで見る",
+    donationNotice:
+      "🐾 このアイテムから生まれた収益の一部は、売上精算後に国内自治体運営の動物保護センターへ寄付されます。",
     affiliate:
       "言語/地域によりアフィリエイトリンクが適用される場合があります。",
   },
@@ -76,6 +82,8 @@ const tRes = {
     products: "推荐商品",
     productsTitle: (nickname: string) => `为${nickname}精选的推荐好物`,
     ctaLabel: "去Coupang查看",
+    donationNotice:
+      "🐾 通过这些商品产生的部分收益，将在销售结算后捐赠给国内地方政府运营的流浪动物保护中心。",
     affiliate: "根据语言/地区可能使用联盟链接。",
   },
 } as const;
@@ -234,6 +242,7 @@ export default function DogResultPage({
           products={coupangProducts}
           ctaLabel={t.ctaLabel}
           disclaimer={t.affiliate}
+          donationNotice={t.donationNotice}
           variant="dog"
         />
       )}
