@@ -5,3 +5,12 @@
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+
+/* 결과 페이지 가로 스와이프 슬라이드용 - 스크롤바만 숨기고 스크롤 기능은 유지 */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

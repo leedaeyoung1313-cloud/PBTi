@@ -1,7 +1,9 @@
 // app/pbt/dog/result/page.tsx
 "use client";
 
+import { useEffect, useState } from "react";
 import { HybridCard } from "../../../components/HybridCard";
+import { SwipeDeck } from "../../../components/SwipeDeck";
 import ShareButtons from "../../../components/ShareButtons";
 import { dogTypes, DogCode } from "../../../../data/dogTypes";
 import { dogTypesI18n } from "../../../../data/dogTypes.i18n";
@@ -128,8 +130,8 @@ export default function DogResultPage({
       ? typeProducts.slice(0, 3)
       : [...typeProducts, ...dogGlobalProducts].slice(0, 3);
 
-  // CoupangProductSection에 넘길 형태로 변환
-  const coupangProducts: CoupangProduct[] = productItems.map((p: any) => {
+  // CoupangProductSection에 넘길 형태로 변환 (하드코딩된 기본 상품 - 관리자 오버라이드가 없을 때 폴백)
+  const staticCoupangProducts: CoupangProduct[] = productItems.map((p: any) => {
     const url = resolveAffiliateUrl(lang as any, p as any);
     const title = (p as any).title_i18n?.[lang] ?? p.title;
     const brand = (p as any).tag_i18n?.[lang] ?? (p as any).tag ?? undefined;
@@ -145,121 +147,158 @@ export default function DogResultPage({
     };
   });
 
+  // 🛠️ /admin에서 저장한 상품이 있으면 그걸로 대체 (없으면 null → 위 하드코딩 상품 사용)
+  const [overrideProducts, setOverrideProducts] = useState<CoupangProduct[] | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/products?species=dog&code=${type}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        const list = data?.products;
+        if (Array.isArray(list) && list.length > 0) {
+          setOverrideProducts(
+            list.map((p: any) => ({
+              title: p.title,
+              url: p.url,
+              image: p.imageUrl || undefined,
+            }))
+          );
+        } else {
+          setOverrideProducts(null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setOverrideProducts(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [type]);
+
+  const coupangProducts: CoupangProduct[] = overrideProducts ?? staticCoupangProducts;
+
   const shareTitle = `${base.code} · ${nickname}`;
   const shareSubtitle = summary;
 
-    return (
-    <div className="max-w-3xl mx-auto space-y-6">
-      {/* SNS 공유용 카드 */}
-      <HybridCard accentBorderClassName={groupStyle.border}>
-        <div
-          className={`rounded-3xl border ${groupStyle.border} bg-gradient-to-br ${groupStyle.gradientFrom} ${groupStyle.gradientTo} p-4 sm:p-5 flex flex-col gap-3`}
-        >
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className={`text-[11px] font-medium ${groupStyle.text} mb-1`}>
-                🐾 PBTi · 강아지 성향 유형
-              </p>
-              <p className="text-xl sm:text-2xl font-bold text-neutral-900">
-                {shareTitle}
-              </p>
-            </div>
-            <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-white/70 border border-[#E5DDCF] flex items-center justify-center text-2xl">
-              🐶
-            </div>
+  const slides = [
+    // 1. SNS 공유용 카드
+    <HybridCard key="share" accentBorderClassName={groupStyle.border}>
+      <div
+        className={`rounded-3xl border ${groupStyle.border} bg-gradient-to-br ${groupStyle.gradientFrom} ${groupStyle.gradientTo} p-4 sm:p-5 flex flex-col gap-3`}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className={`text-[11px] font-medium ${groupStyle.text} mb-1`}>
+              🐾 PBTi · 강아지 성향 유형
+            </p>
+            <p className="text-xl sm:text-2xl font-bold text-neutral-900">
+              {shareTitle}
+            </p>
           </div>
-          <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
-            {shareSubtitle}
-          </p>
-          <p className="text-[10px] text-neutral-500 mt-1">
-            이 카드는 스크린샷해서 카톡·인스타·블로그 등에 공유해도 좋아요.{" "}
-            <span className={`font-semibold ${groupStyle.text}`}>
-              PBTi (Pet Behavioral Type Indicator)
-            </span>
-          </p>
-
-          <div className="mt-3">
-            <ShareButtons title={shareTitle} />
+          <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-white/70 border border-[#E5DDCF] flex items-center justify-center text-2xl">
+            🐶
           </div>
         </div>
-      </HybridCard>
-
-      {/* Hero */}
-      <HybridCard accentBorderClassName={groupStyle.border}>
-        <p className={`text-xs font-medium ${groupStyle.text} mb-1`}>{t.badge}</p>
-        <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
-          <span className={groupStyle.text}>{base.code}</span>
-          <span className="text-sm text-neutral-500">· {nickname}</span>
+        <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed">
+          {shareSubtitle}
+        </p>
+        <p className="text-[10px] text-neutral-500 mt-1">
+          이 카드는 스크린샷해서 카톡·인스타·블로그 등에 공유해도 좋아요.{" "}
+          <span className={`font-semibold ${groupStyle.text}`}>
+            PBTi (Pet Behavioral Type Indicator)
+          </span>
         </p>
 
-        <p className="text-sm text-neutral-700 whitespace-pre-line">
-          {explain}
-        </p>
-
-        <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
-      </HybridCard>
-
-      {/* 강점 / 약점 */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <HybridCard title={t.strengths}>
-          <ul className="list-disc pl-4 text-sm space-y-1">
-            {strengths.map((s: string, i: number) => (
-              <li key={i}>{s}</li>
-            ))}
-          </ul>
-        </HybridCard>
-        <HybridCard title={t.weaknesses}>
-          <ul className="list-disc pl-4 text-sm space-y-1">
-            {weaknesses.map((w: string, i: number) => (
-              <li key={i}>{w}</li>
-            ))}
-          </ul>
-        </HybridCard>
-      </div>
-
-      {/* 활동 / 케어 */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <HybridCard title={t.likes}>
-          <ul className="list-disc pl-4 text-sm space-y-1">
-            {activities.map((a: string, i: number) => (
-              <li key={i}>{a}</li>
-            ))}
-          </ul>
-        </HybridCard>
-        <HybridCard title={t.care}>
-          <ul className="list-disc pl-4 text-sm space-y-1">
-            {careTips.map((c: string, i: number) => (
-              <li key={i}>{c}</li>
-            ))}
-          </ul>
-        </HybridCard>
-      </div>
-
-      {/* 🔥 유형별 자동 큐레이션 추천 상품 – 쿠팡 파트너스 섹션 (검색 위젯 포함 한 박스) */}
-      {coupangProducts.length > 0 && (
-        <CoupangProductSection
-          title={t.productsTitle(nickname)}
-          products={coupangProducts}
-          ctaLabel={t.ctaLabel}
-          disclaimer={t.affiliate}
-          donationNotice={t.donationNotice}
-          variant="dog"
-        />
-      )}
-
-      {/* 추천 카테고리 */}
-      <HybridCard title={t.cats}>
-        <div className="flex flex-wrap gap-2 mt-1">
-          {categories.map((cat: string, i: number) => (
-            <span
-              key={i}
-              className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
-            >
-              #{cat}
-            </span>
-          ))}
+        <div className="mt-3">
+          <ShareButtons title={shareTitle} />
         </div>
-      </HybridCard>
+      </div>
+    </HybridCard>,
+
+    // 2. Hero
+    <HybridCard key="hero" accentBorderClassName={groupStyle.border}>
+      <p className={`text-xs font-medium ${groupStyle.text} mb-1`}>{t.badge}</p>
+      <p className="text-2xl font-bold text-neutral-900 mb-1 flex items-baseline gap-2">
+        <span className={groupStyle.text}>{base.code}</span>
+        <span className="text-sm text-neutral-500">· {nickname}</span>
+      </p>
+
+      <p className="text-sm text-neutral-700 whitespace-pre-line">{explain}</p>
+
+      <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
+    </HybridCard>,
+
+    // 3. 강점
+    <HybridCard key="strengths" title={t.strengths}>
+      <ul className="list-disc pl-4 text-sm space-y-1">
+        {strengths.map((s: string, i: number) => (
+          <li key={i}>{s}</li>
+        ))}
+      </ul>
+    </HybridCard>,
+
+    // 4. 상품 추천 (중간 배치) - 상품이 있을 때만 슬라이드로 포함
+    ...(coupangProducts.length > 0
+      ? [
+          <CoupangProductSection
+            key="products"
+            title={t.productsTitle(nickname)}
+            products={coupangProducts}
+            ctaLabel={t.ctaLabel}
+            disclaimer={t.affiliate}
+            donationNotice={t.donationNotice}
+            variant="dog"
+          />,
+        ]
+      : []),
+
+    // 5. 이렇게 함께해보세요 (구 약점)
+    <HybridCard key="weaknesses" title={t.weaknesses}>
+      <ul className="list-disc pl-4 text-sm space-y-1">
+        {weaknesses.map((w: string, i: number) => (
+          <li key={i}>{w}</li>
+        ))}
+      </ul>
+    </HybridCard>,
+
+    // 6. 좋아하는 활동
+    <HybridCard key="activities" title={t.likes}>
+      <ul className="list-disc pl-4 text-sm space-y-1">
+        {activities.map((a: string, i: number) => (
+          <li key={i}>{a}</li>
+        ))}
+      </ul>
+    </HybridCard>,
+
+    // 7. 케어 팁
+    <HybridCard key="care" title={t.care}>
+      <ul className="list-disc pl-4 text-sm space-y-1">
+        {careTips.map((c: string, i: number) => (
+          <li key={i}>{c}</li>
+        ))}
+      </ul>
+    </HybridCard>,
+
+    // 8. 추천 카테고리
+    <HybridCard key="categories" title={t.cats}>
+      <div className="flex flex-wrap gap-2 mt-1">
+        {categories.map((cat: string, i: number) => (
+          <span
+            key={i}
+            className="inline-flex items-center rounded-full border border-[#E5DDCF] bg-white/80 px-3 py-1 text-[11px] text-neutral-700"
+          >
+            #{cat}
+          </span>
+        ))}
+      </div>
+    </HybridCard>,
+  ];
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <SwipeDeck slides={slides} />
     </div>
   );
 }
