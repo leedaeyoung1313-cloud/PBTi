@@ -62,7 +62,7 @@ export function CoupangProductSection({
         href="https://link.coupang.com/a/fxrTXP09Nk"
         target="_blank"
         rel="noopener noreferrer"
-        className="mb-4 block w-full cursor-pointer rounded-2xl border border-gray-100 bg-gradient-to-br from-blue-50 to-orange-50 p-6 shadow-sm transition-all duration-200 active:scale-[0.98]"
+        className="mb-6 block w-full cursor-pointer rounded-2xl border border-gray-100 bg-gradient-to-br from-blue-50 to-orange-50 p-6 shadow-sm transition-all duration-200 active:scale-[0.98]"
       >
         <p className="text-center text-base sm:text-lg font-bold text-gray-800">
           🤔 우리 아이 성향에 지금 가장 필요한 아이템은?
@@ -83,7 +83,7 @@ export function CoupangProductSection({
 
       {/* 🔥 유형별 자동 큐레이션 상품 카드 - 어디를 눌러도 파트너스 링크로 이동 */}
       {products.length > 0 && (
-        <div className="grid gap-3 sm:grid-cols-2 mb-4">
+        <div className="grid gap-4 sm:grid-cols-2 mb-6">
           {products.map((p, i) => (
             <CoupangProductCard key={i} product={p} ctaLabel={ctaLabel} />
           ))}
@@ -91,7 +91,7 @@ export function CoupangProductSection({
       )}
 
       {/* 고지 문구 */}
-      <div className="space-y-1 mb-4">
+      <div className="space-y-1 mb-6">
         <p className="text-[11px] text-neutral-500">
           {disclaimer ??
             "※ 이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다."}
@@ -99,11 +99,11 @@ export function CoupangProductSection({
       </div>
 
       {/* 🐾 전문가 에디션 추천 가이드 (글 위주 매거진 스타일) */}
-      <div className="rounded-2xl border border-amber-100/60 bg-amber-50/50 p-5">
+      <div className="rounded-2xl border border-amber-100/60 bg-amber-50/50 p-6">
         <p className="mb-3 text-base font-bold text-amber-900">
           🐾 PBTi 에디터가 제안하는 우리 아이 맞춤 솔루션
         </p>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {editorAdvice.map((line, i) => (
             <p key={i} className="text-sm leading-relaxed text-neutral-700">
               {renderWithBold(line)}
