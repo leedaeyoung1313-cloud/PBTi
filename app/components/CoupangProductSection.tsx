@@ -81,15 +81,6 @@ export function CoupangProductSection({
         </p>
       </a>
 
-      {/* 🐾 기부 안내 배너 (강조) */}
-      {donationNotice && (
-        <div className="mb-4 rounded-2xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 to-emerald-100 px-4 py-5 sm:px-6 sm:py-6 text-center shadow-sm">
-          <p className="text-lg sm:text-xl font-extrabold text-emerald-800 leading-snug">
-            {donationNotice}
-          </p>
-        </div>
-      )}
-
       {/* 🔥 유형별 자동 큐레이션 상품 카드 - 어디를 눌러도 파트너스 링크로 이동 */}
       {products.length > 0 && (
         <div className="grid gap-3 sm:grid-cols-2 mb-4">
