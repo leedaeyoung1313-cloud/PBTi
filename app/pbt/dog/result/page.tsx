@@ -11,7 +11,6 @@ import { dogProducts } from "../../../../data/dogProducts";
 import { dogGlobalProducts } from "../../../../data/dogGlobalProducts";
 import { useLanguage } from "../../../../components/language-provider";
 import { resolveAffiliateUrl } from "../../../../data/affiliate";
-import { DOG_DESC_PROFESSIONAL_KO } from "../../../../data/dogExplain.ko";
 import { CoupangProductSection } from "../../../components/CoupangProductSection";
 import type { CoupangProduct } from "../../../components/CoupangProductCard";
 import { getPbtiGroupStyle } from "../../../../data/pbtiGroup";
@@ -25,16 +24,17 @@ const tRes = {
     badge: "🐶 강아지 PBTi 결과",
     disclaimer:
       "본 결과는 반려견의 평소 행동 경향을 기반으로 한 참고 정보이며, 의학적 진단이나 치료를 대체하지 않습니다.",
+    statActivity: "활동량",
     statSociability: "사교성",
     statIndependence: "독립성",
-    statActivity: "활동량",
-    statSensitivity: "예민함",
-    strengths: "강점 (Strength)",
-    weaknesses: "이렇게 함께해보세요",
-    likes: "이 유형이 좋아하는 활동",
-    care: "케어 팁",
-    warningLabel: "이럴 땐 스트레스 신호예요",
-    solutionLabel: "이렇게 완화해주세요",
+    statSensitivity: "예민도",
+    deepAnalysis: "심층 분석",
+    strengthsLabel: "강점",
+    vulnerabilitiesLabel: "취약점",
+    solutionsCare: "솔루션 & 케어",
+    playTherapyLabel: "추천 놀이 치료",
+    environmentLabel: "환경 구성 가이드",
+    cautionLabel: "주의",
     cats: "잘 맞는 상품 카테고리",
     products: "추천 상품",
     productsTitle: (nickname: string) => `${nickname}에게 딱 맞는 추천 아이템`,
@@ -48,16 +48,17 @@ const tRes = {
     badge: "🐶 Dog PBTi Result",
     disclaimer:
       "This result is for informational purposes based on everyday behavior; it is not a medical diagnosis or treatment.",
+    statActivity: "Activity",
     statSociability: "Sociability",
     statIndependence: "Independence",
-    statActivity: "Activity",
     statSensitivity: "Sensitivity",
-    strengths: "Strengths",
-    weaknesses: "Ways to support them",
-    likes: "Activities this type enjoys",
-    care: "Care tips",
-    warningLabel: "Signs of stress to watch for",
-    solutionLabel: "How to help",
+    deepAnalysis: "In-Depth Analysis",
+    strengthsLabel: "Strengths",
+    vulnerabilitiesLabel: "Vulnerabilities",
+    solutionsCare: "Solutions & Care",
+    playTherapyLabel: "Recommended Play Therapy",
+    environmentLabel: "Environment Setup Guide",
+    cautionLabel: "Caution",
     cats: "Recommended product categories",
     products: "Recommended products",
     productsTitle: (nickname: string) => `Picks perfect for ${nickname}`,
@@ -71,16 +72,17 @@ const tRes = {
     badge: "🐶 ワンちゃん PBTi 結果",
     disclaimer:
       "本結果は日常の行動傾向に基づく参考情報であり、医療的な診断や治療に代わるものではありません。",
+    statActivity: "活動量",
     statSociability: "社交性",
     statIndependence: "独立性",
-    statActivity: "活動量",
     statSensitivity: "敏感さ",
-    strengths: "強み",
-    weaknesses: "こうやって寄り添ってみましょう",
-    likes: "このタイプが好きな活動",
-    care: "ケアのヒント",
-    warningLabel: "ストレスのサイン",
-    solutionLabel: "こう和らげてあげましょう",
+    deepAnalysis: "深層分析",
+    strengthsLabel: "強み",
+    vulnerabilitiesLabel: "弱点",
+    solutionsCare: "ソリューション & ケア",
+    playTherapyLabel: "おすすめプレイセラピー",
+    environmentLabel: "環境づくりガイド",
+    cautionLabel: "注意",
     cats: "おすすめ商品カテゴリー",
     products: "おすすめ商品",
     productsTitle: (nickname: string) => `${nickname}にぴったりのおすすめアイテム`,
@@ -94,16 +96,17 @@ const tRes = {
     badge: "🐶 狗狗 PBTi 结果",
     disclaimer:
       "本结果仅基于日常行为供参考，不构成医疗诊断或治疗建议。",
+    statActivity: "活动量",
     statSociability: "社交性",
     statIndependence: "独立性",
-    statActivity: "活动量",
     statSensitivity: "敏感度",
-    strengths: "优势",
-    weaknesses: "试着这样陪伴它",
-    likes: "该类型喜欢的活动",
-    care: "照顾建议",
-    warningLabel: "压力信号",
-    solutionLabel: "这样缓解一下",
+    deepAnalysis: "深度分析",
+    strengthsLabel: "优势",
+    vulnerabilitiesLabel: "薄弱点",
+    solutionsCare: "解决方案与护理",
+    playTherapyLabel: "推荐游戏疗法",
+    environmentLabel: "环境布置指南",
+    cautionLabel: "注意",
     cats: "推荐商品类别",
     products: "推荐商品",
     productsTitle: (nickname: string) => `为${nickname}精选的推荐好物`,
@@ -133,20 +136,18 @@ export default function DogResultPage({
 
   const nickname = i18n?.nickname_i18n?.[lang] ?? base.nickname;
   const summary = i18n?.summary_i18n?.[lang] ?? base.summary;
-  const weaknesses = i18n?.weaknesses_i18n?.[lang] ?? base.weaknesses;
   const categories =
     i18n?.recommendedCategories_i18n?.[lang] ??
     base.recommendedCategories;
 
-  // stats/strengths/activities/careTips는 이번 리팩토링에서 구조가 크게 바뀌어
+  // signaturePhrase/stats/details/solutions는 이번 리팩토링에서 신설/구조 변경되어
   // 아직 en/ja/zh 번역이 없다 - 언어와 무관하게 한국어 기준 데이터를 그대로 사용한다.
+  const signaturePhrase = base.signaturePhrase;
   const stats = base.stats;
-  const strengths = base.strengths;
-  const activities = base.idealActivities;
-  const careTips = base.careTips;
-
-  // ✅ Hero에 쓸 상세 설명:
-  const explain = lang === "ko" ? DOG_DESC_PROFESSIONAL_KO[type] : summary;
+  const strengths = base.details.strengths;
+  const vulnerabilities = base.details.vulnerabilities;
+  const playTherapy = base.solutions.playTherapy;
+  const environment = base.solutions.environment;
 
   // 🔥 이 유형(type)과 매치되는 추천 상품 2~3개를 자동으로 구성
   // - 타입 전용 상품이 2개 이상이면 타입 전용 상품만 최대 3개
@@ -244,7 +245,7 @@ export default function DogResultPage({
       </div>
     </HybridCard>,
 
-    // 2. Hero (+ 특징 스탯 게이지)
+    // 2. 요약 & 스탯 (Hero)
     <HybridCard key="hero" accentBorderClassName={groupStyle.border}>
       <p className={`text-xs font-medium ${groupStyle.text} mb-1`}>{t.badge}</p>
       <p className="text-2xl font-bold text-neutral-900 mb-3 flex items-baseline gap-2">
@@ -252,13 +253,21 @@ export default function DogResultPage({
         <span className="text-sm text-neutral-500">· {nickname}</span>
       </p>
 
+      {/* 시그니처 인용구 */}
+      <blockquote
+        className="mb-4 rounded-2xl border-l-4 bg-neutral-50 px-4 py-3 text-sm font-medium italic text-neutral-800"
+        style={{ borderColor: groupStyle.hex }}
+      >
+        “{signaturePhrase}”
+      </blockquote>
+
       {/* 특징 스탯 게이지 */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-4">
         {(
           [
+            [t.statActivity, stats.activity],
             [t.statSociability, stats.sociability],
             [t.statIndependence, stats.independence],
-            [t.statActivity, stats.activity],
             [t.statSensitivity, stats.sensitivity],
           ] as [string, number][]
         ).map(([label, value]) => (
@@ -277,31 +286,52 @@ export default function DogResultPage({
         ))}
       </div>
 
-      <p className="text-sm text-neutral-700 whitespace-pre-line">{explain}</p>
+      <p className="text-sm text-neutral-700 whitespace-pre-line">{summary}</p>
 
       <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
     </HybridCard>,
 
-    // 3. 강점 (그리드 박스 + 뱃지)
-    <HybridCard key="strengths" title={t.strengths}>
+    // 3. 심층 분석 (강점 | 취약점 2단 그리드)
+    <HybridCard key="deep-analysis" title={t.deepAnalysis}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {strengths.map((s, i) => (
-          <div
-            key={i}
-            className="rounded-2xl border border-[#E5DDCF] bg-white/80 p-4 flex flex-col gap-2"
-          >
-            <div className="flex items-center gap-2">
-              <span
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
-                style={{ backgroundColor: groupStyle.hex }}
-              >
-                {i + 1}
-              </span>
-              <p className="text-sm font-semibold text-neutral-900">{s.keyword}</p>
-            </div>
-            <p className="text-xs text-neutral-600 leading-relaxed">{s.description}</p>
+        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-4">
+          <p className="text-xs font-semibold text-blue-700 mb-3">
+            ✨ {t.strengthsLabel}
+          </p>
+          <div className="space-y-3">
+            {strengths.map((s, i) => (
+              <div key={i} className="rounded-xl bg-white/70 p-3">
+                <p className="text-sm font-semibold text-neutral-900 mb-1">
+                  {s.keyword}
+                </p>
+                <p className="text-xs text-neutral-600 leading-relaxed">
+                  {s.description}
+                </p>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        <div className="rounded-2xl bg-red-50 border border-red-100 p-4">
+          <p className="text-xs font-semibold text-red-700 mb-3">
+            ⚠️ {t.vulnerabilitiesLabel}
+          </p>
+          <div className="space-y-3">
+            {vulnerabilities.map((v, i) => (
+              <div key={i} className="rounded-xl bg-white/70 p-3">
+                <p className="text-sm font-semibold text-neutral-900 mb-1">
+                  {v.keyword}
+                </p>
+                <p className="text-[11px] text-neutral-500 mb-1">
+                  🎯 {v.trigger}
+                </p>
+                <p className="text-xs text-neutral-600 leading-relaxed">
+                  {v.behavior}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </HybridCard>,
 
@@ -320,67 +350,51 @@ export default function DogResultPage({
         ]
       : []),
 
-    // 5. 이렇게 함께해보세요 (구 약점)
-    <HybridCard key="weaknesses" title={t.weaknesses}>
-      <ul className="list-disc pl-4 text-sm space-y-1">
-        {weaknesses.map((w: string, i: number) => (
-          <li key={i}>{w}</li>
-        ))}
-      </ul>
-    </HybridCard>,
-
-    // 6. 좋아하는 활동 (놀이 가이드 카드)
-    <HybridCard key="activities" title={t.likes}>
-      <div className="space-y-3">
-        {activities.map((a, i) => (
-          <div key={i} className="rounded-2xl border border-[#E5DDCF] bg-white/70 p-3">
+    // 5. 솔루션 & 케어 (추천 놀이 치료 + 환경 구성 체크리스트)
+    <HybridCard key="solutions-care" title={t.solutionsCare}>
+      <p className="text-xs font-semibold text-neutral-500 mb-3">
+        🎯 {t.playTherapyLabel}
+      </p>
+      <div className="space-y-3 mb-6">
+        {playTherapy.map((p, i) => (
+          <div key={i} className="rounded-2xl border border-[#E5DDCF] bg-white/70 p-4">
             <p className="text-sm font-semibold text-neutral-900 mb-1">
-              🎾 {a.name}
+              🎾 {p.name}
             </p>
             <p className="text-xs text-neutral-600 leading-relaxed mb-2">
-              {a.guide}
+              {p.method}
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-600">
-                ⏱ {a.duration}
+                ⏱ {p.duration}
               </span>
               <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-600">
-                🧰 {a.prep}
+                🧰 {p.items}
               </span>
             </div>
           </div>
         ))}
       </div>
-    </HybridCard>,
 
-    // 7. 케어 팁 (일반 팁 + 경고 신호 + 완화 솔루션)
-    <HybridCard key="care" title={t.care}>
-      <ul className="list-disc pl-4 text-sm space-y-1 mb-4">
-        {careTips.tips.map((c, i) => (
-          <li key={i}>{c}</li>
+      <p className="text-xs font-semibold text-neutral-500 mb-3">
+        🏠 {t.environmentLabel}
+      </p>
+      <div className="space-y-3">
+        {environment.map((e, i) => (
+          <div key={i} className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
+            <p className="text-sm font-semibold text-emerald-800 mb-1">
+              ✅ {e.title}
+            </p>
+            <p className="text-xs text-emerald-900/80 leading-relaxed">
+              {e.description}
+            </p>
+            {e.caution && (
+              <p className="mt-2 text-[11px] text-orange-700 bg-orange-50 border border-orange-100 rounded-lg px-2 py-1.5">
+                ⚠️ {t.cautionLabel}: {e.caution}
+              </p>
+            )}
+          </div>
         ))}
-      </ul>
-
-      <div className="rounded-2xl bg-orange-50 border border-orange-100 p-3 mb-3">
-        <p className="text-xs font-semibold text-orange-700 mb-2">
-          ⚠️ {t.warningLabel}
-        </p>
-        <ul className="list-disc pl-4 text-xs text-orange-800 space-y-1">
-          {careTips.warningSigns.map((w, i) => (
-            <li key={i}>{w}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="rounded-2xl bg-emerald-50 border border-emerald-100 p-3">
-        <p className="text-xs font-semibold text-emerald-700 mb-2">
-          💡 {t.solutionLabel}
-        </p>
-        <ul className="list-disc pl-4 text-xs text-emerald-800 space-y-1">
-          {careTips.solutions.map((s, i) => (
-            <li key={i}>{s}</li>
-          ))}
-        </ul>
       </div>
     </HybridCard>,
 
