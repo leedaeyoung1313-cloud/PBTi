@@ -38,6 +38,30 @@ export function CoupangProductSection({
         </h2>
       )}
 
+      {/* 🤔 추천 아이템 유도 배너 (고정 CTA 링크, 섹션 전체가 하나의 버튼) */}
+      <a
+        href="https://link.coupang.com/a/fxrTXP09Nk"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mb-4 block w-full cursor-pointer rounded-2xl border border-gray-100 bg-gradient-to-br from-blue-50 to-orange-50 p-6 shadow-sm transition-all duration-200 active:scale-[0.98]"
+      >
+        <p className="text-center text-base sm:text-lg font-bold text-gray-800">
+          🤔 우리 아이 성향에 지금 가장 필요한 아이템은?
+        </p>
+        <div className="mx-auto my-4 flex max-w-md items-center justify-center gap-2 rounded-full border border-gray-200 bg-white p-3 shadow-md">
+          <span aria-hidden>🔍</span>
+          <span className="text-base sm:text-lg font-semibold text-blue-600">
+            {variant === "cat"
+              ? "고양이 캣닢 장난감 보러가기"
+              : "강아지 노즈워크 장난감 보러가기"}
+          </span>
+        </div>
+        <p className="mt-2 text-center text-xs text-gray-500">
+          👆 배너를 눌러 쿠팡에서 추천 아이템을 확인해보세요! (구매하시면 수익의
+          일부가 유기동물 보호센터에 후원됩니다 🐾)
+        </p>
+      </a>
+
       {/* 🐾 기부 안내 배너 (강조) */}
       {donationNotice && (
         <div className="mb-4 rounded-2xl border-2 border-emerald-300 bg-gradient-to-br from-emerald-50 to-emerald-100 px-4 py-5 sm:px-6 sm:py-6 text-center shadow-sm">
