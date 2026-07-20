@@ -3,8 +3,22 @@
 
 import { HybridCard } from "./HybridCard";
 import { CoupangProductCard, type CoupangProduct } from "./CoupangProductCard";
-import { DOG_WIDGETS } from "../../data/coupangDogWidgets";
-import { CAT_WIDGETS } from "../../data/coupangCatWidgets";
+
+// 강아지/고양이 공통 "최다 판매 필수 아이템" (유형별 매칭과는 별개로 항상 동일하게 노출)
+// 실제 쿠팡 파트너스 링크가 정해지면 href만 채워 넣으면 된다.
+const BESTSELLER_ITEMS: Record<
+  "dog" | "cat",
+  { icon: string; name: string; href: string }[]
+> = {
+  dog: [
+    { icon: "🐶", name: "탐사 실속형 배변패드", href: "#" },
+    { icon: "🍖", name: "굿데이 강아지 건강한 육포 간식", href: "#" },
+  ],
+  cat: [
+    { icon: "🐱", name: "고양이 프리미엄 벤토나이트 모래", href: "#" },
+    { icon: "🐾", name: "고양이 스크래쳐 골판지 매트", href: "#" },
+  ],
+};
 
 interface CoupangProductSectionProps {
   title?: string;
@@ -27,7 +41,7 @@ export function CoupangProductSection({
   donationNotice,
   variant,
 }: CoupangProductSectionProps) {
-  const widgets = variant === "cat" ? CAT_WIDGETS : DOG_WIDGETS;
+  const bestsellers = BESTSELLER_ITEMS[variant === "cat" ? "cat" : "dog"];
 
   return (
     <HybridCard>
@@ -86,31 +100,37 @@ export function CoupangProductSection({
           {disclaimer ??
             "※ 이 게시물은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다."}
         </p>
-        <p className="text-[11px] text-neutral-500">
-          더 많은 정보를 원하시면 아래 쿠팡 위젯을 이용해 주세요.
+      </div>
+
+      {/* 🔥 강아지/고양이 최다 판매 필수 아이템 (유형과 무관하게 공통 노출) */}
+      <div>
+        <p className="text-lg font-bold text-gray-900 mb-3">
+          🔥 우리 아이를 위한 쿠팡 최다 판매 필수 아이템
         </p>
-      </div>
-
-      {/* 🔍 검색 배너 (공통) */}
-      <div className="mb-6 w-full">
-        <iframe
-          src="https://coupa.ng/ckIzmq"
-          width="100%"
-          height="75"
-          frameBorder={0}
-          scrolling="no"
-          referrerPolicy="unsafe-url"
-        />
-      </div>
-
-      {/* 🧩 강아지/고양이 배너 - 가로 2개 배치 */}
-      <div className="grid sm:grid-cols-2 gap-1 place-items-center justify-center">
-        {widgets.map((w) => (
-          <div
-            key={w.id}
-            dangerouslySetInnerHTML={{ __html: w.iframe }}
-          />
-        ))}
+        <div className="grid grid-cols-2 gap-4 mt-4">
+          {bestsellers.map((item, i) => (
+            <a
+              key={i}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition hover:shadow-md"
+            >
+              <div className="flex h-20 w-full items-center justify-center rounded-lg bg-neutral-50 text-3xl">
+                {item.icon}
+              </div>
+              <p className="text-xs font-semibold text-neutral-900 leading-snug line-clamp-2">
+                {item.name}
+              </p>
+              <span className="inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
+                🚀 로켓배송
+              </span>
+              <span className="mt-auto inline-flex items-center justify-center rounded-lg bg-neutral-900 px-2 py-1.5 text-[11px] font-medium text-white">
+                쿠팡 최저가 보기
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     </HybridCard>
   );
