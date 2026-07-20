@@ -253,30 +253,38 @@ export default function DogResultPage({
         <span className="text-sm text-neutral-500">· {nickname}</span>
       </p>
 
-      {/* 시그니처 인용구 */}
+      {/* 시그니처 인용구 + 요약 (프리미엄 카드 상단) */}
       <blockquote
-        className="mb-4 rounded-2xl border-l-4 bg-neutral-50 px-4 py-3 text-sm font-medium italic text-neutral-800"
+        className={`mb-5 rounded-2xl border-l-4 bg-gradient-to-br ${groupStyle.gradientFrom} ${groupStyle.gradientTo} px-4 py-4 sm:px-5 sm:py-5`}
         style={{ borderColor: groupStyle.hex }}
       >
-        “{signaturePhrase}”
+        <p className="text-sm sm:text-base font-semibold italic text-neutral-800 mb-2">
+          “{signaturePhrase}”
+        </p>
+        <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed whitespace-pre-line">
+          {summary}
+        </p>
       </blockquote>
 
-      {/* 특징 스탯 게이지 */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-3 mb-4">
+      {/* 특징 스탯 게이지 (하단 배치) */}
+      <div className="grid grid-cols-2 gap-x-5 gap-y-4">
         {(
           [
-            [t.statActivity, stats.activity],
-            [t.statSociability, stats.sociability],
-            [t.statIndependence, stats.independence],
-            [t.statSensitivity, stats.sensitivity],
-          ] as [string, number][]
-        ).map(([label, value]) => (
+            [t.statActivity, stats.activity, "⚡"],
+            [t.statSociability, stats.sociability, "🤝"],
+            [t.statIndependence, stats.independence, "🦁"],
+            [t.statSensitivity, stats.sensitivity, "💗"],
+          ] as [string, number, string][]
+        ).map(([label, value, icon]) => (
           <div key={label}>
-            <div className="flex items-center justify-between text-[11px] text-neutral-500 mb-1">
-              <span>{label}</span>
+            <div className="flex items-center justify-between text-[11px] text-neutral-500 mb-1.5">
+              <span className="inline-flex items-center gap-1">
+                <span>{icon}</span>
+                {label}
+              </span>
               <span className={`font-semibold ${groupStyle.text}`}>{value}</span>
             </div>
-            <div className="h-2 rounded-full bg-neutral-100 overflow-hidden">
+            <div className="h-2.5 rounded-full bg-neutral-100 overflow-hidden">
               <div
                 className="h-full rounded-full transition-all"
                 style={{ width: `${value}%`, backgroundColor: groupStyle.hex }}
@@ -286,21 +294,19 @@ export default function DogResultPage({
         ))}
       </div>
 
-      <p className="text-sm text-neutral-700 whitespace-pre-line">{summary}</p>
-
-      <p className="mt-3 text-[11px] text-neutral-500">{t.disclaimer}</p>
+      <p className="mt-4 text-[11px] text-neutral-500">{t.disclaimer}</p>
     </HybridCard>,
 
     // 3. 심층 분석 (강점 | 취약점 2단 그리드)
     <HybridCard key="deep-analysis" title={t.deepAnalysis}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-4">
+        <div className="rounded-2xl bg-blue-50 border border-blue-100 p-5">
           <p className="text-xs font-semibold text-blue-700 mb-3">
             ✨ {t.strengthsLabel}
           </p>
           <div className="space-y-3">
             {strengths.map((s, i) => (
-              <div key={i} className="rounded-xl bg-white/70 p-3">
+              <div key={i} className="rounded-xl bg-white/70 p-4">
                 <p className="text-sm font-semibold text-neutral-900 mb-1">
                   {s.keyword}
                 </p>
@@ -312,13 +318,13 @@ export default function DogResultPage({
           </div>
         </div>
 
-        <div className="rounded-2xl bg-red-50 border border-red-100 p-4">
+        <div className="rounded-2xl bg-red-50 border border-red-100 p-5">
           <p className="text-xs font-semibold text-red-700 mb-3">
             ⚠️ {t.vulnerabilitiesLabel}
           </p>
           <div className="space-y-3">
             {vulnerabilities.map((v, i) => (
-              <div key={i} className="rounded-xl bg-white/70 p-3">
+              <div key={i} className="rounded-xl bg-white/70 p-4">
                 <p className="text-sm font-semibold text-neutral-900 mb-1">
                   {v.keyword}
                 </p>
@@ -352,44 +358,60 @@ export default function DogResultPage({
 
     // 5. 솔루션 & 케어 (추천 놀이 치료 + 환경 구성 체크리스트)
     <HybridCard key="solutions-care" title={t.solutionsCare}>
-      <p className="text-xs font-semibold text-neutral-500 mb-3">
-        🎯 {t.playTherapyLabel}
-      </p>
+      <div className="mb-4 flex items-center gap-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-orange-100 text-sm">
+          🎯
+        </span>
+        <p className="text-xs font-semibold text-neutral-600">
+          {t.playTherapyLabel}
+        </p>
+      </div>
       <div className="space-y-3 mb-6">
         {playTherapy.map((p, i) => (
-          <div key={i} className="rounded-2xl border border-[#E5DDCF] bg-white/70 p-4">
-            <p className="text-sm font-semibold text-neutral-900 mb-1">
-              🎾 {p.name}
+          <div key={i} className="rounded-2xl border border-[#E5DDCF] bg-white/80 p-6">
+            <p className="text-sm font-semibold text-neutral-900 mb-1.5 flex items-center gap-1.5">
+              <span>🎾</span>
+              {p.name}
             </p>
-            <p className="text-xs text-neutral-600 leading-relaxed mb-2">
+            <p className="text-xs text-neutral-600 leading-relaxed mb-3">
               {p.method}
             </p>
             <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-600">
-                ⏱ {p.duration}
+              <span className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-1 text-[10px] text-neutral-600">
+                <span>⏱</span>
+                {p.duration}
               </span>
-              <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[10px] text-neutral-600">
-                🧰 {p.items}
+              <span className="inline-flex items-center gap-1 rounded-full bg-neutral-100 px-2.5 py-1 text-[10px] text-neutral-600">
+                <span>🧰</span>
+                {p.items}
               </span>
             </div>
           </div>
         ))}
       </div>
 
-      <p className="text-xs font-semibold text-neutral-500 mb-3">
-        🏠 {t.environmentLabel}
-      </p>
+      <div className="h-px bg-neutral-100 mb-5" />
+
+      <div className="mb-4 flex items-center gap-2">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-sm">
+          🏠
+        </span>
+        <p className="text-xs font-semibold text-neutral-600">
+          {t.environmentLabel}
+        </p>
+      </div>
       <div className="space-y-3">
         {environment.map((e, i) => (
-          <div key={i} className="rounded-2xl bg-emerald-50 border border-emerald-100 p-4">
-            <p className="text-sm font-semibold text-emerald-800 mb-1">
-              ✅ {e.title}
+          <div key={i} className="rounded-2xl bg-emerald-50 border border-emerald-100 p-5">
+            <p className="text-sm font-semibold text-emerald-800 mb-1.5 flex items-center gap-1.5">
+              <span>✅</span>
+              {e.title}
             </p>
             <p className="text-xs text-emerald-900/80 leading-relaxed">
               {e.description}
             </p>
             {e.caution && (
-              <p className="mt-2 text-[11px] text-orange-700 bg-orange-50 border border-orange-100 rounded-lg px-2 py-1.5">
+              <p className="mt-3 text-[11px] text-orange-700 bg-orange-50 border border-orange-100 rounded-xl px-3 py-2">
                 ⚠️ {t.cautionLabel}: {e.caution}
               </p>
             )}
