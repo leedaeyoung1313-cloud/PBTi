@@ -4,21 +4,26 @@
 import { HybridCard } from "./HybridCard";
 import { CoupangProductCard, type CoupangProduct } from "./CoupangProductCard";
 
-// 강아지/고양이 공통 "최다 판매 필수 아이템" (유형별 매칭과는 별개로 항상 동일하게 노출)
-// 실제 쿠팡 파트너스 링크가 정해지면 href만 채워 넣으면 된다.
-const BESTSELLER_ITEMS: Record<
-  "dog" | "cat",
-  { icon: string; name: string; href: string }[]
-> = {
+// 강아지/고양이 공통 "에디터 추천 솔루션" 어드바이스 문구 (유형별 매칭과는 별개로 항상 동일하게 노출)
+const EDITOR_ADVICE: Record<"dog" | "cat", string[]> = {
   dog: [
-    { icon: "🐶", name: "탐사 실속형 배변패드", href: "#" },
-    { icon: "🍖", name: "굿데이 강아지 건강한 육포 간식", href: "#" },
+    "💡 실내 활동이 많은 우리 강아지들에게는 스트레스 해소와 두뇌 자극을 주는 **[지능형 노즈워크 장난감]**이 필수적입니다. 성취감을 느끼게 해주면 분리불안 완화에도 큰 도움이 됩니다.",
+    "💡 매일 쓰는 배변패드는 흡수력과 탈취력이 검증된 **[실속형 대용량 배변패드]**로 미리 구비해 두시는 것이 경제적입니다. 아이들의 위생적인 환경을 위해 자주 갈아주세요.",
+    "💡 훈련이나 칭찬 보상용으로는 기호성이 좋고 성분이 투명한 **[견종 공통 건강한 육포 간식]**을 추천합니다. 작은 크기로 잘라 급여하시면 훌륭한 동기부여가 됩니다.",
   ],
   cat: [
-    { icon: "🐱", name: "고양이 프리미엄 벤토나이트 모래", href: "#" },
-    { icon: "🐾", name: "고양이 스크래쳐 골판지 매트", href: "#" },
+    "💡 영역 동물인 고양이에게 스트레스 해소와 수직 공간 확보는 생명과 같습니다. 발톱 관리와 스트레스 완화를 돕는 **[대형 스크래쳐 골판지 매트]**를 집안 곳곳에 배치해 주세요.",
+    "💡 민감한 고양이들의 비뇨기 건강과 직결되는 모래는 먼지 날림이 적고 응고력이 뛰어난 **[프리미엄 벤토나이트 모래]**를 검색해 보시는 것을 권장합니다.",
+    "💡 무료한 일상에 활력을 불어넣고 사냥 본능을 채워주기 위해 캣닢 성분이 포함된 **[고양이 캣닢/마따따비 장난감]**을 선물해 보세요. 정서적 안정에 큰 도움이 됩니다.",
   ],
 };
+
+/** "**강조**" 마크다운을 <strong>으로 변환해서 렌더링 */
+function renderWithBold(text: string) {
+  return text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+    i % 2 === 1 ? <strong key={i}>{part}</strong> : <span key={i}>{part}</span>
+  );
+}
 
 interface CoupangProductSectionProps {
   title?: string;
@@ -41,7 +46,7 @@ export function CoupangProductSection({
   donationNotice,
   variant,
 }: CoupangProductSectionProps) {
-  const bestsellers = BESTSELLER_ITEMS[variant === "cat" ? "cat" : "dog"];
+  const editorAdvice = EDITOR_ADVICE[variant === "cat" ? "cat" : "dog"];
 
   return (
     <HybridCard>
@@ -102,35 +107,27 @@ export function CoupangProductSection({
         </p>
       </div>
 
-      {/* 🔥 강아지/고양이 최다 판매 필수 아이템 (유형과 무관하게 공통 노출) */}
-      <div>
-        <p className="text-lg font-bold text-gray-900 mb-3">
-          🔥 우리 아이를 위한 쿠팡 최다 판매 필수 아이템
+      {/* 🐾 전문가 에디션 추천 가이드 (글 위주 매거진 스타일) */}
+      <div className="rounded-2xl border border-amber-100/60 bg-amber-50/50 p-5">
+        <p className="mb-3 text-base font-bold text-amber-900">
+          🐾 PBTi 에디터가 제안하는 우리 아이 맞춤 솔루션
         </p>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {bestsellers.map((item, i) => (
-            <a
-              key={i}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-col gap-2 rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition hover:shadow-md"
-            >
-              <div className="flex h-20 w-full items-center justify-center rounded-lg bg-neutral-50 text-3xl">
-                {item.icon}
-              </div>
-              <p className="text-xs font-semibold text-neutral-900 leading-snug line-clamp-2">
-                {item.name}
-              </p>
-              <span className="inline-flex w-fit items-center rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-semibold text-blue-600">
-                🚀 로켓배송
-              </span>
-              <span className="mt-auto inline-flex items-center justify-center rounded-lg bg-neutral-900 px-2 py-1.5 text-[11px] font-medium text-white">
-                쿠팡 최저가 보기
-              </span>
-            </a>
+        <div className="space-y-3">
+          {editorAdvice.map((line, i) => (
+            <p key={i} className="text-sm leading-relaxed text-neutral-700">
+              {renderWithBold(line)}
+            </p>
           ))}
         </div>
+
+        <a
+          href="https://link.coupang.com/a/fxrTXP09Nk"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 flex w-full items-center justify-center rounded-lg bg-amber-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-amber-800"
+        >
+          👉 에디터 추천 필수 아이템 쿠팡에서 최저가로 찾아보기
+        </a>
       </div>
     </HybridCard>
   );
