@@ -25,7 +25,14 @@ export function CoupangProductCard({
   ctaLabel = "쿠팡에서 보기",
 }: CoupangProductCardProps) {
   return (
-    <div className="flex flex-col gap-2 p-3 border border-[#E5DDCF] rounded-xl bg-white/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition">
+    // 카드 전체(이미지·글자 없는 여백/패딩 포함)를 눌러도 링크로 이동하도록
+    // 최외곽 태그 자체를 <a>로 감싼다.
+    <a
+      href={product.url}
+      target="_blank"
+      rel="noopener noreferrer sponsored"
+      className="block w-full h-full flex flex-col gap-2 p-3 border border-[#E5DDCF] rounded-xl bg-white/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
+    >
       <div className="flex items-center gap-3">
         {/* 썸네일 */}
         <div className="h-16 w-16 flex-shrink-0 rounded-md overflow-hidden bg-neutral-100 flex items-center justify-center">
@@ -62,16 +69,19 @@ export function CoupangProductCard({
         </div>
       </div>
 
-      {/* 명확한 이동 버튼 (쿠팡 파트너스 링크) */}
-      <a
-        href={product.url}
-        target="_blank"
-        rel="noopener noreferrer sponsored"
+      {/* 명확한 이동 버튼(시각적 강조용) - 카드 전체가 이미 링크이므로
+          클릭이 중복으로 상위 <a>까지 전파되지 않도록 stopPropagation 처리 */}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          window.open(product.url, "_blank", "noopener,noreferrer");
+        }}
         className="inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 text-white text-xs font-medium py-2 px-3 hover:bg-emerald-700 transition"
       >
         {ctaLabel}
         <span aria-hidden>→</span>
-      </a>
-    </div>
+      </button>
+    </a>
   );
 }
