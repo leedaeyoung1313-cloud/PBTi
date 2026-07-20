@@ -37,10 +37,11 @@ const tRes = {
     cautionLabel: "주의",
     cats: "잘 맞는 상품 카테고리",
     products: "추천 상품",
-    productsTitle: (nickname: string) => `${nickname}에게 딱 맞는 추천 아이템`,
+    productsTitle:
+      "💡 다른 보호자들은 어떤 걸 샀을까요? 이 유형을 위한 쿠팡 베스트 인기템 구경하기 ➔",
     ctaLabel: "쿠팡에서 보기",
     donationNotice:
-      "🐾 이 상품을 통해 발생한 수익은 매출 정산 후 국내 지자체 동물보호센터에 후원됩니다.",
+      "* 구경만 하셔도 발생한 수익의 일부는 지자체 동물보호센터에 후원됩니다 🐾",
     affiliate:
       "이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.",
   },
@@ -61,10 +62,11 @@ const tRes = {
     cautionLabel: "Caution",
     cats: "Recommended product categories",
     products: "Recommended products",
-    productsTitle: (nickname: string) => `Picks perfect for ${nickname}`,
+    productsTitle:
+      "💡 What did other pet parents buy? See the best picks for this type on Coupang ➔",
     ctaLabel: "Check on Coupang",
     donationNotice:
-      "🐾 A portion of the proceeds from these picks is donated to local government-run animal shelters after revenue settlement.",
+      "* Just by browsing, a portion of the proceeds is donated to local animal shelters 🐾",
     affiliate:
       "Links may use affiliate programs depending on your language/region.",
   },
@@ -85,10 +87,11 @@ const tRes = {
     cautionLabel: "注意",
     cats: "おすすめ商品カテゴリー",
     products: "おすすめ商品",
-    productsTitle: (nickname: string) => `${nickname}にぴったりのおすすめアイテム`,
+    productsTitle:
+      "💡 他の飼い主さんは何を買ったの？このタイプにぴったりのCoupang人気アイテムを見る ➔",
     ctaLabel: "Coupangで見る",
     donationNotice:
-      "🐾 このアイテムから生まれた収益の一部は、売上精算後に国内自治体運営の動物保護センターへ寄付されます。",
+      "* 見るだけでも、発生した収益の一部は地域の動物保護センターへ寄付されます 🐾",
     affiliate:
       "言語/地域によりアフィリエイトリンクが適用される場合があります。",
   },
@@ -109,10 +112,11 @@ const tRes = {
     cautionLabel: "注意",
     cats: "推荐商品类别",
     products: "推荐商品",
-    productsTitle: (nickname: string) => `为${nickname}精选的推荐好物`,
+    productsTitle:
+      "💡 其他家长都买了什么？看看适合这个类型的Coupang人气好物 ➔",
     ctaLabel: "去Coupang查看",
     donationNotice:
-      "🐾 通过这些商品产生的部分收益，将在销售结算后捐赠给国内地方政府运营的流浪动物保护中心。",
+      "* 即使只是浏览，产生的部分收益也会捐赠给地方动物保护中心 🐾",
     affiliate: "根据语言/地区可能使用联盟链接。",
   },
 } as const;
@@ -345,7 +349,7 @@ export default function CatResultPage({
       ? [
           <CoupangProductSection
             key="products"
-            title={t.productsTitle(nickname)}
+            title={t.productsTitle}
             products={coupangProducts}
             ctaLabel={t.ctaLabel}
             disclaimer={t.affiliate}

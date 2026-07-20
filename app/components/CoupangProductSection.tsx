@@ -31,9 +31,9 @@ export function CoupangProductSection({
 
   return (
     <HybridCard>
-      {/* 제목 */}
+      {/* 메인 타이틀 (눈에 띄게 확대·볼드) */}
       {title && (
-        <h2 className="text-sm font-semibold text-neutral-900 mb-2">
+        <h2 className="text-lg sm:text-xl font-extrabold text-neutral-900 mb-4 leading-snug">
           {title}
         </h2>
       )}
@@ -47,7 +47,7 @@ export function CoupangProductSection({
         </div>
       )}
 
-      {/* 🔥 유형별 자동 큐레이션 상품 카드 */}
+      {/* 🔥 유형별 자동 큐레이션 상품 카드 - 어디를 눌러도 파트너스 링크로 이동 */}
       {products.length > 0 && (
         <div className="grid gap-3 sm:grid-cols-2 mb-4">
           {products.map((p, i) => (

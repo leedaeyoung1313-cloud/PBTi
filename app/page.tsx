@@ -4,6 +4,8 @@
 import Link from "next/link";
 import { useLanguage } from "../components/language-provider";
 
+// 🔧 이번 달 누적 후원금 — 매월 1일, 이 값만 바꾸면 배너에 바로 반영됩니다.
+const MONTHLY_DONATION = "000,000";
 
 // 간단 번역 데이터 (필요하면 나중에 파일로 분리 가능)
 const translations = {
@@ -94,6 +96,20 @@ export default function HomePage() {
 
       {/* 이하 내용은 기존 코드 + t.*로 교체 */}
       <div className="mx-auto flex min-h-[calc(100vh-56px)] max-w-5xl flex-col justify-between space-y-16 px-6 py-12">
+        {/* 💚 투명한 기부 공고 배너 */}
+        <div className="rounded-lg bg-orange-50 p-4 text-center">
+          <p className="text-sm sm:text-base font-bold text-neutral-800">
+            📢 PBTi와 함께하는 따뜻한 마음
+          </p>
+          <p className="mt-1 text-base sm:text-lg font-extrabold text-orange-600">
+            이번 달 누적 후원금: {MONTHLY_DONATION}원 (매월 1일 업데이트)
+          </p>
+          <p className="mt-1 text-xs sm:text-sm text-neutral-600">
+            여러분들이 추천 아이템을 구경하실 때마다 발생하는 수익의 일부는 유기동물
+            보호센터에 전달됩니다.
+          </p>
+        </div>
+
         {/* HERO */}
         <section className="flex flex-col items-center text-center space-y-6 pt-6">
           <p className="inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-1 text-[11px] font-medium text-orange-600 shadow-sm border border-[#E5DDCF]">

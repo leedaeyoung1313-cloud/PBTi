@@ -31,7 +31,7 @@ export function CoupangProductCard({
       href={product.url}
       target="_blank"
       rel="noopener noreferrer sponsored"
-      className="block w-full h-full flex flex-col gap-2 p-3 border border-[#E5DDCF] rounded-xl bg-white/90 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition"
+      className="block w-full h-full flex flex-col gap-2 p-3 border border-[#E5DDCF] rounded-xl bg-white/90 shadow-sm transition duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.98]"
     >
       <div className="flex items-center gap-3">
         {/* 썸네일 */}
@@ -77,7 +77,7 @@ export function CoupangProductCard({
           e.stopPropagation();
           window.open(product.url, "_blank", "noopener,noreferrer");
         }}
-        className="inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 text-white text-xs font-medium py-2 px-3 hover:bg-emerald-700 transition"
+        className="inline-flex items-center justify-center gap-1 rounded-lg bg-emerald-600 text-white text-xs font-medium py-2 px-3 transition duration-200 hover:bg-emerald-700 hover:scale-105 active:scale-95"
       >
         {ctaLabel}
         <span aria-hidden>→</span>
